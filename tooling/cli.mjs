@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {syncSections} from './sync-sections.mjs';
 import {syncKit} from './sync-kit.mjs';
+import {normalizeSourceImports} from './materialize-source.mjs';
 const source=path.resolve(fileURLToPath(new URL('..',import.meta.url)));
 const command=process.argv[2]??'help';
 const args=process.argv.slice(3);
@@ -20,6 +21,7 @@ if(command==='prepare'){
   const meta=JSON.parse(fs.readFileSync(path.join(source,'package.json'),'utf8'));
   fs.writeFileSync(marker,JSON.stringify({name:meta.name,version:meta.version},null,2)+'\n');
  }
+ normalizeSourceImports(destination);
  syncSections(project);
  syncKit(project,{directory:destination});
  console.log('Prepared component/editor/PHP/style connections in '+destination);

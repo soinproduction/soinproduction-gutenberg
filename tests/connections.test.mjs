@@ -39,6 +39,8 @@ test('npm preparation creates a managed host copy and never overwrites authored 
   assert.ok(connections.components.includes('background'));
   assert.ok(connections.components.includes('heading'));
   assert.ok(fs.existsSync(path.join(root,'kit/.kit-package.json')));
+  assert.doesNotMatch(fs.readFileSync(path.join(root,'kit/components/background/index.tsx'),'utf8'),/from ['"][.][^'"]*\.js['"]/);
+  assert.match(fs.readFileSync('components/background/index.tsx','utf8'),/\.js['"]/);
   execFileSync(process.execPath,['tooling/cli.mjs','prepare','--project',root]);
   fs.unlinkSync(path.join(root,'kit/.kit-package.json'));
   assert.throws(()=>execFileSync(process.execPath,['tooling/cli.mjs','prepare','--project',root],{stdio:'pipe'}),/authored source/);
