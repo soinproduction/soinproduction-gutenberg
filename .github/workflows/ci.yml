@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run check
+      - name: Check PHP syntax
+        run: find . -path './node_modules' -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Verify npm package
+        run: npm pack --dry-run

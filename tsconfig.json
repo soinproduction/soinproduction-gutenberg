@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": [
+    "index.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "core/**/*.ts",
+    "core/**/*.tsx",
+    "ui/**/*.tsx",
+    "admin-ui/**/*.tsx",
+    "modules/**/*.ts",
+    "modules/**/*.tsx",
+    "adapters/**/*.ts",
+    "adapters/**/*.tsx",
+    "hooks/**/*.ts",
+    "schema/**/*.tsx",
+    "shared/**/*.tsx",
+    "generated/responsive.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "tests"
+  ]
+}

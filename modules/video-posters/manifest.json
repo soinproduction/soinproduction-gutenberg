@@ -1,0 +1,12 @@
+{
+  "id": "video-posters",
+  "php": [
+    "bootstrap.php"
+  ],
+  "assets": [
+    {
+      "source": "assets",
+      "output": "admin-modules/video-posters"
+    }
+  ]
+}

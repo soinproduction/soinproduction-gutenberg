@@ -1,0 +1,11 @@
+{
+  "id": "background",
+  "dependencies": [],
+  "controls": [
+    {
+      "name": "background",
+      "file": "editor.tsx",
+      "export": "BackgroundControl"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "reviews-carousel",
+  "dependencies": [],
+  "controls": [
+    {
+      "name": "review-selection",
+      "file": "editor.tsx",
+      "export": "ReviewsCarouselControl"
+    }
+  ],
+  "php": [
+    "server.php"
+  ]
+}

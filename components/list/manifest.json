@@ -1,0 +1,7 @@
+{
+  "id": "list",
+  "dependencies": [],
+  "styles": [
+    "gallery.css"
+  ]
+}

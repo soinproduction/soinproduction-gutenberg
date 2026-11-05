@@ -1,0 +1,759 @@
+/* The block editor speaks Gutenberg's language; custom admin pages keep the Icons design. */
+:root:root {
+  --sp-ui-accent: var(--wp-admin-theme-color, #3858e9);
+  --sp-ui-ink: #1e1e1e;
+  --sp-ui-muted: #757575;
+  --sp-ui-subtle: #949494;
+  --sp-ui-border: #e0e0e0;
+  --sp-ui-border-strong: #949494;
+  --sp-ui-surface-soft: #f0f0f0;
+  --sp-ui-radius: 2px;
+  --sp-ui-radius-control: 2px;
+}
+/* Editor controls only: never style authored headings, links, buttons or content grids. */
+:is(
+    .site-settings,
+    .fe-settings-dialog
+  )
+  :is(
+    .components-text-control__input,
+    .components-textarea-control__input,
+    .components-select-control__input
+  ) {
+  border-color: var(--sp-ui-border) !important;
+  border-radius: 2px !important;
+  background-color: var(--sp-ui-surface);
+  color: var(--sp-ui-ink);
+  font-size: 12px;
+  min-height: var(--sp-ui-control-height);
+  box-shadow: none;
+  padding-inline: 11px;
+}
+:is(
+    .site-settings,
+    .fe-settings-dialog
+  )
+  .components-input-control__backdrop {
+  border-color: var(--sp-ui-border) !important;
+  border-radius: 2px !important;
+}
+:is(
+    .site-settings,
+    .fe-settings-dialog
+  )
+  :is(.components-base-control__label, .components-input-control__label) {
+  font-size: 11px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: var(--sp-ui-muted);
+  font-weight: 500;
+}
+:is(
+    .site-field-controls,
+    .site-settings,
+    .site-menu-editor,
+    .site-relationship,
+    .fe-settings-dialog,
+    .site-media-setting,
+    .sp-media-control
+  )
+  .components-button:is(.is-secondary, .is-primary, .is-tertiary) {
+  border-radius: 2px;
+  min-height: 32px;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: none;
+}
+.fe-settings-dialog .components-button.is-primary {
+  background: var(--sp-ui-accent);
+  border: 1px solid var(--sp-ui-accent);
+  min-height: 40px;
+}
+.fe-settings-dialog .components-button.is-secondary {
+  min-height: 40px;
+  border: 1px solid var(--sp-ui-border-strong);
+  color: #1e1e1e;
+  background: var(--sp-ui-surface);
+}
+.site-menu-card {
+  border: 1px solid var(--sp-ui-border);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px #1e293b03;
+  overflow: hidden;
+  background: var(--sp-ui-surface);
+}
+.site-menu-card-head {
+  background: var(--sp-ui-surface-soft);
+  border-color: #e0e0e0;
+}
+.site-menu-toggle {
+  font-size: 12px;
+  color: var(--sp-ui-ink);
+}
+.site-menu-card-body {
+  padding: 16px;
+}
+.site-menu-heading {
+  font-size: 12px;
+  color: var(--sp-ui-ink);
+}
+.site-menu-hint {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #757575;
+}
+.site-menu-grip {
+  color: #757575;
+}
+.site-relationship .site-menu-hint {
+  margin: 0 0 12px;
+}
+.site-relationship-panel {
+  border-color: #e0e0e0;
+  border-radius: 2px;
+  background: #fff;
+}
+.site-relationship-panel h4 {
+  padding: 8px 12px;
+  border-color: #e0e0e0;
+  background: #f0f0f0;
+  color: #1e1e1e;
+  font-weight: 500;
+}
+.site-relationship-panel > input[type='search'] {
+  min-height: 40px;
+  padding-inline: 12px;
+  border-color: #949494;
+  border-radius: 2px;
+  box-shadow: none;
+  font-size: 13px;
+}
+.site-relationship-option,
+.site-relationship-row {
+  border-color: #e0e0e0;
+  font-size: 13px;
+  color: #1e1e1e;
+}
+.site-relationship-row:last-child {
+  border-bottom: 0;
+}
+.site-relationship-add {
+  padding: 8px;
+  border-top: 1px solid #e0e0e0;
+}
+.site-relationship-add .site-editor-action.components-button {
+  width: 100%;
+}
+.site-relationship-option:hover {
+  background: #f0f0f0;
+}
+.site-relationship-grip {
+  color: #757575;
+}
+.site-relationship-empty {
+  color: #8c98aa;
+  font-size: 11px;
+}
+.site-relationship-thumbnail {
+  border-radius: 2px;
+}
+.site-icon-option {
+  border-color: var(--sp-ui-border);
+  border-radius: 2px;
+  background: var(--sp-ui-surface);
+  height: 40px;
+}
+.site-icon-option:hover {
+  background: #f7f9ff;
+  border-color: #b5c6ed;
+}
+.site-icon-option[aria-pressed='true'] {
+  background: var(--sp-ui-accent-soft);
+  border-color: #829bef;
+  box-shadow: 0 0 0 1px #829bef;
+}
+.site-icon-library {
+  background: #fff;
+  border: 1px solid var(--sp-ui-border);
+  border-radius: 2px;
+  padding: 8px;
+  gap: 7px;
+}
+.site-field-media,
+.site-media-setting img,
+.site-gallery-thumb {
+  border-radius: 2px;
+}
+.site-menu-thumbnail {
+  border-radius: 2px;
+}
+.fe-settings-dialog.components-modal__frame {
+  border: 1px solid var(--sp-ui-border);
+  border-radius: 8px;
+  box-shadow: 0 24px 80px #0f172a30;
+  color: var(--sp-ui-ink);
+}
+.fe-settings-dialog .components-modal__header {
+  border-color: var(--sp-ui-border);
+}
+.fe-settings-dialog .components-modal__header-heading {
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  color: var(--sp-ui-ink);
+}
+.fe-settings-dialog .components-tab-panel__tabs {
+  background: #f0f0f0;
+  border: 0;
+  border-radius: 2px;
+  padding: 4px;
+  gap: 4px;
+}
+.fe-settings-dialog .components-tab-panel__tabs button {
+  border-radius: 2px;
+  font-size: 12px;
+  color: #7a879a;
+  height: 36px;
+}
+.fe-settings-dialog .components-tab-panel__tabs button.is-active {
+  background: var(--sp-ui-surface);
+  color: #26364c;
+  box-shadow: 0 1px 4px #0f172a12;
+}
+.fe-channel-card,
+.fe-protection-card,
+.fe-template-layout {
+  border-color: var(--sp-ui-border);
+  border-radius: 2px;
+  box-shadow: 0 4px 20px #1e293b03;
+}
+.fe-channel-header {
+  background: var(--sp-ui-surface-soft);
+  border-color: #e0e0e0;
+}
+.fe-channel-heading h3,
+.fe-template-heading h3,
+.fe-protection-card h3 {
+  font-size: 14px;
+  letter-spacing: -0.2px;
+  color: var(--sp-ui-ink);
+}
+.fe-channel-heading p,
+.fe-template-heading p,
+.fe-help {
+  font-size: 11px;
+  color: #757575;
+  line-height: 1.7;
+}
+.fe-channel-icon {
+  background: var(--sp-ui-accent-soft);
+  color: var(--sp-ui-accent);
+  border-radius: 2px;
+}
+.fe-mail-tags {
+  border-color: var(--sp-ui-border);
+  background: var(--sp-ui-surface-soft);
+  border-radius: 2px;
+}
+.fe-mail-tags button {
+  border: 1px solid #dce2ec;
+  border-radius: 2px;
+  color: #1e1e1e;
+  background: var(--sp-ui-surface);
+  font-size: 11px;
+}
+.fe-action-options {
+  gap: 8px;
+}
+.fe-action-options button {
+  border-color: var(--sp-ui-border);
+  border-radius: 2px;
+  background: var(--sp-ui-surface);
+  color: #757575;
+  padding: 12px 7px;
+}
+.fe-action-options button:hover {
+  background: #f7f9ff;
+  border-color: #b5c6ed;
+}
+.fe-action-options button[aria-pressed='true'] {
+  background: var(--sp-ui-accent-soft);
+  border-color: #829bef;
+  color: var(--sp-ui-accent);
+  box-shadow: 0 0 0 1px #829bef;
+}
+.fe-mini-grid i {
+  border-radius: 2px;
+}
+.fe-settings-footer {
+  border-color: var(--sp-ui-border);
+  background: var(--sp-ui-surface-soft);
+}
+.fe-hidden-preview {
+  border-color: var(--sp-ui-border);
+  background: var(--sp-ui-surface-soft);
+  border-radius: 2px;
+  color: var(--sp-ui-muted);
+}
+/* Small contextual controls keep their own compact scale. */
+.sp-media-control {
+  --sp-media-border: var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius);
+  color: var(--sp-ui-ink);
+  background: var(--sp-ui-surface);
+  box-shadow: var(--sp-ui-shadow);
+}
+.sp-media-control .sp-media-tabs {
+  background: #f0f0f0;
+  border-radius: 2px;
+}
+.sp-media-control .sp-media-tabs button {
+  font-size: 11px;
+  min-height: 32px;
+  color: var(--sp-ui-muted);
+}
+.sp-media-control .sp-media-tabs button[aria-pressed='true'] {
+  background: var(--sp-ui-surface);
+  color: var(--sp-ui-ink);
+  box-shadow: 0 1px 4px #0f172a12;
+}
+.sp-media-control-preview {
+  background: var(--sp-ui-surface-soft);
+  border-radius: 2px;
+}
+.sp-media-help {
+  font-size: 11px;
+  color: var(--sp-ui-subtle);
+  line-height: 1.7;
+}
+
+/*
+ * The one editor button: 32px outline with quiet red for destructive actions.
+ * Modules own where a button sits, never how it looks.
+ */
+:is(
+    .site-editor-action,
+    .site-menu-add,
+    .site-menu-delete,
+    .site-media-select-action.is-replace,
+    .site-media-actions .components-button:not(.is-empty),
+    .site-background-tools .components-button,
+    .site-record-edit .components-button,
+    .site-marquee-media .components-button,
+    .contacts-photo-control .components-button,
+    .sp-media-control-actions .components-button:not(.is-primary),
+    :is(.site-field-controls, .site-settings, .site-menu-editor, .site-relationship, .site-media-setting, .sp-media-control)
+      .components-button.is-secondary
+  ).components-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: var(--sp-ui-control-small);
+  height: var(--sp-ui-control-small);
+  min-height: var(--sp-ui-control-small);
+  padding: 0 10px;
+  border: 1px solid var(--sp-ui-border-strong);
+  border-radius: var(--sp-ui-radius-control);
+  background: var(--sp-ui-surface);
+  color: var(--sp-ui-ink);
+  box-shadow: none;
+  font:
+    400 13px/1.2 system-ui,
+    sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+:is(
+    .site-editor-action,
+    .site-menu-add,
+    .site-menu-delete,
+    .site-media-select-action.is-replace,
+    .site-media-actions .components-button:not(.is-empty),
+    .site-background-tools .components-button,
+    .site-record-edit .components-button,
+    .site-marquee-media .components-button,
+    .contacts-photo-control .components-button,
+    .sp-media-control-actions .components-button:not(.is-primary),
+    :is(.site-field-controls, .site-settings, .site-menu-editor, .site-relationship, .site-media-setting, .sp-media-control)
+      .components-button.is-secondary,
+    :is(.site-inline-tools, .site-description-row-tools, .site-button-tools) .components-button
+  ).components-button {
+  &:hover:not(:disabled) {
+    background: var(--sp-ui-accent-soft);
+    border-color: var(--sp-ui-accent);
+    color: var(--sp-ui-accent);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--sp-ui-accent);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  &.is-destructive {
+    color: var(--sp-ui-danger) !important;
+  }
+  &.is-destructive:hover:not(:disabled) {
+    background: var(--sp-ui-danger-soft);
+    border-color: var(--sp-ui-danger);
+  }
+  &.is-icon-only,
+  &.has-icon:not(.has-text) {
+    width: var(--sp-ui-control-small);
+    padding: 0;
+  }
+}
+/* Floating actions: transparent container, individual button surfaces. */
+ .site-inline-tools,
+.site-description-row-tools,
+.site-button-tools {
+  display:inline-flex;align-items:center;gap:2px;padding:0;
+  border:0;border-radius:0;background:transparent;color:var(--sp-ui-ink);box-shadow:none;
+  --sp-ui-control-small:28px;
+}
+:is(.site-inline-tools,.site-description-row-tools,.site-button-tools) .components-button.components-button.components-button {
+  border:1px solid var(--sp-ui-border-strong,#c3c4c7);border-radius:2px;background:var(--sp-ui-surface);box-shadow:none;
+}
+:is(.site-inline-tools,.site-description-row-tools,.site-button-tools) .components-button.components-button.components-button:hover:not(:disabled) {
+  background:var(--sp-ui-accent-soft);color:var(--sp-ui-accent);
+}
+:is(.site-inline-tools,.site-description-row-tools,.site-button-tools) .components-button.components-button.components-button[aria-pressed="true"] {
+  background:var(--sp-ui-accent);color:#fff;
+}
+.site-editor-add.is-compact {
+  --sp-ui-control-small: 28px;
+}
+/* A plain + works like Gutenberg's sibling inserter: dark, small, shown while the group is hovered. */
+.site-editor-add.is-compact:not(.has-text) {
+  --sp-ui-control-small: 24px;
+}
+.site-editor-add.is-compact:not(.has-text) .site-editor-action.components-button.components-button.components-button {
+  border-color: #1e1e1e;
+  border-radius: 2px;
+  background: #1e1e1e;
+  color: #fff;
+}
+.site-editor-add.is-compact:not(.has-text) .site-editor-action.components-button.components-button.components-button:hover:not(:disabled) {
+  border-color: var(--sp-ui-accent);
+  background: var(--sp-ui-accent);
+  color: #fff;
+}
+@media (hover: hover) {
+  .site-editor-add.is-compact:not(.has-text) {
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  :is(.site-actions, .site-list-editor):hover > .site-editor-add,
+  :is(.site-actions, .site-list-editor):focus-within > .site-editor-add,
+  .site-drag:hover > .block-list-appender .site-editor-add,
+  .site-drag:has(> .block-list-appender button:focus-visible) > .block-list-appender .site-editor-add,
+  .site-drag > .block-list-appender .site-editor-add:has([aria-expanded="true"]) {
+    opacity: 1;
+  }
+}
+/* Inserter tiles of blocks with a preview show the layout instead of the icon. */
+.site-block-icon img {
+  display: none;
+}
+.block-editor-block-types-list__item-icon:has(.site-block-icon) {
+  width: 100%;
+  padding: 4px;
+}
+.block-editor-block-types-list__item-icon:has(.site-block-icon) .block-editor-block-icon {
+  width: 100%;
+  height: auto;
+}
+.block-editor-block-types-list__item-icon .site-block-icon {
+  display: block;
+  width: 100%;
+}
+.block-editor-block-types-list__item-icon .site-block-icon > :not(img) {
+  display: none;
+}
+.block-editor-block-types-list__item-icon .site-block-icon img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 2px;
+  object-fit: cover;
+  object-position: top;
+}
+.block-editor-block-types-list:has(.site-block-icon) {
+  display: flex;
+  flex-wrap: wrap;
+}
+.block-editor-block-types-list:has(.site-block-icon) > [role='presentation'] {
+  display: contents;
+}
+.block-editor-block-types-list:has(.site-block-icon) .block-editor-block-types-list__list-item {
+  width: 50%;
+}
+/* Adds a hand-written card: a tile of the card's own size in the next grid cell. */
+.site-record-add {
+  position: relative;
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--sp-ui-ink);
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.site-record-add.is-top {
+  order: -1;
+}
+.site-record-add-shape {
+  visibility: hidden;
+}
+.site-record-add-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.site-record-add-frame rect {
+  x: 1px;
+  y: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  fill: none;
+  stroke: #aab4c3;
+  stroke-width: 2;
+  stroke-dasharray: 12 8;
+  stroke-linecap: round;
+  transition: stroke 0.2s;
+}
+.site-record-add:hover .site-record-add-frame rect,
+.site-record-add:focus-visible .site-record-add-frame rect {
+  stroke: var(--sp-ui-accent);
+  animation: site-frame-crawl 0.8s linear infinite;
+}
+@keyframes site-frame-crawl {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-record-add:hover .site-record-add-frame rect {
+    animation: none;
+  }
+}
+.site-record-add-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.site-record-add-label svg {
+  box-sizing: content-box;
+  padding: 8px;
+  border-radius: 2px;
+  background: #1e1e1e;
+  color: #fff;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.site-record-add:hover,
+.site-record-add:focus-visible {
+  background-color: var(--sp-ui-surface);
+  outline: none;
+}
+.site-record-add:hover .site-record-add-label svg,
+.site-record-add:focus-visible .site-record-add-label svg {
+  background: var(--sp-ui-accent);
+  color: #fff;
+}
+/* The dialog keeps one list of results: it fills the free height and scrolls itself. */
+.site-link-modal {
+  width: min(480px, 100%);
+}
+.site-link-modal .block-editor-link-control {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 420px;
+}
+.site-link-modal .block-editor-link-control .block-editor-url-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+.site-link-modal .block-editor-link-control__field,
+.site-link-modal .block-editor-link-control__search-input-wrapper {
+  margin: 0;
+}
+.site-link-modal .block-editor-link-control__search-results-wrapper {
+  position: static;
+  max-height: 360px;
+  margin-top: 8px;
+  padding: 0;
+  overflow-y: auto;
+}
+.site-link-modal .block-editor-link-control__search-results {
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.site-link-modal .block-editor-link-control__search-item.is-entity {
+  padding-inline: 8px;
+}
+/* Sidebar fields keep Gutenberg's own look; these two custom fields match it. */
+.site-field-rich-control {
+  gap: 8px;
+  font: 500 11px/1.4 system-ui, sans-serif;
+  color: #1e1e1e;
+}
+.site-field-rich-control > span {
+  text-transform: uppercase;
+}
+.site-field-rich-control > .block-editor-rich-text__editable {
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 12px;
+  border: 1px solid #949494;
+  border-radius: 2px;
+  background: #fff;
+  font: 400 13px/1.4 system-ui, sans-serif;
+}
+.site-list-icon-picker {
+  width: 280px;
+  padding: 8px;
+}
+.site-list-icon-toggle,
+.site-list-icon-toggle svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.site-menu-card-body > .site-menu-delete.components-button {
+  margin-top: 16px;
+}
+/* The shared select in Gutenberg's clothes; its admin pages version stays in modules/ui. */
+.site-select-control > label {
+  margin-bottom: 8px;
+  color: #1e1e1e;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.site-select-control > p {
+  color: #757575;
+  font-size: 12px;
+}
+.site-select-trigger[data-density='admin'] {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #949494;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: none;
+  color: #1e1e1e;
+  font-size: 13px;
+}
+.site-select-trigger[data-density='admin']:focus-visible,
+.site-select-trigger[data-density='admin'][data-state='open'] {
+  border-color: var(--sp-ui-accent);
+  box-shadow: 0 0 0 0.5px var(--sp-ui-accent);
+}
+.site-select-menu[data-density='admin'] {
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px #0000001a;
+  padding: 4px;
+}
+.site-select-menu[data-density='admin'] .site-select-option {
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  color: #1e1e1e;
+  font-size: 13px;
+}
+.site-select-menu[data-density='admin'] .site-select-option[data-highlighted] {
+  background: #f0f0f0;
+}
+
+/* Column inserters follow the column hover, rather than the whole section's focus. */
+.editor-styles-wrapper .site-drag-column > .block-list-appender .site-editor-add { position:relative; inset:auto; transform:none; }
+@media (hover:hover) {
+ .editor-styles-wrapper .site-drag-column > .block-list-appender .site-editor-add { opacity:0; pointer-events:none; transition:opacity .15s; }
+ .editor-styles-wrapper .site-drag-column:hover > .block-list-appender .site-editor-add,
+ .editor-styles-wrapper .site-drag-column > .block-list-appender .site-editor-add:has([aria-expanded="true"]),
+ .editor-styles-wrapper .site-drag-column > .block-list-appender .site-editor-add:has(button:focus-visible) { opacity:1; pointer-events:auto; }
+}
+
+/* Shared visual column alignment controls, used in both Inspector and popover. */
+.site-flow-alignment{border:0;margin:16px 0 0;padding:0;min-width:0}
+.site-flow-alignment legend{font-size:11px;font-weight:500;text-transform:uppercase;margin-bottom:8px;padding:0}
+.site-flow-alignment-options{display:flex;gap:4px}
+.site-flow-alignment-options .components-button{display:flex;align-items:center;justify-content:center;flex:1;min-width:32px;height:36px;padding:0;border:1px solid #e0e0e0;border-radius:2px;background:#fff;color:#1e1e1e}
+.site-flow-alignment-options .components-button:hover{border-color:var(--wp-admin-theme-color,#3858e9);color:var(--wp-admin-theme-color,#3858e9)}
+.site-flow-alignment-options .components-button[aria-pressed="true"]{background:var(--wp-admin-theme-color,#3858e9);border-color:var(--wp-admin-theme-color,#3858e9);color:#fff}
+.site-flow-alignment-options .components-button:focus-visible{outline:2px solid var(--wp-admin-theme-color,#3858e9);outline-offset:2px}
+.site-flow-alignment-options svg{pointer-events:none}
+.site-flow-column-settings .site-flow-alignment{margin-top:0}
+
+/* Compact Gutenberg-style collection mode selector. */
+.site-list-display-settings{display:grid;gap:16px;margin-block:16px}
+.site-collection-display-title{margin:0;font-size:13px;font-weight:600}
+.site-collection-modes{border:0;padding:0;margin:0;min-width:0}
+.site-collection-modes legend{margin-bottom:8px;padding:0;font-size:11px;font-weight:500;text-transform:uppercase}
+.site-collection-mode-options{display:flex;gap:4px}
+.site-list-display-settings .site-collection-mode.components-button{display:flex;align-items:center;justify-content:center;flex:1;min-width:32px;height:36px;min-height:36px;padding:0;border:1px solid #ddd;border-radius:2px;background:#fff;color:#1e1e1e;box-shadow:none}
+.site-list-display-settings .site-collection-mode.components-button:hover{border-color:var(--wp-admin-theme-color,#3858e9);color:var(--wp-admin-theme-color,#3858e9);background:#fff}
+.site-list-display-settings .site-collection-mode.components-button[aria-pressed="true"]{background:var(--wp-admin-theme-color,#3858e9);border-color:var(--wp-admin-theme-color,#3858e9);color:#fff;box-shadow:none}
+.site-collection-mode.components-button svg{pointer-events:none;width:20px;height:20px}
+.site-collection-mode.components-button:focus-visible{outline:2px solid var(--wp-admin-theme-color,#3858e9);outline-offset:2px}
+.site-collection-mode-label{margin:6px 0 0;color:#757575;font-size:12px;line-height:1.4}
+.site-list-display-settings .components-base-control{margin-bottom:0}
+
+.site-collection-modes legend strong{font-weight:600;text-transform:none;color:var(--wp-admin-theme-color,#3858e9)}
+
+.site-collection-button-settings{display:grid;gap:16px}
+.editor-styles-wrapper .site-flow-adaptive button.has-settings{color:var(--wp-admin-theme-color,#3858e9);border-color:currentColor;background:#fff}
+.editor-styles-wrapper .site-flow-adaptive button.has-settings.is-current{background:var(--wp-admin-theme-color,#3858e9);color:#fff}
+.site-collection-button-row{display:flex;align-items:flex-end;gap:4px}
+.site-collection-button-row>.components-base-control{flex:1;min-width:0;margin:0!important}
+.site-collection-button-row .components-base-control__field{margin-bottom:0}
+.site-collection-button-row>.components-dropdown{flex:none}
+.site-collection-button-row .site-editor-action,.site-collection-icon-toggle.components-button{width:40px;height:40px;min-width:40px;justify-content:center;padding:0;border:1px solid #949494;background:#fff;color:#1e1e1e;border-radius:2px}
+.site-collection-icon-popover{width:260px;padding:12px}
+
+.site-collection-button-row .components-text-control__input{height:40px;box-sizing:border-box;margin:0}
+.site-collection-button-row .components-base-control__help{display:none}
+.site-button-icon-settings{display:grid;gap:16px}
+.site-button-icon-position{border:0;padding:0;margin:0;min-width:0}
+.site-button-icon-position legend{margin-bottom:8px;padding:0;font-size:11px;font-weight:500;text-transform:uppercase}
+.site-button-icon-position>div{display:flex;gap:4px}
+.site-button-icon-position .components-button{flex:1;justify-content:center;gap:6px;height:32px;padding:0 8px;border:1px solid #ddd;border-radius:2px;background:#fff;color:#1e1e1e;font-size:12px;white-space:nowrap}
+.site-button-icon-position .components-button[aria-pressed="true"]{background:var(--wp-admin-theme-color,#3858e9);border-color:var(--wp-admin-theme-color,#3858e9);color:#fff}
+.site-button-icon-position .components-button:focus-visible{outline:2px solid var(--wp-admin-theme-color,#3858e9);outline-offset:2px}
+.site-button-icon-position svg{flex:none;pointer-events:none}
+/* Match the native 40px input; the shared compact-action rule must not shrink this row. */
+.site-list-display-settings .site-collection-button-row .components-dropdown>.components-button.site-editor-action,
+.site-list-display-settings .site-collection-button-row .components-dropdown>.components-button.site-collection-icon-toggle{
+  display:inline-flex;box-sizing:border-box;align-items:center;justify-content:center;
+  width:40px;min-width:40px;height:40px;min-height:40px;padding:0;margin:0;vertical-align:top;
+}
+.site-list-display-settings .site-collection-button-row>.components-dropdown{display:flex;align-items:center;height:40px}
+.site-list-display-settings .site-collection-button-row .components-dropdown>.components-button svg{width:20px;height:20px;flex:none}
+/* Saved button appearance stays visible when its popover is closed. */
+.site-list-display-settings .site-collection-button-row .components-dropdown>.components-button[aria-pressed="true"]{
+  background:var(--wp-admin-theme-color,#3858e9);border-color:var(--wp-admin-theme-color,#3858e9);color:#fff;
+}
+.site-list-display-settings .site-collection-button-row .components-dropdown>.components-button[aria-pressed="true"]:hover{
+  background:var(--wp-admin-theme-color-darker-10,#2145cf);border-color:var(--wp-admin-theme-color-darker-10,#2145cf);color:#fff;
+}
+.site-collection-icon-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px -4px 12px 0;padding-bottom:8px;border-bottom:1px solid #e0e0e0;font-size:13px;font-weight:600}
+.site-collection-icon-header .components-button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:28px;min-width:28px;height:28px;padding:0;color:#1e1e1e;background:#fff;border-radius:2px}
+.site-collection-icon-header .components-button:hover{background:#f0f0f0;color:var(--wp-admin-theme-color,#3858e9)}
+.site-collection-icon-header .components-button:focus-visible{outline:2px solid var(--wp-admin-theme-color,#3858e9);outline-offset:1px}

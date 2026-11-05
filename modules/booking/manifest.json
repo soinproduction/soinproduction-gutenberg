@@ -1,0 +1,7 @@
+{
+  "id": "booking",
+  "php": [
+    "bootstrap.php"
+  ],
+  "assets": []
+}

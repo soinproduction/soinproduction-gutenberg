@@ -1,0 +1,17 @@
+{
+  "id": "forms",
+  "dependencies": [],
+  "controls": [
+    {
+      "name": "form-selection",
+      "file": "editor.tsx",
+      "export": "FormControl"
+    }
+  ],
+  "php": [
+    "server.php"
+  ],
+  "modules": [
+    "forms"
+  ]
+}

@@ -1,0 +1,1206 @@
+.site-field {
+  margin: 16px 0;
+  display: grid;
+  gap: 10px;
+}
+.site-row {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+.site-row summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.site-order {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.site-order span {
+  flex: 1;
+}
+.site-settings {
+  max-width: 800px;
+  padding: 24px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+}
+.site-settings h2 {
+  font: 600 24px system-ui;
+}
+.site-settings .site-row {
+  margin-bottom: 8px;
+}
+.site-preview {
+  overflow: visible;
+}
+.site-preview .hero-enter {
+  animation: none !important;
+}
+.site-preview [data-motion] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.site-preview .sticky {
+  position: relative !important;
+}
+.site-preview form input:not(.site-inline-number),
+.site-preview form select {
+  pointer-events: none;
+}
+.site-preview .fixed {
+  position: absolute !important;
+}
+.site-preview {
+  font-family: Manrope, system-ui, sans-serif;
+}
+.site-inline-text {
+  min-width: 1ch;
+  outline: none;
+}
+.site-inline-text:focus {
+  box-shadow: 0 1px 0 currentColor;
+}
+.site-preview :has(> .site-inline-tools) {
+  position: relative;
+}
+.site-inline-tools {
+  position: absolute;
+  top: var(--site-card-tools-inset,20px);
+  right: var(--site-card-tools-inset,20px);
+  z-index: 25;
+  opacity: 0;
+}
+.site-preview :hover > .site-inline-tools,
+.site-inline-tools:focus-within {
+  opacity: 1;
+}
+.site-inline-add {
+  grid-column: 1/-1;
+  flex-basis: 100%;
+  padding: 12px 0;
+  position: relative;
+  z-index: 20;
+}
+.site-preview [role='button'][title] {
+  cursor: pointer;
+}
+.site-preview [role='button'][title]:hover {
+  outline: 2px solid #3858e9;
+  outline-offset: -2px;
+}
+.site-preview .rich-text [data-rich-text-placeholder] {
+  opacity: 0.6;
+}
+
+.editor-styles-wrapper {
+  padding: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+.editor-styles-wrapper .is-root-container {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+.editor-styles-wrapper .is-root-container > .wp-block {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.editor-styles-wrapper .wp-block-site-home-1,
+.editor-styles-wrapper .site-preview {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.editor-visual-editor__post-title-wrapper {
+  padding-inline: 24px;
+}
+.editor-styles-wrapper .editor-post-title {
+  max-width: none !important;
+  margin-inline: 24px !important;
+}
+.site-inline-number {
+  font: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed currentColor !important;
+  width: 5ch !important;
+  padding: 0 !important;
+  height: auto !important;
+  line-height: inherit !important;
+  box-shadow: none !important;
+}
+.editor-styles-wrapper .site-preview {
+  margin-block: 0 !important;
+}
+.editor-styles-wrapper .block-editor-block-list__layout.is-root-container {
+  display: block;
+}
+.site-background-tools {
+  position: absolute;
+  top: var(--site-card-tools-inset,20px);
+  right: var(--site-card-tools-inset,20px);
+  z-index: 25;
+  display: flex;
+  gap: 8px;
+}
+.site-media-setting {
+  display: grid;
+  gap: 10px;
+  margin-block: 16px;
+}
+.site-media-setting img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.site-actions .block-editor-inner-blocks {
+  width: 100%;
+}
+.site-actions .wp-block-buttons {
+  width: 100%;
+  max-width: none !important;
+}
+.site-actions .wp-block-button {
+  width: auto !important;
+  max-width: none !important;
+}
+.site-actions .wp-block-button .block-editor-rich-text__editable {
+  min-width: 1ch;
+}
+.site-record-edit {
+  position: absolute;
+  top: var(--site-card-tools-inset,20px);
+  right: var(--site-card-tools-inset,20px);
+  z-index: 30;
+  opacity: 0;
+}
+.site-record-edit:focus-within {
+  opacity: 1;
+}
+.site-menu-handle {
+  display: inline-block;
+  cursor: grab;
+  padding: 4px 8px;
+  font-size: 20px;
+  touch-action: none;
+}
+.site-menu-handle:active {
+  cursor: grabbing;
+}
+.site-menu-row {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 8px;
+  margin: 8px 0;
+}
+
+.site-menu-editor {
+  margin: 4px 0 24px;
+}
+.site-menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.site-menu-heading > span {
+  border-radius: 2px;
+  background: #f0f0f0;
+  padding: 2px 7px;
+  color: #757575;
+  font-size: 11px;
+}
+.site-menu-hint {
+  font-size: 12px !important;
+  line-height: 1.5;
+  color: #757575;
+  margin: 8px 0 14px !important;
+}
+.site-menu-list {
+  display: grid;
+  gap: 8px;
+}
+.site-menu-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.site-menu-card:hover {
+  border-color: #949494;
+}
+.site-menu-card.is-dragging {
+  opacity: 0.4;
+  background: #f0f0f0;
+}
+.site-menu-card.drop-before:before,
+.site-menu-card.drop-after:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--wp-admin-theme-color, #3858e9);
+  z-index: 2;
+}
+.site-menu-card.drop-before:before {
+  top: -6px;
+}
+.site-menu-card.drop-after:after {
+  bottom: -6px;
+}
+.site-menu-card-head {
+  display: flex;
+  align-items: stretch;
+  min-height: 62px;
+}
+.site-menu-grip {
+  border: 0;
+  background: none;
+  color: #949494;
+  width: 30px;
+  flex-shrink: 0;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px 0 0 2px;
+}
+.site-menu-grip:hover {
+  background: #f0f0f0;
+  color: #1e1e1e;
+}
+.site-menu-grip:active {
+  cursor: grabbing;
+}
+.site-menu-toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 12px 12px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: #1e1e1e;
+}
+.site-menu-toggle > span {
+  min-width: 0;
+}
+.site-menu-toggle strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-menu-toggle small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #757575;
+  margin-top: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.site-menu-toggle > svg {
+  flex-shrink: 0;
+  color: #757575;
+  transition: transform 0.15s;
+}
+.site-menu-toggle > svg.is-open {
+  transform: rotate(180deg);
+}
+.site-menu-card-body {
+  padding: 16px 12px 12px;
+  border-top: 1px solid #eee;
+}
+.site-menu-card-body .components-base-control {
+  margin-bottom: 14px;
+}
+.site-menu-add {
+  width: 100%;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px !important;
+}
+.site-menu-grip:focus-visible,
+.site-menu-toggle:focus-visible {
+  outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+  outline-offset: 1px;
+}
+
+.block-editor-block-inspector .components-notice {
+  margin: 16px 0 !important;
+}
+.block-editor-block-inspector .site-field + .components-notice {
+  margin-top: 20px !important;
+}
+
+.site-menu-grip {
+  touch-action: none;
+  user-select: none;
+}
+.site-menu-grip svg {
+  pointer-events: none;
+}
+
+.site-media-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+.site-media-actions > .components-button:not(.site-media-remove, .is-icon-only, .has-icon:not(.has-text)) {
+  flex: 1;
+  justify-content: center;
+}
+.site-media-remove {
+  flex: none;
+}
+.site-media-actions .components-button:empty {
+  display: none;
+}
+
+.block-editor-block-preview__content .site-preview {
+  pointer-events: none;
+}
+.site-native-block img {
+  max-width: 100%;
+  height: auto;
+}
+/* Actual layout elements are block wrappers; Gutenberg adds no grid-breaking shell. */
+
+.site-paragraph-flow {
+  position: relative;
+  width: 100%;
+}
+.site-paragraph-flow p {
+  margin: 0;
+  line-height: inherit;
+  color: inherit;
+}
+.site-description-row {
+  position: relative;
+}
+.site-description-row-tools {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  opacity: 0;
+  z-index: 21;
+}
+.site-description-row:hover > .site-description-row-tools,
+.site-description-row:focus-within > .site-description-row-tools {
+  opacity: 1;
+}
+.site-description-add {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 8px;
+  z-index: 21;
+}
+.site-icon-picker {
+  border: 0;
+  padding: 0;
+  margin: 0 0 18px;
+  min-width: 0;
+}
+.site-icon-picker legend {
+  margin-bottom: 8px;
+  padding: 0;
+  color: #1e1e1e;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.site-icon-picker .components-base-control {
+  margin-bottom: 16px;
+}
+.site-icon-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.site-icon-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 38px;
+  padding: 7px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #50575e;
+}
+.site-icon-option:hover {
+  background: #f0f0f0;
+  border-color: #949494;
+}
+.site-icon-option[aria-pressed='true'] {
+  border-color: var(--wp-admin-theme-color, #3858e9);
+  box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
+  background: #f0f3ff;
+}
+.site-icon-option:focus-visible {
+  outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+  outline-offset: 2px;
+}
+.site-icon-option > svg {
+  width: 21px;
+  height: 21px;
+}
+.site-statistic-fields {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.site-statistic-fields label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.site-statistic-fields .block-editor-rich-text__editable {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #949494;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: none;
+  min-height: 36px;
+}
+/* Gutenberg wrappers keep the same typography and rhythm as the frontend. */
+/* One compact editor-only action style across section controls. */
+.site-editor-action svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+.site-inline-add {
+  padding: 16px 0 0;
+}
+/* WordPress fills button SVGs by default; Lucide is a stroke icon library. */
+.components-button svg.lucide,
+.site-icon-option svg.lucide {
+  fill: none;
+  stroke: currentColor;
+}
+.site-icon-library {
+  max-height: 224px;
+  overflow-y: auto;
+  padding: 2px;
+  align-content: start;
+  scrollbar-width: thin;
+  scrollbar-color: #c3c4c7 transparent;
+}
+
+.site-icon-picker-alternatives {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid #eee;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.site-icon-picker-alternatives .site-icon-option {
+  width: 38px;
+  flex-shrink: 0;
+}
+.site-icon-picker-alternatives > span,
+.site-icon-empty {
+  font:
+    12px/1.5 system-ui,
+    sans-serif;
+  color: #757575;
+}
+.site-preview .site-service-card:focus-within p.max-h-0,
+.site-preview .site-service-card:hover p.max-h-0 {
+  max-height: 8rem;
+  opacity: 1;
+}
+/* A quiet insertion divider shared by section and element appenders. */
+.editor-styles-wrapper .block-list-appender {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  padding: 4px 0;
+  clear: both;
+}
+.editor-styles-wrapper .block-list-appender:before,
+.editor-styles-wrapper .block-list-appender:after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: #c3c4c7;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.editor-styles-wrapper .block-list-appender .block-editor-button-block-appender {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;min-width:24px;height:24px;min-height:24px;padding:0;
+  border:1px solid #1e1e1e;border-radius:2px;background:#1e1e1e;color:#fff;
+  box-shadow:none;transition:background .15s,border-color .15s;
+}
+.editor-styles-wrapper .block-list-appender .block-editor-button-block-appender:after { content:none; }
+.editor-styles-wrapper .block-list-appender .block-editor-button-block-appender svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.editor-styles-wrapper .block-list-appender .block-editor-button-block-appender:hover {
+  background: var(--sp-ui-accent);
+  border-color: var(--sp-ui-accent);
+  color: #fff;
+}
+.editor-styles-wrapper .block-list-appender .block-editor-button-block-appender:focus-visible {
+  outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+  outline-offset: 2px;
+}
+.editor-styles-wrapper .wp-block-buttons .block-list-appender {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+}
+.editor-styles-wrapper .wp-block-buttons .block-list-appender:before,
+.editor-styles-wrapper .wp-block-buttons .block-list-appender:after {
+  display: none;
+}
+.editor-styles-wrapper
+  .wp-block-buttons
+  .block-list-appender
+  .block-editor-button-block-appender:after {
+  content: 'Add button';
+}
+
+.editor-styles-wrapper .block-list-appender > .block-editor-inserter {
+  flex: 0 0 auto;
+  width: auto;
+}
+.site-line-color-inline {
+  display: block;
+  box-sizing: border-box;
+  clear: both;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 12px 0 0;
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+}
+.site-line-color-inline .site-line-color-label {
+  display: block;
+  float: none;
+  width: auto;
+  margin: 0 0 10px;
+  padding: 0;
+  font:
+    500 12px/1.5 system-ui,
+    sans-serif;
+  color: #1e1e1e;
+}
+.site-line-color-palette {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.site-line-color-palette .components-color-palette__custom-color-wrapper {
+  min-width: 0;
+  max-width: 100%;
+}
+.site-eyebrow-color {
+  min-width: 0;
+  max-width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+.site-eyebrow-color > .site-line-color-label {
+  margin: 0 0 10px;
+  font: 500 12px/1.5 system-ui;
+  color: #1e1e1e;
+}
+
+/* Selected articles: readable titles and a stable thumbnail while dragging. */
+.site-menu-toggle-with-thumbnail {
+  justify-content: flex-start;
+  gap: 10px;
+}
+.site-menu-toggle-with-thumbnail > .site-menu-thumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #f0f0f0;
+  color: #949494;
+}
+.site-menu-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.site-menu-toggle-with-thumbnail > .site-menu-card-title {
+  flex: 1;
+  min-width: 0;
+}
+.site-menu-toggle-with-thumbnail strong {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+.site-menu-toggle-with-thumbnail small {
+  white-space: normal;
+  line-height: 1.4;
+}
+.site-menu-toggle-with-thumbnail > svg {
+  margin-left: auto;
+}
+
+.site-relationship {
+  container-type: inline-size;
+  color: #1e1e1e;
+  min-width: 0;
+}
+.site-relationship-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+@container (min-width:520px) {
+  .site-relationship-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.site-relationship-panel {
+  min-width: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  background: white;
+}
+.site-relationship-panel h4 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 10px 12px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.site-relationship-panel > input[type='search'] {
+  display: block;
+  width: calc(100% - 16px);
+  max-width: none;
+  min-height: 34px;
+  margin: 8px;
+  border: 1px solid #c3c4c7;
+  border-radius: 2px;
+  font-size: 12px;
+}
+.site-relationship-options {
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.site-relationship-selected {
+  max-height: 360px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.site-relationship-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+  background: white;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.site-relationship-option:hover {
+  background: #f0f6fc;
+}
+.site-relationship-option > svg {
+  flex-shrink: 0;
+  color: var(--wp-admin-theme-color, #3858e9);
+}
+.site-relationship-thumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #f0f0f0;
+  color: #949494;
+}
+.site-relationship-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.site-relationship-copy {
+  flex: 1;
+  min-width: 0;
+}
+.site-relationship-copy strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.site-relationship-copy small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #757575;
+}
+.site-relationship-row {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+.site-relationship-row-main {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 56px;
+  padding: 8px 7px 8px 0;
+}
+.site-relationship-grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  align-self: stretch;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #949494;
+  cursor: grab;
+  touch-action: none;
+}
+.site-relationship-grip:active {
+  cursor: grabbing;
+}
+.site-relationship-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #757575;
+  cursor: pointer;
+}
+.site-relationship-icon:hover {
+  background: #fbeaea;
+  color: #b32d2e;
+}
+.site-relationship-row.is-dragging {
+  opacity: 0.45;
+}
+.site-relationship-row.drop-before:before,
+.site-relationship-row.drop-after:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2;
+  background: var(--wp-admin-theme-color, #3858e9);
+}
+.site-relationship-row.drop-before:before {
+  top: 0;
+}
+.site-relationship-row.drop-after:after {
+  bottom: 0;
+}
+.site-relationship-empty {
+  margin: 0 !important;
+  padding: 18px 12px;
+  font-size: 12px !important;
+  line-height: 1.5;
+  color: #757575;
+}
+.site-relationship button:focus-visible {
+  outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+  outline-offset: -2px;
+}
+
+/* Shared field-kit controls. These styles are loaded only by Gutenberg. */
+.site-field-controls {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.site-field-media {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.site-field-media > img {
+  max-height: 320px;
+  object-fit: cover;
+}
+.site-field-empty {
+  padding: 12px;
+  border: 1px dashed #c3c4c7;
+  border-radius: 2px;
+  color: #646970;
+  font:
+    12px/1.5 system-ui,
+    sans-serif;
+}
+.site-schema-preview .site-actions .site-editor-action {
+  align-self: center;
+}
+.site-field-rich-control {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+  font:
+    12px/1.5 system-ui,
+    sans-serif;
+  color: #1e1e1e;
+}
+.site-field-rich-control > span {
+  font-weight: 500;
+}
+.site-field-rich-control > .block-editor-rich-text__editable {
+  padding: 8px;
+  border: 1px solid #949494;
+  min-height: 36px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Attach a compact editor affordance to the group without shifting authored buttons. */
+.site-editor-add.is-compact{position:absolute;bottom:0;right:0;z-index:3;transform:translate(var(--site-add-x,40%),var(--site-add-y,40%));line-height:1}
+.site-editor-add.is-empty{position:relative;min-height:36px}
+.site-editor-add.is-compact.is-left{right:auto;left:0;--site-add-x:-40%}
+.site-editor-add.is-compact.is-center{right:auto;left:50%;--site-add-x:-50%}
+.site-editor-add.is-compact.is-top{top:0;bottom:auto;--site-add-y:-40%}
+.site-description-add.is-center{left:50%;transform:translateX(-50%)}
+.site-description-add.is-right{right:0;left:auto}
+.site-description-add.is-top{top:auto;bottom:100%;padding:0 0 8px}
+.site-editor-button{position:relative;display:inline-flex}
+.site-button-styles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:232px;padding:8px}
+.site-button-style-tile{display:grid;justify-items:center;gap:6px;padding:10px 6px;background:none;border:1px solid transparent;border-radius:2px;font-size:12px;color:#1e1e1e;cursor:pointer}
+.site-button-style-tile:hover{background:#f0f0f0}
+.site-button-style-tile[aria-pressed="true"]{border-color:var(--wp-admin-theme-color,#3858e9)}
+.site-button-style-sample{display:grid;place-items:center;width:64px;height:30px;font-size:11px;letter-spacing:.08em;border:1px solid transparent}
+.site-button-style-sample.is-primary{background:#111;color:#fff}
+.site-button-style-sample.is-accent{background:#e67f42;color:#fff}
+.site-button-style-sample.is-outline{border-color:#111;color:#111}
+.site-button-style-sample.is-light-outline{background:#111;color:#fff;box-shadow:inset 0 0 0 3px #111,inset 0 0 0 4px #fff}
+.site-button-style-sample.is-text{color:#111;text-decoration:underline}
+.site-button-style-sample.is-default{border:1px dashed #757575;color:#757575}
+.site-background-settings{display:grid;gap:16px}
+.site-background-settings:not(:last-child){margin-bottom:16px}
+.site-background-settings video,.site-background-settings img{display:block;width:100%;aspect-ratio:16/9;margin-bottom:8px;object-fit:cover;background:#000;border-radius:2px}
+.site-segmented{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#f0f0f0;border-radius:2px}
+.site-segmented button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:32px;background:none;border:0;border-radius:2px;color:#757575;font-size:13px;cursor:pointer}
+.site-segmented button[aria-checked="true"]{background:#fff;color:#1e1e1e;box-shadow:0 0 0 1px #e0e0e0}
+.site-segmented button:focus-visible{outline:2px solid #3858e9;outline-offset:1px}
+.site-segmented .dashicons{width:16px;height:16px;font-size:16px}
+/* Tools float over the button so the authored layout stays exact. */
+.site-button-tools{position:absolute;top:0;right:0;z-index:2;transform:translateY(-70%);opacity:0;transition:opacity .12s}
+.site-editor-button:hover .site-button-tools,.site-editor-button:focus-within .site-button-tools,.site-button-tools:has([aria-expanded="true"]){opacity:1}
+.site-editor-button{cursor:pointer}
+
+/* Shared media library actions, scoped to our editor controls. */
+.site-media-select-action.components-button{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;max-width:100%;font:500 13px/1.4 system-ui,sans-serif;letter-spacing:normal;text-transform:none;box-shadow:none;transition:background .15s,border-color .15s,color .15s}
+.site-media-select-action.components-button.is-empty{width:100%;height:auto;min-height:88px;padding:16px;border:1px dashed #949494;border-radius:2px;background:#f0f0f0;color:#757575;flex-direction:column;gap:8px}
+.site-media-select-action.components-button.is-empty:hover{background:#f0f0f0;border-color:#3858e9;color:#3858e9}
+.site-media-select-copy{display:flex;flex-direction:column;align-items:inherit;gap:3px}
+.site-media-select-hint{font-size:11px;font-weight:400;color:#757575}
+.site-media-select-action.components-button.is-replace{justify-self:end;width:auto}
+.site-media-select-action.components-button:focus-visible{outline:2px solid #3858e9;outline-offset:3px}
+.site-media-select-action.components-button svg{flex-shrink:0}
+.site-background-settings .site-media-setting{margin-block:0;gap:10px}
+.site-background-settings .site-media-setting > :is(img,video){margin:0}
+
+.site-media-actions > .site-media-select-action.components-button.is-replace{flex:0 0 auto}
+.site-media-actions:has(.site-media-select-action.is-replace){justify-content:flex-end}
+.site-media-select-action.components-button svg{fill:none;stroke:currentColor}
+
+.site-video-inheritance{display:grid;gap:12px;border-top:1px solid #e0e0e0;padding-top:16px;margin-top:4px}
+.site-video-inheritance .components-base-control{margin-bottom:0}
+.site-video-inheritance-options{display:grid;gap:12px;padding:12px;background:#f0f0f0;border:1px solid #e0e0e0;border-radius:2px}
+.site-video-inheritance-poster{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:2px;background:#f0f0f0}
+/* A looping list while editing: one line, scrollable, without a visible scrollbar. */
+.site-loop-list{overflow-x:auto;scrollbar-width:none;animation:none!important}
+.site-loop-list::-webkit-scrollbar{display:none}
+.site-loop-list>*{flex:none}
+.site-loop-list .rich-text,.site-loop-list .block-editor-rich-text__editable{white-space:nowrap!important}
+.site-list-editor{display:flex;flex-direction:column;gap:4px;min-width:0}
+/* Takes its own line, so the add button never lands on the element below the list. */
+.site-list-editor > .site-editor-add{position:relative;inset:auto;transform:none;align-self:flex-end}
+.site-list-editor.is-left > .site-editor-add{align-self:flex-start}
+.site-list-editor.is-center > .site-editor-add{align-self:center}
+.site-list-editor.is-top > .site-editor-add{order:-1}
+.site-editor-row{position:relative}
+.site-editor-row > .site-button-tools{top:var(--site-card-tools-inset,20px);right:var(--site-card-tools-inset,20px);transform:none}
+.site-editor-row:hover > .site-button-tools,.site-editor-row:focus-within > .site-button-tools{opacity:1}
+/* Spacing inside repeater cards comes from the grid gap alone. */
+.site-field-controls > .site-field-rich-control,
+.site-field-controls > .components-base-control,
+.site-field-controls > .site-icon-picker{margin-bottom:0}
+.site-field-rich-control > .block-editor-rich-text__editable{min-height:40px;padding:9px 12px;background:#fff;border:1px solid #e0e0e0;border-radius:2px}
+/* Elements of a Drag are real blocks: their spacing and width come from the section markup. */
+.site-drag > .wp-block{max-width:none}
+.site-drag > .site-preview.wp-block{margin:0}
+.editor-styles-wrapper .wp-block-list .block-list-appender{display:none}
+.editor-styles-wrapper .site-drag > .block-list-appender{justify-content:flex-start;margin-top:12px}
+.editor-styles-wrapper .site-drag > .block-list-appender .site-editor-add{position:relative;inset:auto;transform:none}
+.editor-styles-wrapper .site-drag.is-center > .block-list-appender{justify-content:center}
+.editor-styles-wrapper .site-drag.is-right > .block-list-appender{justify-content:flex-end}
+.site-drag.is-top{display:flex;flex-direction:column}
+.editor-styles-wrapper .site-drag.is-top > .block-list-appender{order:-1;margin-top:0;margin-bottom:12px}
+.editor-styles-wrapper .site-drag > .block-list-appender:before,.editor-styles-wrapper .site-drag > .block-list-appender:after{display:none}
+
+/* Reordering list items in the Inspector. */
+.site-item-settings{position:relative}
+.site-item-settings:has(.site-item-drag-handle) .components-panel__body-title button{padding-left:40px}
+.site-item-drag-handle{position:absolute;top:10px;left:6px;z-index:2;display:flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;background:transparent;color:#757575;cursor:grab}
+.site-item-drag-handle:active{cursor:grabbing}
+.site-item-drag-handle:focus-visible{outline:2px solid var(--wp-admin-theme-color,#3858e9);outline-offset:1px}
+.site-item-settings.is-dragging{opacity:.45}
+.site-item-settings.is-drop-before::before,.site-item-settings.is-drop-after::after{content:'';position:absolute;left:0;right:0;height:3px;background:var(--wp-admin-theme-color,#3858e9);z-index:3;pointer-events:none}
+.site-item-settings.is-drop-before::before{top:0}
+.site-item-settings.is-drop-after::after{bottom:0}
+.editor-styles-wrapper .site-drag-columns.wp-block-columns { display: grid; }
+.editor-styles-wrapper .site-drag-columns > .wp-block-column { min-width: 0; width: auto; margin: 0; }
+@media(min-width:782px) {
+ .editor-styles-wrapper .site-drag-columns.wp-block-columns:has(> .wp-block-column:nth-child(3)) { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .editor-styles-wrapper .site-drag-columns.wp-block-columns:has(> .wp-block-column:nth-child(4)) { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+
+.site-drag-layouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.site-drag-layout{display:grid;gap:6px;padding:8px;background:#fff;border:1px solid #ddd;border-radius:2px;color:#1e1e1e;font-size:11px;cursor:pointer}
+.site-drag-layout[aria-pressed="true"]{border-color:var(--wp-admin-theme-color,#3858e9);box-shadow:0 0 0 1px var(--wp-admin-theme-color,#3858e9)}
+.site-drag-layout__preview{display:grid;gap:3px;height:32px}
+.site-drag-layout__preview>span{background:#e0e0e0;border-radius:1px}
+.site-drag-layout[aria-pressed="true"] .site-drag-layout__preview>span{background:var(--wp-admin-theme-color,#3858e9);opacity:.7}
+.editor-styles-wrapper .site-drag-columns>.site-drag-column.is-full-width{grid-column:1 / -1}
+
+@media(min-width:782px){
+ .editor-styles-wrapper .site-drag-columns.wp-block-columns[class*="has-grid-"]{grid-template-columns:var(--site-drag-tracks,repeat(2,minmax(0,1fr)))!important}
+}
+
+.site-drag-column-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+
+.editor-styles-wrapper .site-drag-column > .block-list-appender:before,
+.editor-styles-wrapper .site-drag-column > .block-list-appender:after{display:none}
+
+@media(min-width:782px){
+ .editor-styles-wrapper .site-drag-columns.wp-block-columns.has-free-width {display:flex!important;flex-wrap:wrap;gap:3.2rem}
+ .editor-styles-wrapper .site-drag-columns.has-free-width>.wp-block-column {flex:0 0 calc(var(--site-column-width,100%) - (1 - var(--site-column-share,1)) * 3.2rem)!important}
+ .editor-styles-wrapper .site-drag-columns.has-free-width>.wp-block-column.is-full-width{flex-basis:100%!important}
+}
+
+
+/* Flow editor chrome: parent controls and column content controls have distinct anchors. */
+@layer base {
+ :where(.editor-styles-wrapper .site-flow-drag){display:grid;grid-template-columns:repeat(var(--site-flow-columns,2),minmax(0,1fr));gap:var(--site-flow-gap,3.2rem)}
+ @media(max-width:782px){:where(.editor-styles-wrapper .site-flow-drag){grid-template-columns:minmax(0,1fr)}}
+ :where(.editor-styles-wrapper .site-flow-drag.has-grid){grid-template-columns:repeat(var(--site-flow-columns,12),minmax(0,1fr))}
+}
+.editor-styles-wrapper .site-flow-drag{position:relative;--site-flow-parent-color:#757575}
+.editor-styles-wrapper .site-flow-drag>.site-flow-column{position:relative;min-width:0;width:auto;margin:0;max-width:none}
+.editor-styles-wrapper .site-flow-column.is-empty{min-height:64px}
+:where(.editor-styles-wrapper) .site-flow-drag.has-grid>.site-flow-column{grid-column:1 / -1}
+.editor-styles-wrapper .site-flow-column.is-full-row{grid-column:1 / -1}
+.editor-styles-wrapper :is(.site-flow-column-frame,.site-flow-drag-frame){pointer-events:none;opacity:0;transition:opacity .18s;z-index:1}
+.editor-styles-wrapper .site-flow-column-frame{inset:-16px;width:calc(100% + 32px);height:calc(100% + 32px)}
+.editor-styles-wrapper .site-flow-drag-frame{inset:-40px -28px;width:calc(100% + 56px);height:calc(100% + 80px)}
+.editor-styles-wrapper .site-flow-drag-frame rect{stroke:var(--site-flow-parent-color);stroke-dasharray:8 6}
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-drag-frame,
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-column>.site-flow-column-frame{opacity:1}
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-drag-frame rect{animation:site-frame-crawl 1.4s linear infinite}
+.editor-styles-wrapper .site-flow-column>.site-flow-column-frame rect{stroke:color-mix(in srgb,var(--site-flow-color,var(--sp-ui-accent)) 45%,transparent)}
+.editor-styles-wrapper .site-flow-column:is(:hover,:focus-within)>.site-flow-column-frame rect{stroke:var(--site-flow-color,var(--sp-ui-accent));animation:site-frame-crawl 1.2s linear infinite}
+/* The column under the pointer rises above its neighbours and the Drag tools, so its controls never sit underneath. */
+.editor-styles-wrapper .site-flow-drag>.site-flow-column:is(:hover,:focus-within,.is-resizing){z-index:40}
+.editor-styles-wrapper :is(.site-flow-drag-tools,.site-flow-column-tools,.site-flow-column-grip){position:absolute;z-index:35;opacity:0;pointer-events:none;transition:opacity .15s}
+.editor-styles-wrapper .site-flow-drag-tools{right:-28px;top:-54px;display:flex;align-items:center;gap:6px}
+.editor-styles-wrapper .site-flow-drag[data-toolbar-position$="left"]>.site-flow-drag-tools{left:-28px;right:auto}
+.editor-styles-wrapper .site-flow-drag[data-toolbar-position$="center"]>.site-flow-drag-tools{left:50%;right:auto;transform:translateX(-50%)}
+.editor-styles-wrapper .site-flow-drag[data-toolbar-position^="bottom"]>.site-flow-drag-tools{top:auto;bottom:-54px}
+.editor-styles-wrapper .site-flow-column-tools{right:-16px;top:-30px;display:flex;gap:2px}
+/* Top left of the column frame: the side edges belong to the grid resize handles. */
+.editor-styles-wrapper .site-flow-column-grip{left:-16px;top:-30px}
+.editor-styles-wrapper .site-flow-column-grip button{cursor:grab;touch-action:none}
+.editor-styles-wrapper .site-flow-column-grip button:active{cursor:grabbing}
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-drag-tools,
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-column>.site-flow-column-grip,
+.editor-styles-wrapper .site-flow-column:is(:hover,:focus-within)>.site-flow-column-tools,
+.editor-styles-wrapper .site-flow-column-tools:has([aria-expanded="true"]){opacity:1;pointer-events:auto}
+.editor-styles-wrapper :is(.site-flow-column-tools,.site-flow-drag-tools)::before{content:"";position:absolute;inset:100% 0 -24px;pointer-events:auto}
+.editor-styles-wrapper .site-flow-column-grip::before{content:"";position:absolute;inset:-8px -8px;z-index:-1}
+.site-flow-column-settings{width:220px;padding:16px;display:grid;gap:16px}
+.site-flow-column-settings .components-base-control{margin-bottom:0}
+.editor-styles-wrapper .site-flow-column>.block-list-appender{position:absolute;width:24px;height:24px;padding:0;margin:0;z-index:4;opacity:0;pointer-events:none;transition:opacity .15s}
+.editor-styles-wrapper .site-flow-column>.block-list-appender::before,.editor-styles-wrapper .site-flow-column>.block-list-appender::after{display:none}
+.editor-styles-wrapper .site-flow-column[data-button-position$="left"]>.block-list-appender{left:4px;right:auto;transform:none}
+.editor-styles-wrapper .site-flow-column[data-button-position$="center"]>.block-list-appender{left:50%;right:auto;transform:translateX(-50%)}
+.editor-styles-wrapper .site-flow-column[data-button-position$="right"]>.block-list-appender{left:auto;right:4px;transform:none}
+.editor-styles-wrapper .site-flow-column[data-button-position^="top"]>.block-list-appender{top:-28px;bottom:auto}
+.editor-styles-wrapper .site-flow-column[data-button-position^="bottom"]>.block-list-appender{bottom:-28px;top:auto}
+.editor-styles-wrapper .site-flow-column:is(:hover,:focus-within,.is-empty)>.block-list-appender,
+.editor-styles-wrapper .site-flow-column>.block-list-appender:has([aria-expanded="true"]){opacity:1;pointer-events:auto}
+.editor-styles-wrapper .site-flow-column>.block-list-appender .block-editor-button-block-appender{width:24px;height:24px;min-height:24px;padding:0;background:#1e1e1e;color:#fff;border:0;border-radius:2px}
+.editor-styles-wrapper .site-flow-column>.block-list-appender .block-editor-button-block-appender::after{content:none}
+.editor-styles-wrapper .site-flow-column>.block-list-appender .block-editor-button-block-appender:hover{background:var(--sp-ui-accent);color:#fff}
+.editor-styles-wrapper .site-flow-column>.block-list-appender .block-editor-inserter{display:flex;width:24px;height:24px}
+.editor-styles-wrapper :is(.site-flow-drag-tools,.site-flow-column-tools,.site-flow-column-grip,.block-list-appender) svg{pointer-events:none}
+.editor-styles-wrapper .site-flow-column[data-vertical-align]{display:flex;flex-direction:column;align-self:stretch}
+.editor-styles-wrapper .site-flow-column[data-vertical-align="center"]{justify-content:center}
+.editor-styles-wrapper .site-flow-column[data-vertical-align="bottom"]{justify-content:flex-end}
+.editor-styles-wrapper .site-flow-column[data-horizontal-align="left"]{--site-column-content-align:flex-start;align-items:flex-start;text-align:left}
+.editor-styles-wrapper .site-flow-column[data-horizontal-align="center"]{--site-column-content-align:center;align-items:center;text-align:center}
+.editor-styles-wrapper .site-flow-column[data-horizontal-align="right"]{--site-column-content-align:flex-end;align-items:flex-end;text-align:right}
+.editor-styles-wrapper .site-flow-column[data-horizontal-align="stretch"]{--site-column-content-align:flex-start;align-items:stretch}
+.editor-styles-wrapper .site-flow-column[data-drop-side]::after{content:"";position:absolute;inset:-16px auto -16px -22px;width:4px;background:var(--sp-ui-accent);pointer-events:none}
+.editor-styles-wrapper .site-flow-column[data-drop-side="after"]::after{left:auto;right:-22px}
+.editor-styles-wrapper .site-flow-drag{--site-flow-handle:min(12px,calc(var(--site-flow-gap,3.2rem) / 2))}
+.editor-styles-wrapper .site-flow-resize{position:absolute;top:0;bottom:0;width:var(--site-flow-handle);display:flex;align-items:center;justify-content:center;cursor:col-resize;touch-action:none;z-index:6;opacity:0;transition:opacity .15s}
+/* Handles touch their column edge, so the pointer never crosses a gap that drops the hover; neighbours sit side by side in the gap. They stay grabbable while hidden. */
+.editor-styles-wrapper .site-flow-resize.is-start{left:calc(-1 * var(--site-flow-handle))}
+.editor-styles-wrapper .site-flow-resize.is-end{right:calc(-1 * var(--site-flow-handle))}
+.editor-styles-wrapper .site-flow-resize::before{content:"";width:6px;height:min(40px,100%);border:2px solid #fff;border-radius:4px;background:var(--site-flow-color,var(--sp-ui-accent));box-shadow:0 0 0 1px var(--sp-ui-border);transition:height .15s,width .15s}
+.editor-styles-wrapper .site-flow-resize:is(:hover,.is-active)::before{width:8px;height:min(64px,100%)}
+.editor-styles-wrapper .site-flow-resize.is-active::after{content:attr(data-span);position:absolute;top:50%;transform:translateY(calc(-50% - 48px));padding:2px 6px;border-radius:2px;background:var(--site-flow-color,#1e1e1e);color:#fff;font:500 11px/16px var(--sp-ui-font);white-space:nowrap}
+.editor-styles-wrapper .site-flow-drag:is(:hover,.is-resizing)>.site-flow-column>.site-flow-resize{opacity:.45}
+.editor-styles-wrapper .site-flow-drag>.site-flow-column:hover>.site-flow-resize,
+.editor-styles-wrapper .site-flow-drag>.site-flow-column>.site-flow-resize:hover,
+.editor-styles-wrapper .site-flow-drag.is-resizing>.site-flow-column>.site-flow-resize.is-active{opacity:1}
+.editor-styles-wrapper .site-flow-guides{position:absolute;inset:0;grid-column:1 / -1;display:grid;grid-template-columns:inherit;column-gap:inherit;pointer-events:none;opacity:0;transition:opacity .15s;z-index:0}
+.editor-styles-wrapper .site-flow-guides>span{background:color-mix(in srgb,var(--sp-ui-accent) 5%,transparent);border-inline:1px dashed color-mix(in srgb,var(--sp-ui-accent) 25%,transparent);transition:background .1s}
+.editor-styles-wrapper .site-flow-guides>span.is-covered{background:color-mix(in srgb,var(--site-flow-active,var(--sp-ui-accent)) 16%,transparent);border-color:color-mix(in srgb,var(--site-flow-active,var(--sp-ui-accent)) 45%,transparent)}
+.editor-styles-wrapper .site-flow-drag:hover>.site-flow-guides{opacity:.7}
+.editor-styles-wrapper .site-flow-drag:has(>.site-flow-column>.site-flow-resize:hover)>.site-flow-guides,
+.editor-styles-wrapper .site-flow-drag.is-resizing>.site-flow-guides{opacity:1}
+.editor-styles-wrapper .site-flow-drag.is-resizing{user-select:none}
+.editor-styles-wrapper .site-flow-drag.is-resizing,.editor-styles-wrapper .site-flow-drag.is-resizing *{cursor:col-resize!important}
+@media(--site-down-ios){.editor-styles-wrapper .site-flow-resize,.editor-styles-wrapper .site-flow-guides{display:none}}
+@media(prefers-reduced-motion:reduce){.editor-styles-wrapper :is(.site-flow-column-frame,.site-flow-drag-frame) rect{animation:none!important;transition:none}}
+
+/* Breakpoint bar in the editor header: every site breakpoint at once, same compact buttons as the header. */
+.site-viewport-host{display:flex;align-items:center}
+.site-viewport-bar{display:flex;align-items:center;gap:2px;padding:0 4px;margin-right:4px;border-right:1px solid #e0e0e0}
+.site-viewport-bar .components-button.is-pressed{background:#1e1e1e;color:#fff}
+/* Outline icons: Gutenberg fills button icons by default. */
+.site-viewport-bar .components-button svg{fill:none}
+@media(max-width:781px){.site-viewport-host{display:none}}
+
+/* While the Drag is hovered, a column shows one device icon per breakpoint with its own placement; the one being edited is filled, a click shows that breakpoint. */
+.editor-styles-wrapper .site-flow-adaptive{position:absolute;top:-30px;left:14px;z-index:35;display:flex;gap:2px;opacity:0;pointer-events:none;transition:opacity .15s}
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-column>.site-flow-adaptive{opacity:1;pointer-events:auto}
+.editor-styles-wrapper .site-flow-adaptive>button{display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin:0;padding:0;border:0;border-radius:2px;background:#fff;color:var(--site-flow-color,#1e1e1e);box-shadow:0 0 0 1px color-mix(in srgb,var(--site-flow-color,#1e1e1e) 45%,transparent);cursor:pointer}
+.editor-styles-wrapper .site-flow-adaptive>button svg{width:18px;height:18px;fill:none}
+.editor-styles-wrapper .site-flow-adaptive>button.is-current{background:var(--site-flow-color,#1e1e1e);color:#fff}
+/* Column layout in the sidebar: breakpoint tabs, a strip of grid tracks and exact numbers. */
+.site-flow-layout{display:grid;gap:8px;margin:4px 0 8px}
+.site-flow-layout-tabs{display:flex;gap:2px;padding:2px;border-radius:2px;background:#f0f0f0}
+.site-flow-layout-tabs button{position:relative;flex:1;display:flex;align-items:center;justify-content:center;height:32px;margin:0;padding:0;border:0;border-radius:2px;background:transparent;color:#757575;cursor:pointer}
+.site-flow-layout-tabs button svg{width:20px;height:20px;fill:none}
+.site-flow-layout-tabs button:hover{color:#1e1e1e}
+.site-flow-layout-tabs button[aria-selected="true"]{background:#fff;color:#1e1e1e;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.site-flow-layout-tabs button.has-own::after{content:"";position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--site-flow-color)}
+.site-flow-layout-head{display:flex;align-items:baseline;gap:6px;margin-top:4px}
+.site-flow-layout-head span{color:#757575;font-size:12px}
+.site-flow-layout-head .components-button{margin-left:auto;height:auto;padding:0}
+.site-flow-layout-state,.site-flow-layout-hint{margin:0;color:#757575;font-size:12px;line-height:1.4}
+.site-flow-layout-grid{display:grid;gap:2px;height:32px;padding:3px;border:1px solid #e0e0e0;border-radius:2px;cursor:col-resize;touch-action:none;user-select:none}
+.site-flow-layout-grid span{border-radius:1px;background:#f0f0f0}
+.site-flow-layout-grid span.is-on{background:var(--site-flow-color)}
+.site-flow-layout-grid.is-inherited span.is-on{background:color-mix(in srgb,var(--site-flow-color) 45%,transparent)}
+.site-flow-layout-grid.is-auto span.is-on{background:repeating-linear-gradient(135deg,var(--site-flow-color) 0 3px,color-mix(in srgb,var(--site-flow-color) 40%,transparent) 3px 6px)}
+.site-flow-layout-numbers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Outside controls remain interactive across the outline's hover gap. */
+.editor-styles-wrapper :is(.site-flow-drag-tools,.site-flow-column-tools,.site-flow-adaptive),
+.editor-styles-wrapper .site-flow-column>.block-list-appender{visibility:hidden;pointer-events:auto;transition:opacity .12s .2s,visibility 0s .35s}
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-drag-tools,
+.editor-styles-wrapper .site-flow-drag:is(:hover,:focus-within)>.site-flow-column>:is(.site-flow-column-tools,.site-flow-adaptive),
+.editor-styles-wrapper .site-flow-column:is(:hover,:focus-within,.is-empty)>.block-list-appender,
+.editor-styles-wrapper :is(.site-flow-drag-tools,.site-flow-column-tools,.site-flow-adaptive):is(:hover,:focus-within),
+.editor-styles-wrapper :is(.site-flow-drag-tools,.site-flow-column-tools,.block-list-appender):has([aria-expanded="true"]){visibility:visible;opacity:1;pointer-events:auto;transition-delay:0s}
+.editor-styles-wrapper .site-flow-adaptive::before{content:"";position:absolute;left:0;right:0;top:100%;height:24px;pointer-events:auto}
+.editor-styles-wrapper .site-flow-column>.block-list-appender::before{content:"";display:block;position:absolute;left:-8px;right:-8px;top:-24px;bottom:-8px;pointer-events:auto;background:transparent;z-index:-1}
+.editor-styles-wrapper .site-flow-column[data-button-position^="top"]>.block-list-appender::before{top:-8px;bottom:-24px}
+
+/* Record shortcuts belong to their card/summary and remain reachable on hover or keyboard focus. */
+.editor-styles-wrapper :where(*:has(> .site-record-edit)):is(:hover,:focus-within) > .site-record-edit { opacity: 1; }
+
+.editor-styles-wrapper [data-disclosure-content] > .site-record-edit { position:static; display:block; margin-top:16px; opacity:1; transform:none; }
+
+.editor-styles-wrapper [data-disclosure-content] > .site-record-edit .components-button {
+  display:inline-flex;align-items:center;gap:6px;height:28px;min-height:28px;padding:0 8px;
+  border:1px solid #e0e0e0;border-radius:2px;background:#fff;color:#757575;
+  font:400 12px/1.2 system-ui,sans-serif;letter-spacing:normal;text-transform:none;box-shadow:none;
+}
+.editor-styles-wrapper [data-disclosure-content] > .site-record-edit .components-button:hover {
+  color:var(--wp-admin-theme-color,#3858e9);border-color:currentColor;background:#f0f4ff;
+}
+.editor-styles-wrapper [data-disclosure-content] > .site-record-edit .components-button svg {width:14px;height:14px;flex:none;}
+
+/* Flex action groups fill their editor wrapper; inherit column alignment inside them too. */
+.editor-styles-wrapper .site-flow-column :is(.site-actions,.wp-block-buttons){justify-content:var(--site-column-content-align,flex-start)}
+
+.editor-styles-wrapper .site-description-row.is-style-studio-accent-line{display:flex;align-items:baseline;gap:1.6rem}
+.editor-styles-wrapper .site-description-row.is-style-studio-accent-line::before{flex:0 0 4.8rem;margin-right:0;align-self:baseline;transform:translateY(-.35em)}
+.editor-styles-wrapper .site-description-row.is-style-studio-accent-line>p{min-width:0;flex:1}

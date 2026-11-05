@@ -1,0 +1,12 @@
+{
+  "id": "webp-uploads",
+  "php": [
+    "bootstrap.php"
+  ],
+  "assets": [
+    {
+      "source": "assets",
+      "output": "webp-uploads"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const walk=directory=>fs.readdirSync(directory,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(path.join(directory,entry.name)):[path.join(directory,entry.name)]);
+test('package exports an independent ESM entry and remains publishable',()=>{const p=JSON.parse(fs.readFileSync('package.json','utf8'));assert.equal(p.name,'soinproduction-gutenberg');assert.equal(p.private,undefined);assert.equal(p.exports['.'].import,'./dist/index.js');assert.equal(p.repository.url,'git+https://github.com/soinproduction/soinproduction-gutenberg.git');});
+test('authored runtime modules do not import host aliases',()=>{for(const directory of ['components','core','ui','admin-ui','modules','adapters','hooks','schema','shared'])for(const file of walk(directory).filter(file=>/\.tsx?$/.test(file)))assert.doesNotMatch(fs.readFileSync(file,'utf8'),/(?:from\s*|import\()\s*['"](?:@kit|@ui|@forms|@\/)/,file);});
+test('all public component manifests have an implementation and valid server files',()=>{for(const file of walk('components').filter(file=>file.endsWith('/manifest.json'))){const folder=path.dirname(file),manifest=JSON.parse(fs.readFileSync(file,'utf8'));assert.equal(manifest.id,path.basename(folder));assert.ok(fs.existsSync(path.join(folder,'index.tsx')));for(const entry of manifest.php??[])assert.ok(fs.existsSync(path.join(folder,entry)));}});

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tgz
+*.tsbuildinfo
+.env*
+!.env.example
+.npmrc
+.DS_Store
+generated/*
+!generated/responsive.ts

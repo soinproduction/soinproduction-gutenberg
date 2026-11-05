@@ -1,0 +1,17 @@
+{
+  "id": "pricing-plans",
+  "dependencies": [],
+  "controls": [
+    {
+      "name": "tariff-selection",
+      "file": "editor.tsx",
+      "export": "PricingPlansControl"
+    }
+  ],
+  "php": [
+    "server.php"
+  ],
+  "modules": [
+    "booking"
+  ]
+}

@@ -1,0 +1,584 @@
+/* Self-contained admin tokens; the module does not require a PHP-kit admin skin. */
+.sp-webp-admin * {
+  box-sizing: border-box;
+}
+
+.sp-webp-admin__logo-text {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sp-webp-panel--usage {
+  background: var(--sp-admin-surface-subtle);
+}
+
+.sp-webp-field:last-child {
+  margin-bottom: 0;
+}
+
+.sp-webp-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sp-admin-text);
+  margin-bottom: 5px;
+}
+
+.sp-webp-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--sp-admin-border-strong);
+  border-radius: var(--sp-admin-radius-sm);
+  background: var(--sp-admin-input-bg);
+  font-size: 13px;
+}
+
+.sp-webp-input:focus {
+  outline: none;
+  border-color: var(--sp-admin-accent);
+  box-shadow: var(--sp-admin-focus);
+}
+
+.sp-webp-ios-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sp-webp-ios-track {
+  display: block;
+  width: 40px;
+  height: 22px;
+  border: 1px solid var(--sp-admin-border-strong);
+  background: var(--sp-admin-border-strong);
+  border-radius: 22px;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.sp-webp-ios-toggle input:checked ~ .sp-webp-ios-track {
+  border-color: var(--sp-admin-accent);
+  background: var(--sp-admin-accent);
+}
+
+.sp-webp-ios-toggle input:checked ~ .sp-webp-ios-track .sp-webp-ios-thumb {
+  left: 20px;
+}
+
+.sp-webp-range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sp-webp-range-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sp-admin-accent);
+}
+
+.sp-webp-range {
+  width: 100%;
+  height: 4px;
+  appearance: none;
+  background: var(--sp-admin-border);
+  border-radius: 2px;
+  outline: none;
+}
+
+.sp-webp-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--sp-admin-accent);
+  cursor: pointer;
+}
+
+.sp-webp-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--sp-admin-accent);
+  cursor: pointer;
+}
+
+.sp-webp-btn--primary {
+  background: var(--sp-admin-accent);
+  border-color: var(--sp-admin-accent);
+  color: var(--color-on-accent);
+}
+
+.sp-webp-btn--ghost {
+  background: transparent;
+  border-color: var(--sp-admin-accent);
+  color: var(--sp-admin-accent);
+}
+
+.sp-webp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sp-webp-saved.show {
+  opacity: 1;
+}
+
+.sp-webp-stat {
+  padding: 10px;
+  border: 1px solid var(--sp-admin-border);
+  border-radius: var(--sp-admin-radius-sm);
+  background: var(--sp-admin-surface);
+}
+
+.sp-webp-stat__label {
+  font-size: 11px;
+  color: var(--sp-admin-muted);
+  margin-bottom: 4px;
+}
+
+.sp-webp-stat__value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sp-webp-progress-wrap {
+  margin-bottom: 12px;
+}
+
+.sp-webp-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--sp-admin-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.sp-webp-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--sp-admin-accent);
+  transition: width 0.2s;
+}
+
+.sp-webp-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--sp-admin-muted);
+  margin-top: 8px;
+}
+
+.sp-webp-unused-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.sp-webp-unused-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sp-webp-unused-table th,
+.sp-webp-unused-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sp-admin-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.sp-webp-unused-table thead th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--sp-admin-muted);
+  background: var(--sp-admin-surface-subtle);
+}
+
+.sp-webp-unused-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sp-webp-unused-table__check {
+  width: 40px;
+}
+
+.sp-webp-unused-preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--sp-admin-border);
+  background: var(--sp-admin-surface-subtle);
+  display: block;
+}
+
+.sp-webp-unused-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+.sp-webp-unused-meta {
+  font-size: 12px;
+  color: var(--sp-admin-muted);
+  line-height: 1.45;
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+.sp-webp-unused-meta a {
+  color: var(--sp-admin-accent);
+  text-decoration: none;
+}
+
+.sp-webp-unused-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #a9dfbf;
+  background: #eefaf3;
+  color: #176b3a;
+}
+
+.sp-webp-unused-status--deleted {
+  border-color: var(--sp-admin-border);
+  background: var(--sp-admin-surface-subtle);
+  color: var(--sp-admin-muted);
+}
+
+.sp-webp-unused-status--skipped {
+  border-color: #f6c990;
+  background: #fff8ef;
+  color: #8a4c09;
+}
+
+.sp-webp-unused-row--deleted {
+  opacity: 0.55;
+}
+
+.sp-webp-unused-empty td {
+  font-size: 13px;
+  color: var(--sp-admin-muted);
+  text-align: center;
+  padding: 18px 12px;
+}
+
+@media (max-width: 1200px) {
+  .sp-webp-admin__body {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-webp-sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--sp-admin-border);
+  }
+
+  .sp-webp-stats {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .sp-webp-unused-table-wrap {
+    overflow: auto;
+  }
+}
+
+.sp-webp-admin .sp-admin-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.sp-webp-admin .sp-admin-card__header h2 {
+  margin: 0;
+  font-size: 15px;
+}
+.sp-webp-admin .sp-admin-card__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Product layout: header and workspace use the same hierarchy as Icons. */
+.sp-webp-admin {
+  --sp-admin-text: var(--sp-ui-ink, #1e293b);
+  --sp-admin-muted: var(--sp-ui-muted, #68778c);
+  --sp-admin-canvas: var(--sp-ui-canvas, #f0f2f5);
+  --sp-admin-surface: #fff;
+  --sp-admin-surface-subtle: var(--sp-ui-surface-soft, #fafbfd);
+  --sp-admin-input-bg: #fff;
+  --sp-admin-border: var(--sp-ui-border, #e5eaf1);
+  --sp-admin-border-strong: var(--sp-ui-border-strong, #d7dfeb);
+  --sp-admin-accent: var(--sp-ui-accent, #3858e9);
+  --sp-admin-accent-bright: #526cf2;
+  --color-on-accent: #fff;
+  --sp-admin-danger: #b32d2e;
+  --sp-admin-success: #168253;
+  --sp-admin-radius: 12px;
+  --sp-admin-radius-sm: 7px;
+  --sp-admin-shadow: 0 2px 12px #1d263409;
+  --sp-admin-focus: 0 0 0 3px #3858e922;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: var(--sp-admin-text);
+  margin: 28px 28px 40px 8px;
+  background: transparent;
+  min-height: 0;
+}
+.sp-webp-admin__header {
+  border-bottom: 1px solid var(--sp-admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 32px;
+  z-index: 100;
+  position: static;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  height: auto;
+  min-height: 0;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.sp-webp-admin__logo {
+  align-items: center;
+  gap: 8px;
+  display: block;
+}
+.sp-webp-admin__logo-icon {
+  display: none;
+}
+.sp-webp-kicker {
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  font-weight: 650;
+  color: var(--sp-admin-muted);
+}
+.sp-webp-admin__header h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  color: var(--sp-admin-text);
+  margin: 9px 0 8px;
+  padding: 0;
+}
+.sp-webp-admin__header p {
+  font-size: 13px;
+  color: var(--sp-admin-muted);
+  margin: 0;
+}
+.sp-webp-admin__actions {
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  position: relative;
+  padding-bottom: 0;
+  width: 100%;
+}
+.sp-webp-admin__actions .sp-webp-btn {
+  width: 100%;
+  min-height: 40px;
+  height: 40px;
+  padding: 0 10px;
+  justify-content: center;
+}
+.sp-webp-saved {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sp-admin-success);
+  opacity: 0;
+  transition: opacity 0.2s;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  pointer-events: none;
+}
+.sp-webp-admin__body {
+  display: grid;
+  background: var(--sp-admin-surface);
+  border: 1px solid var(--sp-admin-border);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+  grid-template-columns: 300px minmax(0, 1fr);
+}
+.sp-webp-sidebar {
+  border-right: 1px solid var(--sp-admin-border);
+  display: flex;
+  flex-direction: column;
+  background: var(--sp-admin-surface-subtle);
+  padding: 24px;
+  gap: 24px;
+  min-width: 0;
+}
+.sp-webp-main {
+  padding: 24px;
+  min-width: 0;
+}
+.sp-webp-panel {
+  background: var(--sp-admin-surface);
+  border: 1px solid var(--sp-admin-border);
+  border-radius: var(--sp-admin-radius);
+  padding: 24px;
+  box-shadow: none;
+}
+.sp-webp-sidebar .sp-webp-panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.sp-webp-panel__title {
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--sp-admin-border);
+  text-transform: none;
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--sp-admin-text);
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+  line-height: 1.4;
+}
+.sp-webp-field {
+  margin-bottom: 20px;
+  display: flow-root;
+}
+.sp-webp-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 24px;
+}
+.sp-webp-toggle-row .sp-webp-label {
+  flex: 1;
+  line-height: 1.5;
+}
+.sp-webp-hint {
+  color: var(--sp-admin-muted);
+  margin-top: 4px;
+  display: block;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.sp-webp-ios-toggle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.sp-webp-ios-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: var(--sp-admin-surface);
+  border-radius: 50%;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  width: 16px;
+  height: 16px;
+}
+.sp-webp-ios-toggle input:focus-visible ~ .sp-webp-ios-track {
+  outline: 2px solid var(--sp-admin-accent);
+  outline-offset: 3px;
+}
+.sp-webp-btn:focus-visible {
+  outline: 2px solid var(--sp-admin-accent);
+  outline-offset: 3px;
+}
+.sp-webp-btn--danger {
+  background: var(--sp-admin-surface);
+  color: var(--sp-ui-danger, #bd3a49);
+  border-color: var(--sp-admin-border-strong);
+}
+.sp-webp-stats {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+.sp-webp-unused-table-wrap {
+  border: 1px solid var(--sp-admin-border);
+  border-radius: var(--sp-admin-radius-sm);
+  overflow: hidden;
+  background: var(--sp-admin-surface);
+  overflow-x: auto;
+}
+@media (max-width: 1400px) {
+  .sp-webp-admin__actions {
+    width: 100%;
+  }
+}
+@media (max-width: 1100px) {
+  .sp-webp-admin__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sp-webp-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--sp-admin-border);
+  }
+}
+@media (max-width: 600px) {
+  .sp-webp-admin {
+    margin: 20px 12px 24px 0;
+  }
+  .sp-webp-admin__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sp-webp-admin__actions .sp-webp-btn {
+    width: 100%;
+  }
+  .sp-webp-main,
+  .sp-webp-sidebar,
+  .sp-webp-panel {
+    padding: 16px;
+  }
+}
+
+.sp-webp-log:empty {
+  display: none;
+}
+.sp-webp-log {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  background: var(--sp-admin-surface-subtle);
+  color: var(--sp-admin-muted);
+  border: 1px solid var(--sp-admin-border);
+  border-radius: var(--sp-admin-radius-sm);
+  padding: 12px;
+  overflow: auto;
+  white-space: pre-wrap;
+  height: 160px;
+}
+.sp-webp-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: var(--sp-admin-radius-sm);
+  border: 1px solid var(--sp-admin-border-strong);
+  background: var(--sp-admin-surface);
+  color: var(--sp-admin-text);
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}

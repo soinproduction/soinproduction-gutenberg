@@ -1,0 +1,126 @@
+.sp-media {
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.sp-media img,
+.sp-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.sp-media iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+}
+.sp-media-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #181818;
+  color: #fff;
+  cursor: pointer;
+}
+.sp-media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25.6rem;
+  background: #20242a;
+  color: #fff;
+}
+.sp-media-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #111;
+  border-radius: 50%;
+  box-shadow: 0 0.4rem 2.4rem #0003;
+}
+.sp-media-trigger:focus-visible {
+  outline: 0.3rem solid #3858e9;
+  outline-offset: 0.3rem;
+}
+.sp-media-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: #111;
+  color: #fff;
+  width: min(90vw, 110rem);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: visible;
+}
+.sp-media-dialog::backdrop {
+  background: #000d;
+}
+.sp-media-dialog-content {
+  max-height: 85vh;
+  overflow: auto;
+}
+.sp-media-dialog-content img {
+  display: block;
+  width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+.sp-media-dialog-content video,
+.sp-media-dialog-content iframe {
+  display: block;
+  width: 100%;
+  max-height: 85vh;
+  aspect-ratio: 16/9;
+  border: 0;
+}
+.sp-media-close {
+  position: absolute;
+  right: 0;
+  top: -4rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+.sp-media-empty {
+  border: 0.1rem dashed #c3c4c7;
+  border-radius: 0.6rem;
+  padding: 3.2rem;
+  text-align: center;
+  color: #646970;
+  background: #fafafa;
+}
+.sp-media-editor-preview {
+  position: relative;
+  min-height: 12.8rem;
+}
+.sp-media-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  padding: 0.5rem 0.9rem;
+  background: #111d;
+  color: #fff;
+  border-radius: 0.4rem;
+  font: 500 1.1rem/1.4 system-ui;
+  text-transform: capitalize;
+}

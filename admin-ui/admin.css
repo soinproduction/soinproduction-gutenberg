@@ -1,0 +1,466 @@
+/* Shared chrome; selectors intentionally exclude native WordPress pages and site canvas. */
+.sp-admin-ui :is(.sp-ui-page, .sp-icons-admin, .sp-webp-admin, .fe-entry) {
+  font-family: var(--sp-ui-font);
+  color: var(--sp-ui-ink);
+}
+.sp-ui-page {
+  margin: 28px 28px 40px 8px;
+  max-width: 1480px;
+}
+.sp-ui-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.sp-ui-eyebrow {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  color: var(--sp-ui-muted);
+}
+.sp-ui-page-header h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin: 9px 0 8px;
+  color: var(--sp-ui-ink);
+}
+.sp-ui-page-header p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sp-ui-muted);
+  margin: 0;
+  max-width: 850px;
+}
+.sp-ui-page > .notice {
+  margin: 0 0 24px;
+}
+.sp-ui-card {
+  background: var(--sp-ui-surface);
+  border: 1px solid var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius);
+  padding: 26px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--sp-ui-shadow);
+}
+.sp-ui-card > h2 {
+  font-size: 16px;
+  margin: 0 0 22px;
+  letter-spacing: -0.2px;
+}
+.sp-ui-card > p {
+  font-size: 12px;
+  color: var(--sp-ui-muted);
+  line-height: 1.7;
+}
+.sp-ui-card .form-table {
+  margin: 0;
+}
+.sp-ui-card .form-table th {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4f6078;
+  padding: 16px 24px 16px 0;
+  width: 195px;
+}
+.sp-ui-card .form-table td {
+  padding: 12px 0;
+}
+.sp-ui-card .form-table tr:not(:last-child) > :is(th, td) {
+  border-bottom: 1px solid #f0f3f7;
+}
+.sp-ui-card .form-table .regular-text {
+  width: min(100%, 580px);
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .sp-webp-admin, .sp-admin-ui.fe-entry-list)
+  :is(
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='time'],
+    input[type='date'],
+    input[type='number'],
+    select,
+    textarea
+  ) {
+  border: 1px solid var(--sp-ui-border-strong);
+  border-radius: var(--sp-ui-radius-control);
+  color: var(--sp-ui-ink);
+  background-color: var(--sp-ui-surface);
+  font-size: 13px;
+  box-shadow: none;
+  min-height: var(--sp-ui-control-height);
+  padding: 7px 12px;
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .sp-webp-admin, .sp-admin-ui.fe-entry-list)
+  :is(input, select, textarea):focus {
+  border-color: #8ba0e8;
+  box-shadow: var(--sp-ui-focus);
+  outline: none;
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .sp-webp-admin, .sp-admin-ui.fe-entry-list)
+  :is(input, textarea)::placeholder {
+  color: #9ba6b7;
+}
+.sp-ui-card .form-table select {
+  max-width: 100%;
+  width: min(100%, 580px);
+}
+.sp-ui-card .description {
+  font-size: 11px;
+  color: var(--sp-ui-muted);
+  line-height: 1.8;
+  margin-top: 9px;
+}
+.sp-ui-card a {
+  text-decoration: none;
+  color: var(--sp-ui-accent);
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .fe-entry, .sp-admin-ui.fe-entry-list) .button,
+.sp-admin-ui .sp-webp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--sp-ui-border-strong);
+  border-radius: var(--sp-ui-radius-control);
+  min-height: var(--sp-ui-control-height);
+  padding: 8px 16px;
+  font: 500 12px/1.4 var(--sp-ui-font);
+  color: #354256;
+  background: var(--sp-ui-surface);
+  box-shadow: 0 1px 2px #14213a05;
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: middle;
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .fe-entry, .sp-admin-ui.fe-entry-list) .button:hover,
+.sp-admin-ui .sp-webp-btn:hover {
+  background: var(--sp-ui-surface-soft);
+  border-color: #aebfe6;
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .fe-entry, .sp-admin-ui.fe-entry-list) .button-primary,
+.sp-admin-ui .sp-webp-btn--primary {
+  background: var(--sp-ui-accent);
+  border-color: var(--sp-ui-accent);
+  color: #fff;
+  box-shadow: 0 3px 7px #3858e91a;
+}
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .fe-entry, .sp-admin-ui.fe-entry-list)
+  .button-primary:hover,
+.sp-admin-ui .sp-webp-btn--primary:hover {
+  background: var(--sp-ui-accent-hover);
+  color: #fff;
+  border-color: var(--sp-ui-accent-hover);
+}
+.sp-admin-ui .sp-webp-btn:disabled,
+.sp-admin-ui .sp-ui-page .button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sp-admin-ui .sp-webp-btn--danger {
+  color: var(--sp-ui-danger);
+}
+.sp-admin-ui :is(.sp-ui-page, .fe-entry) .button .dashicons {
+  font-size: 16px;
+  line-height: 18px;
+  width: 16px;
+  height: 18px;
+}
+.sp-ui-savebar {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--sp-ui-border);
+  padding: 18px 0;
+  position: sticky;
+  bottom: 0;
+  background: #f0f0f1ed;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+.sp-ui-savebar .submit {
+  margin: 0;
+  padding: 0;
+}
+.sp-ui-savebar .button {
+  min-width: 165px;
+}
+/* Paired page actions share the same geometry, regardless of label length. */
+.sp-admin-ui .sp-icons-header-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 164px);
+  gap: 10px;
+}
+.sp-admin-ui .sp-icons-header-actions .sp-icon-button {
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+.sp-admin-ui .sp-icons-collection-actions .sp-icon-button {
+  min-width: 88px;
+  height: 32px;
+}
+/* Schedule and map: retain their purpose-built layout, unify their surfaces and controls. */
+.sp-ui-studio .studio-hours-editor {
+  max-width: none;
+  margin: 0;
+}
+.sp-ui-studio
+  :is(
+    .studio-hours-weekly,
+    .studio-hours-preview,
+    #studio-hours-exceptions > .studio-hours-row,
+    .site-map-appearance
+  ) {
+  border-color: var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius-control);
+  box-shadow: none;
+}
+.sp-ui-studio .studio-hours-weekly {
+  max-width: 100%;
+}
+.sp-ui-studio .studio-hours-row {
+  padding: 14px 18px;
+  border-color: #edf0f5;
+  gap: 14px;
+}
+.sp-ui-studio .studio-hours-row > strong {
+  font-size: 12px;
+  color: #526179;
+}
+.sp-ui-studio .studio-hours-row select {
+  min-width: 155px;
+}
+.sp-ui-studio .studio-hours-row .studio-hours-times input {
+  width: 118px;
+  min-height: 40px;
+}
+.sp-ui-studio .studio-hours-toolbar {
+  gap: 10px;
+  margin: 18px 0;
+}
+.sp-ui-studio .studio-hours-toolbar .button {
+  min-width: 155px;
+}
+.sp-ui-studio .studio-hours-preview {
+  background: var(--sp-ui-surface-soft);
+  padding: 18px;
+  max-width: none;
+}
+.sp-ui-studio .studio-hours-editor h3 {
+  font-size: 13px;
+  color: #526179;
+}
+.sp-ui-studio #site-location-map {
+  border: 1px solid var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius-control);
+  height: 460px;
+  max-width: none;
+}
+.sp-ui-studio .site-map-settings-layout {
+  grid-template-columns: minmax(0, 1fr) 250px;
+  max-width: none;
+  gap: 24px;
+}
+.sp-ui-studio .site-map-appearance {
+  padding: 20px;
+  background: var(--sp-ui-surface-soft);
+}
+.sp-ui-studio .site-map-appearance h3 {
+  font-size: 13px;
+}
+.sp-ui-studio .site-map-appearance > label {
+  font-size: 11px;
+  color: #68778c;
+}
+.sp-ui-studio .site-map-appearance input[type='color'] {
+  border-color: var(--sp-ui-border-strong);
+  border-radius: var(--sp-ui-radius-control);
+}
+/* Custom post-type collections and form entries use one table language. */
+.sp-ui-record-list .wrap > h1 {
+  font-size: 28px;
+  letter-spacing: -0.8px;
+  color: var(--sp-ui-ink);
+  margin: 18px 0 14px;
+}
+.sp-ui-record-list .wp-list-table {
+  border: 1px solid var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius);
+  box-shadow: var(--sp-ui-shadow);
+  border-spacing: 0;
+  overflow: hidden;
+}
+.sp-ui-record-list .wp-list-table :is(thead, tfoot) :is(th, td) {
+  background: var(--sp-ui-surface-soft);
+  border-color: var(--sp-ui-border);
+  font-size: 11px;
+  color: var(--sp-ui-muted);
+  padding-block: 14px;
+}
+.sp-ui-record-list .wp-list-table tbody :is(th, td) {
+  background: var(--sp-ui-surface);
+  border-bottom: 1px solid #f0f3f7;
+  padding-block: 17px;
+  font-size: 12px;
+}
+.sp-ui-record-list .wp-list-table tbody tr:hover :is(th, td) {
+  background: #fbfcff;
+}
+.sp-ui-record-list .wp-list-table .row-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #33445f;
+}
+.sp-ui-record-list .wp-list-table a {
+  color: var(--sp-ui-accent);
+}
+.sp-ui-record-list .tablenav {
+  margin: 16px 0;
+  height: auto;
+  min-height: 40px;
+}
+.sp-ui-record-list .page-title-action {
+  border-color: var(--sp-ui-border-strong);
+  border-radius: var(--sp-ui-radius-control);
+  background: #fff;
+  padding: 8px 13px;
+  font-size: 12px;
+}
+.sp-admin-ui .fe-entry-card {
+  border: 1px solid var(--sp-ui-border);
+  border-radius: var(--sp-ui-radius);
+  box-shadow: var(--sp-ui-shadow);
+  color: var(--sp-ui-ink);
+}
+.sp-admin-ui .fe-entry-card > header {
+  border-color: var(--sp-ui-border);
+  padding: 22px 24px;
+}
+.sp-admin-ui .fe-entry-card h3 {
+  font-size: 14px;
+  letter-spacing: -0.2px;
+}
+.sp-admin-ui .fe-entry-card :is(header p, .fe-entry-empty p) {
+  color: var(--sp-ui-muted);
+  font-size: 11px;
+}
+.sp-admin-ui .fe-entry-field dt {
+  color: var(--sp-ui-muted);
+  font-size: 12px;
+}
+.sp-admin-ui .fe-entry-field dd {
+  color: var(--sp-ui-ink);
+  font-size: 13px;
+}
+.sp-admin-ui .fe-entry-field {
+  border-color: #edf0f5;
+}
+.sp-admin-ui .fe-entry-card-icon {
+  color: var(--sp-ui-accent);
+  background: var(--sp-ui-accent-soft);
+  border-radius: 9px;
+}
+.sp-admin-ui .fe-entry-card-footer {
+  background: var(--sp-ui-surface-soft);
+  border-color: var(--sp-ui-border);
+}
+.sp-admin-ui .fe-entry-kicker {
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  color: var(--sp-ui-muted);
+}
+.sp-admin-ui .fe-entry-status {
+  border-radius: 6px;
+  font-size: 10px;
+  padding: 5px 8px;
+  font-weight: 600;
+}
+@media (max-width: 1000px) {
+  .sp-ui-studio .site-map-settings-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 782px) {
+  .sp-ui-page {
+    margin: 20px 12px 30px 0;
+  }
+  .sp-ui-card {
+    padding: 20px;
+  }
+  .sp-ui-card .form-table th {
+    width: auto;
+    padding-bottom: 4px;
+    border-bottom: 0 !important;
+  }
+  .sp-ui-card .form-table td {
+    padding-bottom: 18px;
+  }
+  .sp-ui-page-header h2 {
+    font-size: 24px;
+  }
+  .sp-admin-ui .sp-icons-header-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+  .sp-ui-studio .studio-hours-row {
+    padding: 12px;
+  }
+  .sp-ui-studio #site-location-map {
+    height: 340px;
+  }
+}
+
+:is(.sp-admin-ui .sp-ui-page, .sp-admin-ui .sp-webp-admin, .sp-admin-ui.fe-entry-list)
+  :is(
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='time'],
+    input[type='date'],
+    input[type='number'],
+    select
+  ) {
+  box-sizing: border-box;
+  height: var(--sp-ui-control-height);
+  line-height: 20px;
+}
+.sp-admin-ui.fe-entry-list .tablenav .actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 8px 8px 0;
+}
+.sp-admin-ui.fe-entry-list .search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sp-admin-ui.fe-entry-list .tablenav .actions select {
+  margin: 0;
+}
+
+.sp-admin-ui .sp-ui-page select,
+.sp-admin-ui.fe-entry-list select {
+  padding-right: 32px;
+}
+
+/* One page gutter and notice rhythm for every custom settings/assets screen. */
+.sp-admin-ui :is(.sp-ui-page, .sp-icons-admin, .sp-webp-admin) {
+  margin: 28px 28px 40px 8px;
+}
+.sp-admin-ui :is(.sp-ui-page, .sp-icons-admin, .sp-webp-admin) > .notice {
+  margin: 0 0 24px;
+}
+@media (max-width: 782px) {
+  .sp-admin-ui :is(.sp-ui-page, .sp-icons-admin, .sp-webp-admin) {
+    margin: 20px 12px 30px 0;
+  }
+}

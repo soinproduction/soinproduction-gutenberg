@@ -1,0 +1,117 @@
+.fe-form {
+  gap: 3.2rem 0;
+  grid-template-columns: 1fr;
+}
+.fe-form > p,
+.fe-form > button,
+.fe-form > .fe-full {
+  grid-column: 1/-1;
+}
+.fe-field {
+  min-width: 0;
+}
+.fe-honeypot {
+  position: absolute !important;
+  width: 0.1rem !important;
+  height: 0.1rem !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  left: -1000rem !important;
+}
+@media (--site-up-small-tablet) {
+  .fe-form {
+    grid-template-columns: repeat(60, minmax(0, 1fr));
+  }
+  .fe-field {
+    grid-column: span var(--fe-span, 1);
+  }
+}
+
+.fe-field .field {
+  width: 100%;
+}
+.fe-field input[type='checkbox'],
+.fe-field input[type='radio'] {
+  accent-color: var(--flame, currentColor);
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+}
+.fe-native-fields {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.2rem;
+}
+.fe-native-fields > .wp-block {
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  min-width: 0;
+}
+.fe-native-fields > .block-list-appender {
+  grid-column: 1/-1;
+}
+.fe-native-field {
+  padding: 0.8rem;
+  border: 0.1rem dashed transparent;
+}
+.fe-native-field.is-selected {
+  border-color: #3858e9;
+}
+@media (--site-up-small-tablet) {
+  .fe-native-fields {
+    grid-template-columns: repeat(60, minmax(0, 1fr));
+  }
+  .fe-native-fields > .fe-field {
+    grid-column: span var(--fe-span, 1);
+  }
+}
+
+.fe-native-fields > .wp-block-form-engine-success {
+  display: none;
+}
+.fe-success-editor .fe-native-fields {
+  display: block;
+}
+.fe-success-editor .fe-native-fields > .fe-native-field,
+.fe-success-editor .fe-native-fields > .block-list-appender {
+  display: none;
+}
+.fe-success-editor .fe-native-fields > .wp-block-form-engine-success {
+  display: block;
+}
+.fe-success-content > * + * {
+  margin-top: 2rem;
+}
+/* Track grid has no inter-track gaps; spacing belongs to field cells. */
+.fe-form,
+.fe-native-fields {
+  column-gap: 0;
+  min-width: 0;
+}
+.fe-field {
+  padding-inline: 1.2rem;
+  box-sizing: border-box;
+}
+.fe-success-content img {
+  max-width: 100%;
+  height: auto;
+}
+.fe-success-content h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 3.2rem;
+  line-height: 1.25;
+}
+.fe-success-content .wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+.fe-success-content .wp-block-button__link {
+  display: inline-flex;
+  padding: 1.4rem 2.4rem;
+  background: var(--flame, #fa7b33);
+  color: #fff;
+  text-decoration: none;
+}

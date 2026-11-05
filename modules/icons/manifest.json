@@ -1,0 +1,12 @@
+{
+  "id": "icons",
+  "php": [
+    "bootstrap.php"
+  ],
+  "assets": [
+    {
+      "source": "assets",
+      "output": "icons"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+/* Layout slots must not constrain the sticky header to its own height. */
+#site-header-root,
+#site-footer-root {
+    display: contents;
+}
+#site-header-root header {
+    top: var(--wp-admin--admin-bar--height, 0rem);
+}
+/* Native PHP disclosure uses the same closed trigger as the React menu. */
+.site-header-services-trigger {
+    list-style: none;
+}
+.site-header-services-trigger::-webkit-details-marker {
+    display: none;
+}
+/* The first screen is already painted by PHP; do not replay its entrance on mount. */
+.site-wordpress-section .hero-enter {
+    animation: none;
+}
