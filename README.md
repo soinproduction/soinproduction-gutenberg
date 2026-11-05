@@ -74,3 +74,15 @@ npm pack --dry-run
 CI checks types, isolated component-connection tests, package exports, PHP syntax and packaging. Push a matching `vX.Y.Z` tag to publish version `X.Y.Z` automatically. See [RELEASING.md](RELEASING.md) for one-time npm trusted-publisher setup.
 
 Source is published without an open-source license grant (`UNLICENSED`).
+
+## Project commands
+
+Use the installed `soinproduction-kit` binary in npm scripts:
+
+```json
+{"scripts":{"dev":"soinproduction-kit dev","start":"soinproduction-kit start","create:component":"soinproduction-kit create component","create:section":"soinproduction-kit create section","create:layout":"soinproduction-kit create layout","new:section":"soinproduction-kit new section","render:module":"soinproduction-kit render"}}
+```
+
+`dev` and `start` select a free port automatically. Explicit `--port`/`-p` or `PORT` take precedence. Development propagates the actual origin to site/forms configuration and writes `build/next-server.json`; the Next PHP adapter loaded by `bootstrap.php` reads it for local frontend URLs. Public deployment URLs stay configured. Override the project-relative runtime path with `runtime.file` in `kit.config.json`.
+
+Generators prepare the installed kit automatically, then create the component schema, renderer, editor, PHP registration, styles and preview in the project. `new section` creates a declarative section. Use `--no-build` to generate without an editor build. `render` regenerates module markup from its schema. All commands accept `--project PATH`. The project owns component/section selection and optional `adapters.contentRenderer` / `adapters.editorAdapter` objects (`from`, `export`); portable defaults are provided. Preparation reuses unchanged package sources and refreshes generated connections without disturbing a running Next watcher.

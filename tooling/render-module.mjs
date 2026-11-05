@@ -10,19 +10,19 @@ import {buildSync} from 'esbuild';
 const project = process.cwd();
 const quote = JSON.stringify;
 
-export function loadSchema(file) {
+export function loadSchema(file, root = process.cwd()) {
     const source = `import {schema} from ${quote(file)};import {validateFields} from ${quote(
-        path.join(project, 'kit/core/fields/schema.ts')
+        path.join(root, 'kit/core/fields/schema.ts')
     )};export default validateFields(schema);`;
     const result = buildSync({
-        stdin: {contents: source, resolveDir: project, loader: 'ts'},
+        stdin: {contents: source, resolveDir: root, loader: 'ts'},
         bundle: true,
         write: false,
         platform: 'node',
         format: 'cjs',
         packages: 'external',
-        tsconfig: path.join(project, 'tsconfig.json'),
-        alias: {'@': path.join(project, 'src')},
+        tsconfig: path.join(root, 'tsconfig.json'),
+        alias: {'@': path.join(root, 'src')},
     });
     const module = {exports: {}};
     new Function('module', 'exports', 'require', result.outputFiles[0].text)(
@@ -110,7 +110,7 @@ export function renderModule(root, slug, {build = true, force = false, stdout = 
         throw new Error(`No schema.ts in ${slug}. Only schema-based modules support this command.`);
     const registration = fs.readFileSync(path.join(directory, 'register.php'), 'utf8');
     const kind = /'kind'\s*=>\s*'(component|layout)'/.exec(registration)?.[1] ?? 'section';
-    const markup = generateMarkup(loadSchema(file), slug, kind);
+    const markup = generateMarkup(loadSchema(file, root), slug, kind);
     if (stdout) return markup;
     const output = path.join(directory, 'component.tsx'),
         previous = fs.existsSync(output) ? fs.readFileSync(output, 'utf8') : null;
@@ -122,7 +122,7 @@ export function renderModule(root, slug, {build = true, force = false, stdout = 
         );
     try {
         fs.writeFileSync(output, '// Generated layout sha256:' + hash(markup) + '\n' + markup);
-        if (build) execFileSync('npm', ['run', 'build:editor'], {cwd: root, stdio: 'inherit'});
+        if (build) execFileSync(process.execPath, [path.join(root,'kit/tooling/build-editor.mjs')], {cwd: root, stdio: 'inherit'});
     } catch (error) {
         if (previous === null) fs.rmSync(output, {force: true});
         else fs.writeFileSync(output, previous);

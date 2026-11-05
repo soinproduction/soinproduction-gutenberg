@@ -64,7 +64,7 @@ return ['id'=>'${slug}','group'=>'custom','name'=>'${name}','title'=>'${title}',
     php = path.resolve(root, '../inc/blocks/registry.php'),
     css = path.join(root, 'app/globals.css');
   const original = new Map(
-    [registry, editor, php, css].map((f) => [f, fs.readFileSync(f, 'utf8')])
+    [registry, editor, php, css].map((f) => [f, fs.existsSync(f)?fs.readFileSync(f, 'utf8'):null])
   );
   try {
     fs.mkdirSync(directory, { recursive: true });
@@ -72,9 +72,9 @@ return ['id'=>'${slug}','group'=>'custom','name'=>'${name}','title'=>'${title}',
       fs.writeFileSync(path.join(directory, file), text);
     renderModule(root, slug, { build: false });
     syncSections(root);
-    if (build) execFileSync('npm', ['run', 'build:editor'], { cwd: root, stdio: 'inherit' });
+    if (build) execFileSync(process.execPath, [path.join(root,'kit/tooling/build-editor.mjs')], { cwd: root, stdio: 'inherit' });
   } catch (error) {
-    for (const [file, text] of original) fs.writeFileSync(file, text);
+    for (const [file, text] of original) {if(text===null)fs.rmSync(file,{force:true});else fs.writeFileSync(file,text);}
     fs.rmSync(directory, { recursive: true, force: true });
     throw error;
   }
