@@ -16,7 +16,7 @@ try{
  fs.writeFileSync(path.join(consumer,'config/breakpoints.json'),JSON.stringify({breakpoints:{mobile:480,tablet:768},media:{columns:'tablet'},layoutIgnore:[]}));
  fs.writeFileSync(path.join(consumer,'src/sections/section-example/section.json'),JSON.stringify({slug:'section-example',title:'Example'}));
  fs.writeFileSync(path.join(consumer,'src/sections/section-example/section.tsx'),"import {Background,Heading,Section,section} from '@kit';export default section({slug:'example',title:'Example'},()=> <Section><Background name='background'/><Heading name='heading'/></Section>);");
- execFileSync(process.execPath,['node_modules/soinproduction-gutenberg/tooling/cli.mjs','prepare'],{cwd:consumer,stdio:'pipe'});
+ execFileSync(process.execPath,['node_modules/.bin/soinproduction-kit','prepare'],{cwd:consumer,stdio:'pipe'});
  const connections=JSON.parse(fs.readFileSync(path.join(consumer,'kit/generated/connections.json'),'utf8'));
  if(!connections.components.includes('background'))throw new Error('Installed package did not connect Background');
  execFileSync(process.execPath,['--input-type=module','-e',"import {buildSync} from 'esbuild';buildSync({entryPoints:['src/sections/section-example/section.tsx'],bundle:true,write:false,platform:'node',format:'esm',packages:'external',jsx:'automatic',tsconfig:'tsconfig.json'});"],{cwd:consumer,stdio:'pipe'});

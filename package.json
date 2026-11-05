@@ -98,7 +98,7 @@
     "tsconfig.json"
   ],
   "bin": {
-    "soinproduction-kit": "./tooling/cli.mjs"
+    "soinproduction-kit": "tooling/cli.mjs"
   },
   "scripts": {
     "build": "node tooling/build-package.mjs",
