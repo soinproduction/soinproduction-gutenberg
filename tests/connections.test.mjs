@@ -24,3 +24,23 @@ test('unused components and their server/editor/style connections disappear',()=
  const {root,put,options}=fixture();try{syncKit(root,options);put('src/view.tsx',"import {Heading} from '@kit';export const View=()=> <Heading/>;");const result=syncKit(root,options);assert.deepEqual(result.components,['heading']);assert.deepEqual(result.php,[]);assert.deepEqual(result.modules,[]);assert.doesNotMatch(fs.readFileSync(path.join(root,'kit/generated/editor.ts'),'utf8'),/background/);}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 test('missing server dependencies fail preparation',()=>{const {root,options}=fixture();try{fs.unlinkSync(path.join(root,'kit/components/background/server.php'));assert.throws(()=>syncKit(root,options),/Missing kit PHP/);}finally{fs.rmSync(root,{recursive:true,force:true});}});
+
+test('npm preparation creates a managed host copy and never overwrites authored kit source',async()=>{
+ const {execFileSync}=await import('node:child_process');
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'kit-prepare-'));
+ const put=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
+ try{
+  put('tsconfig.json',{compilerOptions:{paths:{'@kit':['./kit/index.tsx'],'@kit/*':['./kit/*']}}});
+  put('config/breakpoints.json',{breakpoints:{mobile:480,tablet:768},media:{columns:'tablet'},layoutIgnore:[]});put('kit.config.json',{modules:[]});
+  put('src/sections/section-example/section.json',{slug:'section-example',title:'Example'});
+  put('src/sections/section-example/section.tsx',"import {Background,Heading,Section,section} from '@kit'; export default section({slug:'example',title:'Example'},()=> <Section><Background name='background'/><Heading name='heading'/></Section>);");
+  execFileSync(process.execPath,['tooling/cli.mjs','prepare','--project',root]);
+  const connections=JSON.parse(fs.readFileSync(path.join(root,'kit/generated/connections.json'),'utf8'));
+  assert.ok(connections.components.includes('background'));
+  assert.ok(connections.components.includes('heading'));
+  assert.ok(fs.existsSync(path.join(root,'kit/.kit-package.json')));
+  execFileSync(process.execPath,['tooling/cli.mjs','prepare','--project',root]);
+  fs.unlinkSync(path.join(root,'kit/.kit-package.json'));
+  assert.throws(()=>execFileSync(process.execPath,['tooling/cli.mjs','prepare','--project',root],{stdio:'pipe'}),/authored source/);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

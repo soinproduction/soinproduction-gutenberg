@@ -195,4 +195,3 @@ Telegram bot: outside the studio group each account gets 30 updates a minute and
 `lifecycle.php` queues client reminders (`reminder_hours`, skipped for bookings made inside that window) and the daily group digest (`digest_time`). `hold_minutes` and `invoice_minutes` stay stored for the payment integration and have no admin field.
 
 Optional `SITE_BOOKING_ENCRYPTION_KEY` and `FORM_ENGINE_ENCRYPTION_KEY` (32+ characters) replace the WordPress salt as the encryption key. Setting or changing a key makes data encrypted with the previous key unreadable.
-
