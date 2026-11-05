@@ -33,7 +33,9 @@
     "hooks/**/*.ts",
     "schema/**/*.tsx",
     "shared/**/*.tsx",
-    "generated/responsive.ts"
+    "generated/responsive.ts",
+    "editor/**/*.ts",
+    "editor/**/*.tsx"
   ],
   "exclude": [
     "dist",

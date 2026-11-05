@@ -13,7 +13,7 @@ if(command==='prepare'){
  const marker=path.join(destination,'.kit-package.json');
  if(destination!==source){
   if(fs.existsSync(destination)&&!fs.existsSync(marker))throw new Error('kit/ is authored source. Move it aside before preparing the npm-managed kit copy.');
-  const folders=['components','core','ui','admin-ui','modules','adapters','hooks','styles','schema','shared','tooling'];
+  const folders=['components','editor','core','ui','admin-ui','modules','adapters','hooks','styles','schema','shared','tooling'];
   fs.mkdirSync(destination,{recursive:true});
   for(const folder of folders){fs.rmSync(path.join(destination,folder),{recursive:true,force:true});fs.cpSync(path.join(source,folder),path.join(destination,folder),{recursive:true});}
   for(const file of ['index.tsx','bootstrap.php'])fs.copyFileSync(path.join(source,file),path.join(destination,file));

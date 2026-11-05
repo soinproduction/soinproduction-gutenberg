@@ -80,6 +80,7 @@
   "files": [
     "dist/",
     "components/",
+    "editor/",
     "core/",
     "ui/",
     "admin-ui/",
