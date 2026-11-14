@@ -9,19 +9,23 @@
 <body>
 <header><strong>Gutenberg Kit</strong><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
 <main>
+<section class="intro">
 <h1>Компоненты Kit</h1>
-<p>Поля, дочерние компоненты и примеры JSX.</p>
+<p>Пропсы JSX, поля Gutenberg и шаблоны дочерних компонентов.</p>
+<div class="quick-links"><a href="#Records">Records</a><a href="#Buttons">Buttons</a><a href="#Drag">Drag</a><a href="pattern.html">Общие пропсы →</a></div>
+</section>
 <div class="filters">
 <label>Поиск <input id="search" type="search" placeholder="Компонент, поле или поведение"></label>
 <label>Группа <select id="group"><option value="">Все</option></select></label>
 </div>
 <p id="status" aria-live="polite"></p>
 <div class="workspace">
-<nav id="toc" aria-label="Оглавление"></nav>
+<aside id="sidebar"><h2>Оглавление</h2><nav id="toc" aria-label="Оглавление"></nav></aside>
 <div id="catalog"></div>
 </div>
-<noscript>Для поиска и показа карточек включите JavaScript. Все данные входят в этот HTML-файл.</noscript>
+<noscript>Для поиска и показа карточек включите JavaScript. Откройте страницу в браузере с поддержкой JavaScript.</noscript>
 </main>
+<script src="settings.js"></script>
 <script>
 const entries = [
 ['Разметка','Section','Якорь sectionId добавляет схема секции','Корневой section. when скрывает секцию на сайте, если поле пустое.'],
@@ -154,7 +158,41 @@ function example(name) {
       copy.textContent = 'Код выделен';
     }
   });
-  return [pre, copy];
+  const panel = element('div', '');
+  panel.className = 'code-panel';
+  const toolbar = element('div', '');
+  toolbar.className = 'code-toolbar';
+  toolbar.append(element('span', 'JSX'), copy);
+  panel.append(toolbar, pre);
+  return panel;
+}
+function settingsTable(name) {
+  const rows = settings[name];
+  if (!rows) return null;
+  const panel = element('div', '');
+  panel.className = 'settings';
+  const table = element('table', '');
+  const heading = element('caption', 'Настройки');
+  const head = element('thead', '');
+  const header = element('tr', '');
+  for (const label of ['Параметр', 'Тип', 'По умолчанию', 'Что меняет']) {
+    const cell = element('th', label);
+    cell.scope = 'col';
+    header.append(cell);
+  }
+  head.append(header);
+  const body = element('tbody', '');
+  for (const [prop, type, initial, description] of rows) {
+    const row = element('tr', '');
+    const key = element('th', '');
+    key.scope = 'row';
+    key.append(element('code', prop));
+    row.append(key, element('td', type), element('td', initial), element('td', description));
+    body.append(row);
+  }
+  table.append(heading, head, body);
+  panel.append(table);
+  return panel;
 }
 function card(name, parent, nav) {
   const [, , field, description] = byName.get(name);
@@ -165,7 +203,11 @@ function card(name, parent, nav) {
   const item = linkTo(name);
   if (parent) item.className = 'nested';
   nav.append(item);
-  node.append(title, element('small', field), element('p', description), ...example(name));
+  const badge = element('small', field);
+  badge.className = 'field-label';
+  node.append(title, badge, element('p', description), example(name));
+  const options = settingsTable(name);
+  if (options) node.append(options);
   if (related[name]) {
     const note = element('p', 'Примеры полей внутри: ');
     related[name].forEach((child, index) => note.append(index ? ', ' : '', linkTo(child)));
@@ -186,11 +228,15 @@ function showAnchor() {
   for (let node = target; node && node !== catalog; node = node.parentElement) {
     if (node.tagName === 'DETAILS') node.open = true;
   }
+  for (const link of toc.querySelectorAll('a')) {
+    if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  }
   target.scrollIntoView();
 }
 function render() {
   const term = search.value.trim().toLocaleLowerCase('ru');
-  const matches = name => byName.get(name).join(' ').toLocaleLowerCase('ru').includes(term)
+  const matches = name => [...byName.get(name), ...(settings[name] ?? []).flat()].join(' ').toLocaleLowerCase('ru').includes(term)
     || (children[name] ?? []).some(matches);
   const visible = entries.filter(([category, name]) => !nested.has(name)
     && (!group.value || category === group.value) && matches(name));
