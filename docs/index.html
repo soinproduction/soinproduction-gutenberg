@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Компоненты Gutenberg Kit · Справочник</title>
-<link rel="stylesheet" href="admin.css?v=3">
+<link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body>
 <header><a class="brand" href="./"><span aria-hidden="true">&lt;/&gt;</span> Gutenberg Kit</a><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
@@ -26,6 +26,7 @@
 <noscript>Для поиска и показа карточек включите JavaScript. Откройте страницу в браузере с поддержкой JavaScript.</noscript>
 </main>
 <script src="settings.js"></script>
+<script src="usage.js"></script>
 <script>
 const entries = [
 ['Разметка','Section','Якорь sectionId добавляет схема секции','Корневой section. when скрывает секцию на сайте, если поле пустое.'],
@@ -139,8 +140,7 @@ function linkTo(name) {
   link.href = '#' + name;
   return link;
 }
-function example(name) {
-  const snippet = examples[name] ?? '<' + name + ' />';
+function example(snippet) {
   const pre = element('pre', '');
   const code = element('code', '');
   const tokens = /(<\/?)([A-Z][\w.]*)|("[^"]*"|'[^']*')|([\w]+)(?==)|([{}])/g;
@@ -205,17 +205,58 @@ function settingsTable(name) {
   panel.append(table);
   return panel;
 }
+function usagePanel(name) {
+  const scenario = usage[name];
+  if (!scenario) return null;
+  const panel = element('section', '');
+  panel.className = 'usage';
+  panel.append(element('h2', 'Пример использования'), element('h3', scenario.title), element('p', scenario.description));
+  if (scenario.link) panel.append(linkTo(scenario.link));
+  if (scenario.code) panel.append(example(scenario.code));
+  if (scenario.preview) {
+    const preview = element('div', '');
+    preview.className = 'preview';
+    const label = element('label', scenario.preview.label);
+    const select = element('select', '');
+    for (const [key, value] of Object.entries(scenario.preview.choices)) select.add(new Option(value, key));
+    label.append(select);
+    const cards = element('div', '');
+    cards.className = 'preview-cards';
+    for (const text of scenario.preview.cards) cards.append(element('div', text));
+    const value = element('code', '');
+    value.setAttribute('aria-live', 'polite');
+    const update = () => {
+      cards.dataset.layout = select.value;
+      value.textContent = 'layout = ' + JSON.stringify(select.value);
+    };
+    select.addEventListener('change', update);
+    update();
+    const controls = element('div', '');
+    controls.className = 'preview-controls';
+    controls.append(label, value);
+    preview.append(controls, cards);
+    panel.append(preview);
+  }
+  return panel;
+}
 function card(name, parent) {
   const [, , field, description] = byName.get(name);
   const node = element(parent ? 'details' : 'article', '');
   const title = element(parent ? 'summary' : 'h1', '');
   title.append(parent ? document.createTextNode(name) : linkTo(name));
   node.id = name;
+  if (!parent) {
+    const category = element('p', byName.get(name)[0]);
+    category.className = 'breadcrumb';
+    node.append(category);
+  }
   const badge = element('small', field);
   badge.className = 'field-label';
-  node.append(title, badge, element('p', description), example(name));
+  node.append(title, badge, element('p', description), example(examples[name] ?? '<' + name + ' />'));
   const options = settingsTable(name);
   if (options) node.append(options);
+  const scenario = usagePanel(name);
+  if (scenario) node.append(scenario);
   if (related[name]) {
     const note = element('p', 'Примеры полей внутри: ');
     related[name].forEach((child, index) => note.append(index ? ', ' : '', linkTo(child)));
@@ -267,9 +308,7 @@ function render({ followHash = false } = {}) {
   }
   if (!selected) return;
   const root = topLevel(selected);
-  const breadcrumb = element('p', byName.get(root)[0]);
-  breadcrumb.className = 'breadcrumb';
-  catalog.append(breadcrumb, card(root, null));
+  catalog.append(card(root, null));
 
   const target = document.getElementById(selected);
   for (let node = target; node && node !== catalog; node = node.parentElement) {
