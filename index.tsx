@@ -12,6 +12,7 @@ export { Media } from './components/media/index.js';
 export { Icon } from './components/icon/index.js';
 export { Button } from './components/button/index.js';
 export { Buttons } from './components/buttons/index.js';
+export { SocialLinks } from './components/social-links/index.js';
 export { Background } from './components/background/index.js';
 export { Slider } from './components/slider/index.js';
 export { List } from './components/list/index.js';

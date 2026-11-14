@@ -3,7 +3,7 @@ import {Children, Fragment, isValidElement, type ReactNode} from 'react';
 const marker = (name: string) => Object.assign((_props: any) => null, {kitName: name});
 export const Section = marker('Section'), Text = marker('Text'), Heading = marker('Heading'),
     Paragraphs = marker('Paragraphs'), Image = marker('Image'), Icon = marker('Icon'),
-    Background = marker('Background'), Buttons = marker('Buttons'), Button = marker('Button'), List = marker('List'),
+    Background = marker('Background'), Buttons = marker('Buttons'), SocialLinks = marker('SocialLinks'), Button = marker('Button'), List = marker('List'),
     PricingPlans = marker('PricingPlans'), ReviewsCarousel = marker('ReviewsCarousel'), Form = marker('Form'), Records = marker('Records'), RecordEdit = marker('RecordEdit'), RecordImage = marker('RecordImage'),
     RecordDate = marker('RecordDate'), RecordTitle = marker('RecordTitle'), RecordExcerpt = marker('RecordExcerpt'), RecordLink = marker('RecordLink'),
     RecordIndex = marker('RecordIndex'), Drag = marker('Drag'), Cols = marker('Cols'), Toggle = marker('Toggle'),
@@ -26,7 +26,7 @@ function describe(node: ReactNode): any[] {
 
 export function section(meta: any, View: () => ReactNode) {
     const template = describe(View());
-    const staticTypes = new Set(['#text','Section','Text','Heading','Paragraphs','Image','Icon','Background','Buttons','Button','Show','Toggle','Choice']);
+    const staticTypes = new Set(['#text','Section','Text','Heading','Paragraphs','Image','Icon','Background','Buttons','SocialLinks','Button','Show','Toggle','Choice']);
     const isStatic = (nodes:any[]):boolean => nodes.every(node => (staticTypes.has(node.type) || /^[a-z]/.test(node.type)) && isStatic(node.children ?? []));
     return {name: 'site/' + meta.slug, title: meta.title, template, static: isStatic(template)};
 }

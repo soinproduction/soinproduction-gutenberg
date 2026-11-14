@@ -61,10 +61,9 @@ return ['id'=>'${slug}','group'=>'custom','name'=>'${name}','title'=>'${title}',
 
   const registry = path.join(root, 'src/blocks/registry.ts'),
     editor = path.join(root, 'src/blocks/editor-registry.ts'),
-    php = path.resolve(root, '../inc/blocks/registry.php'),
     css = path.join(root, 'app/globals.css');
   const original = new Map(
-    [registry, editor, php, css].map((f) => [f, fs.existsSync(f)?fs.readFileSync(f, 'utf8'):null])
+    [registry, editor, css].map((f) => [f, fs.existsSync(f)?fs.readFileSync(f, 'utf8'):null])
   );
   try {
     fs.mkdirSync(directory, { recursive: true });

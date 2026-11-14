@@ -43,6 +43,17 @@ function button(array $value,?string $fallback=null,array $site=[]): string {
  }
  return tag('a',['href'=>esc_url($url),'class'=>$class,'data-modal-plan'=>$value['plan']??null],$label);
 }
+function social_links(array $links, string $class = '', string $style = 'text'): string {
+ $labels = ['instagram'=>'Instagram', 'facebook'=>'Facebook', 'telegram'=>'Telegram', 'youtube'=>'YouTube', 'tiktok'=>'TikTok', 'linkedin'=>'LinkedIn'];
+ $html = '';
+ foreach ($labels as $network => $label) {
+  $url = $links[$network] ?? '';
+  if (is_string($url) && preg_match('~^https?://[^/]+~i', $url)) {
+   $html .= button(['text'=>$label, 'url'=>$url], $style);
+  }
+ }
+ return $html === '' ? '' : tag('div', ['class'=>$class], $html);
+}
 /** Mirrors `flowPlacement` in frontend/kit/flow-layout.ts. */
 function flow_placement(int $grid,array $column,array $palette,int $max_col): array {
  $span=min($grid,max(1,(int)($column['span']??0)?:(int)($palette['span']??0)?:(int)round($grid/max(1,$max_col))));
@@ -161,6 +172,7 @@ function node(array $node,array $context): string {
  case 'Show':
   $visible=is_array($p['when'])?(bool)array_filter($p['when'],fn($key)=>trim(wp_strip_all_tags((string)($data[$key]??'')))!==''):(isset($p['is'])?($data[$p['when']]??null)===$p['is']:!empty($data[$p['when']]));return $visible?nodes($children,$context):'';
  case 'Button':return button(is_array($value)?$value:[],$p['style']??null,$site);
+ case 'SocialLinks':return social_links($site['settings']['socialLinks']??[],$class,$p['buttonStyle']??'text');
  case 'Buttons':$html='';foreach(is_array($value)?$value:[] as $i=>$button)$html.=button($button,$p['styles'][$i]??null,$site);return tag('div',['class'=>$class],$html);
  case 'Background':case 'Media':
   if(!$value)return '';if(is_string($value)||($value['type']??'image')==='image')return image(is_string($value)?$value:['url'=>$value['image']??$value['url']??'','alt'=>$value['alt']??''],$class?:'absolute inset-0 h-full w-full object-cover');

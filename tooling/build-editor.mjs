@@ -106,7 +106,7 @@ for (const name of ['tokens.css', 'admin.css']) {
   fs.copyFileSync('kit/admin-ui/' + name, output + '/admin-ui/' + name);
 }
 publishKitAssets(process.cwd(),path.resolve(output));
-fs.cpSync('public/assets', '../assets', { recursive: true });
+if (fs.existsSync('public/assets')) fs.cpSync('public/assets', output + '/assets', { recursive: true });
 console.log('Gutenberg bundle and scoped Tailwind styles built.');
 
 // Preview images are authored beside sections; no CMS instance is required to display them.

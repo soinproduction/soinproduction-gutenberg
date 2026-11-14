@@ -12,12 +12,12 @@ export function prepareProject(project=process.cwd(),{force=false}={}){
  const root=path.resolve(project),destination=path.join(root,'kit'),markerFile=path.join(destination,'.kit-package.json');
  const metadata=JSON.parse(fs.readFileSync(path.join(packageRoot,'package.json'),'utf8'));
  let marker;try{marker=JSON.parse(fs.readFileSync(markerFile,'utf8'));}catch{}
- const required=['index.tsx','core/fields/render.tsx','editor/seo.ts','tooling/sync-sections.mjs','tooling/sync-kit.mjs'];
+ const required=['index.tsx','core/fields/render.tsx','editor/seo.ts','tooling/sync-sections.mjs','tooling/sync-kit.mjs','wordpress/bootstrap.php'];
  const reusable=!force&&marker?.name===metadata.name&&marker?.version===metadata.version&&required.every(file=>fs.existsSync(path.join(destination,file)));
  if(!reusable&&destination!==packageRoot){
   if(fs.existsSync(destination)&&!marker&&hasFiles(destination))throw new Error('kit/ is authored source. Move it aside before preparing the npm-managed kit copy.');
   fs.mkdirSync(destination,{recursive:true});
-  const folders=['components','editor','core','ui','admin-ui','modules','adapters','hooks','styles','schema','shared','tooling'];
+  const folders=['components','editor','core','ui','admin-ui','modules','adapters','wordpress','hooks','styles','schema','shared','tooling'];
   for(const folder of folders){fs.rmSync(path.join(destination,folder),{recursive:true,force:true});fs.cpSync(path.join(packageRoot,folder),path.join(destination,folder),{recursive:true});}
   for(const file of ['index.tsx','bootstrap.php'])fs.copyFileSync(path.join(packageRoot,file),path.join(destination,file));
   normalizeSourceImports(destination);
