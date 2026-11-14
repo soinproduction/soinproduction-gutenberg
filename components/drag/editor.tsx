@@ -1,4 +1,5 @@
 'use client';
+import { viewClasses } from '../../core/fields/view-classes.js';
 import { MonitorSmartphone, AlignVerticalJustifyCenter, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, AlignHorizontalJustifyStart, AlignHorizontalJustifyCenter, AlignHorizontalJustifyEnd, StretchHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import { EditorAction } from '../../core/ui/editor-action.js';
@@ -80,7 +81,7 @@ function FlowColumnEditor({section,field,palettes,attributes,setAttributes,clien
     const alignment=chosen?{...attributes,...responsive[chosen]}:attributes;
     const align=(value:Placement)=>chosen?setAttributes({responsive:{...responsive,[chosen]:{...responsive[chosen],...value}}}):setAttributes(value);
     const reset=()=>{const {[target as string]:_removed,...rest}=responsive;setAttributes({responsive:rest});};
-    const blockProps=wp.blockEditor.useBlockProps({style:{...columnLayout.style,'--site-flow-color':columnColors[Math.max(0,layout.index)%columnColors.length]},'data-button-position':palette.buttonPosition??'bottom right','data-vertical-align':attributes.verticalAlign??'top','data-horizontal-align':attributes.horizontalAlign??'stretch',className:['site-flow-column',layout.empty?'is-empty':'',attributes.fullRow?'is-full-row':'',adaptive.length?'has-adaptive':'',...columnLayout.classes,palette.className].filter(Boolean).join(' ')});
+    const blockProps=wp.blockEditor.useBlockProps({style:{...columnLayout.style,'--site-flow-color':columnColors[Math.max(0,layout.index)%columnColors.length]},'data-button-position':palette.buttonPosition??'bottom right','data-vertical-align':attributes.verticalAlign??'top','data-horizontal-align':attributes.horizontalAlign??'stretch',className:['site-flow-column',layout.empty?'is-empty':'',attributes.fullRow?'is-full-row':'',adaptive.length?'has-adaptive':'',...columnLayout.classes,viewClasses(palette, true)].filter(Boolean).join(' ')});
     const innerProps=wp.blockEditor.useInnerBlocksProps(blockProps,{
         allowedBlocks:[section.name+'-element',...(field.controlOptions.allow??[])],templateLock:false,renderAppender:appender,templateInsertUpdatesSelection:false,
     });

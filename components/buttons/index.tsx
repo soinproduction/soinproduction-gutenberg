@@ -50,7 +50,7 @@ export function ButtonsView(props: Props & AddButton & { name: string; styles?: 
   if(scope.edit)return <ButtonsEditor {...props} />;
   const buttons = Array.isArray(scope.value) ? scope.value : [];
   return (
-    <div className={className}>
+    <div className={className ? 'site-actions ' + className : 'site-actions flex flex-wrap gap-3'}>
       {buttons.map((button: any, index: number) => (
         <SiteButton key={index} button={button} fallback={styles[index]} />
       ))}

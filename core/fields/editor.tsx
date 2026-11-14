@@ -405,7 +405,7 @@ function FieldEditor(props: Props) {
       return (
         <>
           {inspector(list)}
-          <div className={'site-actions relative ' + (props.className ?? 'flex flex-wrap gap-3')}>
+          <div className={['site-actions', 'relative', props.className ?? 'flex flex-wrap gap-3'].join(' ')}>
             {value.map((button: any, index: number) => (
               <span
                 key={index}

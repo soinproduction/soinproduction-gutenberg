@@ -1,4 +1,5 @@
 'use client';
+import { useClasses, type Classes } from '../../shared/index.js';
 import {useEffect,useRef,useContext,createContext,useId,type ReactNode} from 'react';
 export type DisclosureSettings={mode?:'accordion'|'tabs';multiple?:boolean;firstOpen?:boolean;duration?:number;icon?:string;iconPosition?:'before'|'after';responsive?:Record<string,'accordion'|'tabs'>};
 export function disclosureMode(settings:DisclosureSettings,width:number,breakpoints:Record<string,number>){
@@ -75,6 +76,6 @@ export function DisclosureView({children,className,settings,breakpoints,editor=f
 }
 import {Icon} from '../icons/icon.js';
 function useStableId(){return useId().replace(/[^a-zA-Z0-9_-]/g,'');}
-export function AccordionItem({children,className}:{children:ReactNode;className?:string}){return <details data-disclosure-item className={className}>{children}</details>;}
-export function AccordionTrigger({children,className}:{children:ReactNode;className?:string}){const settings=useContext(SettingsContext);return <summary className={className}>{children}{settings.icon!==''&&<span data-disclosure-icon>{settings.icon?<Icon icon={{type:settings.icon}} />:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>}</span>}</summary>;}
-export function AccordionContent({children,className}:{children:ReactNode;className?:string}){return <div data-disclosure-content className={className}>{children}</div>;}
+export function AccordionItem({children,...classes}:Classes & {children:ReactNode}){const className=useClasses(classes);return <details data-disclosure-item className={className}>{children}</details>;}
+export function AccordionTrigger({children,...classes}:Classes & {children:ReactNode}){const className=useClasses(classes);const settings=useContext(SettingsContext);return <summary className={className}>{children}{settings.icon!==''&&<span data-disclosure-icon>{settings.icon?<Icon icon={{type:settings.icon}} />:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>}</span>}</summary>;}
+export function AccordionContent({children,...classes}:Classes & {children:ReactNode}){const className=useClasses(classes);return <div data-disclosure-content className={className}>{children}</div>;}

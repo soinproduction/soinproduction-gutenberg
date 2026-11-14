@@ -18,6 +18,7 @@ function tag(string $name,array $attributes,string $content=''): string {
  if(!preg_match('/^[a-z][a-z0-9-]*$/',$name)||in_array($name,['script','iframe','style'],true))return '';
  return '<'.$name.attrs($attributes).'>'.(in_array($name,['img','source','br','hr','input'],true)?'':$content.'</'.$name.'>');
 }
+function classed_content(string $class,string $html): string {return $class?tag('div',['class'=>$class],$html):$html;}
 function nodes(array $nodes,array $context): string {return implode('',array_map(fn($node)=>node($node,$context),$nodes));}
 function image($value,string $class=''): string {
  if(is_string($value))$value=['url'=>$value];$url=$value['url']??'';
@@ -29,7 +30,7 @@ function background_poster(string $url): string {
  $id=attachment_url_to_postid($url);
  return $id?(wp_get_attachment_image_url($id,'large')?:$url):$url;
 }
-function button(array $value,?string $fallback=null,array $site=[]): string {
+function button(array $value,?string $fallback=null,array $site=[],string $extra_class=''): string {
  if(empty($value['text']))return '';
  $url=$value['url']??'#';$id=(int)($value['modalId']??0);
  if($id)foreach($site['modals']??[] as $modal)if($modal['id']===$id)$url='#modal-'.($modal['slug']??$id);
@@ -41,7 +42,7 @@ function button(array $value,?string $fallback=null,array $site=[]): string {
   $mask='url("data:image/svg+xml,'.rawurlencode($icon['svg']).'")';
   $label=tag('span',['class'=>'site-button-label site-button-icon-'.(($metadata['siteButtonIconPosition']??'')==='before'?'before':'after'),'style'=>'--site-button-icon:'.$mask],$label);break;
  }
- return tag('a',['href'=>esc_url($url),'class'=>$class,'data-modal-plan'=>$value['plan']??null],$label);
+ return tag('a',['href'=>esc_url($url),'class'=>trim($class.' '.$extra_class),'data-modal-plan'=>$value['plan']??null],$label);
 }
 function social_links(array $links, string $class = '', string $style = 'text'): string {
  $labels = ['instagram'=>'Instagram', 'facebook'=>'Facebook', 'telegram'=>'Telegram', 'youtube'=>'YouTube', 'tiktok'=>'TikTok', 'linkedin'=>'LinkedIn'];
@@ -150,7 +151,7 @@ function node(array $node,array $context): string {
  $type=$node['type'];$p=$node['props']??[];$children=$node['children']??[];$data=$context['data']??[];$site=$context['site']??[];$record=$context['record']??[];
  $value=$data[$p['name']??'']??null;$class=classes($p);
  if($type==='#text')return esc_html($node['value']);
- if(ctype_lower(substr($type,0,1))){$attributes=$p;unset($attributes['children'],$attributes['className'],$attributes['initial']);if($class)$attributes['class']=$class;return tag($type,$attributes,nodes($children,$context));}
+ if(ctype_lower(substr($type,0,1))){$attributes=$p;unset($attributes['children'],$attributes['className'],$attributes['adminClassName'],$attributes['frontClassName'],$attributes['initial']);if($class)$attributes['class']=$class;return tag($type,$attributes,nodes($children,$context));}
  switch($type){
  case 'Accordion':return tag('div',['class'=>$class,'data-disclosure-mode'=>'accordion','data-icon-position'=>$p['iconPosition']??'after'],tag('div',['data-disclosure-items'=>true],nodes($children,array_replace($context,['disclosure'=>$p]))));
  case 'AccordionItem':return tag('details',['class'=>$class,'data-disclosure-item'=>true],nodes($children,$context));
@@ -168,12 +169,12 @@ function node(array $node,array $context): string {
   if(!$value)return '';$name=is_string($value)?$value:($value['type']??'');
   foreach($site['icons']??[] as $icon){if(($icon['value']??'')===$name){$mask='url("data:image/svg+xml,'.rawurlencode($icon['svg']).'")';return tag('span',['class'=>trim('inline-flex shrink-0 leading-none text-flame '.$class),'aria-hidden'=>'true'],tag('span',['style'=>'display:inline-block;width:.9em;height:.9em;background-color:currentColor;mask:'.$mask.' center/contain no-repeat;-webkit-mask:'.$mask.' center/contain no-repeat']));}}return '';
  case 'Choice':case 'RecordEdit':return '';
- case 'Toggle':return ($value??($p['default']??false))?nodes($children,$context):'';
+ case 'Toggle':return ($value??($p['default']??false))?classed_content($class,nodes($children,$context)):'';
  case 'Show':
-  $visible=is_array($p['when'])?(bool)array_filter($p['when'],fn($key)=>trim(wp_strip_all_tags((string)($data[$key]??'')))!==''):(isset($p['is'])?($data[$p['when']]??null)===$p['is']:!empty($data[$p['when']]));return $visible?nodes($children,$context):'';
- case 'Button':return button(is_array($value)?$value:[],$p['style']??null,$site);
+  $visible=is_array($p['when'])?(bool)array_filter($p['when'],fn($key)=>trim(wp_strip_all_tags((string)($data[$key]??'')))!==''):(isset($p['is'])?($data[$p['when']]??null)===$p['is']:!empty($data[$p['when']]));return $visible?classed_content($class,nodes($children,$context)):'';
+ case 'Button':return button(is_array($value)?$value:[],$p['style']??null,$site,$class);
  case 'SocialLinks':return social_links($site['settings']['socialLinks']??[],$class,$p['buttonStyle']??'text');
- case 'Buttons':$html='';foreach(is_array($value)?$value:[] as $i=>$button)$html.=button($button,$p['styles'][$i]??null,$site);return tag('div',['class'=>$class],$html);
+ case 'Buttons':$html='';foreach(is_array($value)?$value:[] as $i=>$button)$html.=button($button,$p['styles'][$i]??null,$site);return tag('div',['class'=>'site-actions '.($class?:'flex flex-wrap gap-3')],$html);
  case 'Background':case 'Media':
   if(!$value)return '';if(is_string($value)||($value['type']??'image')==='image')return image(is_string($value)?$value:['url'=>$value['image']??$value['url']??'','alt'=>$value['alt']??''],$class?:'absolute inset-0 h-full w-full object-cover');
   return tag('video',['class'=>$class?:'absolute inset-0 h-full w-full object-cover','poster'=>esc_url(background_poster($value['poster']??'')),'src'=>esc_url($value['video']??$value['mp4']??''),'muted'=>$value['muted']??true,'preload'=>'none','data-site-background'=>'true','data-autoplay'=>($value['autoplay']??true)?'true':'false','autoplay'=>false,'loop'=>$value['loop']??true,'playsinline'=>true,'controls'=>$value['controls']??false]);
@@ -191,7 +192,7 @@ function node(array $node,array $context): string {
   $direction=($p['direction']??'next')==='previous'?'previous':'next';
   return tag('button',['type'=>'button','class'=>$class,'data-slider-for'=>$p['slider']??'','data-slider-button'=>$direction,'aria-label'=>$p['label']??($direction==='previous'?'Previous slide':'Next slide'),'disabled'=>true],$children?nodes($children,$context):($direction==='previous'?'←':'→'));
  case 'SliderPagination':return tag('div',['class'=>$class,'data-slider-for'=>$p['slider']??'','data-slider-pagination'=>'','data-slider-page-class'=>$p['buttonClassName']??'','data-slider-page-label'=>$p['pageLabel']??'Slide','role'=>'group','aria-label'=>$p['label']??'Slider pages'],'');
- case 'RecordContent':return native_blocks(is_array($record[$p['field']??'']??null)?$record[$p['field']]:[],$context);
+ case 'RecordContent':$blocks=$record[$p['field']??'']??[];return is_array($blocks)&&$blocks?classed_content($class,native_blocks($blocks,$context)):'';
  case 'RecordText':$text=$record[$p['field']??'']??'';return $text?tag(in_array($p['as']??'p',['p','span','div','blockquote'],true)?($p['as']??'p'):'p',['class'=>$class],wp_kses_post((string)$text)):'';
  case 'Gallery':$html='';foreach(is_array($value)?$value:[] as $row)$html.=image($row,'w-full h-full object-cover');return tag('div',['class'=>$class],$html);
  case 'PricingPlans':return pricing_plans(is_array($value)?$value:null,$site,$class);

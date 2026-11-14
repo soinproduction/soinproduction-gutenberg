@@ -1,4 +1,5 @@
 'use client';
+import { useClasses, type Classes } from '../../shared/index.js';
 import { useEffect, useRef, type ReactNode } from 'react';
 import EmblaCarousel from 'embla-carousel';
 
@@ -55,9 +56,9 @@ export function SliderViewport({name,children,className,trackClassName,loop=fals
   <div data-slider-viewport tabIndex={editor?undefined:0}><div className={trackClassName} data-slider-track>{children}</div></div>
  </div>;
 }
-export function SliderButton({slider,direction='next',className,children,label}:{slider:string;direction?:'previous'|'next';className?:string;children?:ReactNode;label?:string}){
- return <button type="button" data-slider-for={slider} data-slider-button={direction} className={className} aria-label={label??(direction==='previous'?'Previous slide':'Next slide')} disabled>{children??(direction==='previous'?'←':'→')}</button>;
+export function SliderButton({slider,direction='next',children,label,...classes}:Classes & {slider:string;direction?:'previous'|'next';children?:ReactNode;label?:string}){
+ return <button type="button" data-slider-for={slider} data-slider-button={direction} className={useClasses(classes)} aria-label={label??(direction==='previous'?'Previous slide':'Next slide')} disabled>{children??(direction==='previous'?'←':'→')}</button>;
 }
-export function SliderPagination({slider,className,buttonClassName,label='Slider pages',pageLabel='Slide'}:{slider:string;className?:string;buttonClassName?:string;label?:string;pageLabel?:string}){
- return <div data-slider-for={slider} data-slider-pagination data-slider-page-class={buttonClassName} data-slider-page-label={pageLabel} className={className} role="group" aria-label={label} />;
+export function SliderPagination({slider,buttonClassName,label='Slider pages',pageLabel='Slide',...classes}:Classes & {slider:string;buttonClassName?:string;label?:string;pageLabel?:string}){
+ return <div data-slider-for={slider} data-slider-pagination data-slider-page-class={buttonClassName} data-slider-page-label={pageLabel} className={useClasses(classes)} role="group" aria-label={label} />;
 }

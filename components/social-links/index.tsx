@@ -1,4 +1,5 @@
 'use client';
+import { useClasses, type Classes } from '../../shared/index.js';
 
 import { useSite } from '../../core/content/context.js';
 import { buttonClasses } from '../../core/ui/button-appearance.js';
@@ -12,12 +13,12 @@ const networks = {
   linkedin: 'LinkedIn',
 };
 
-type SocialLinksProps = {
-  className?: string;
+type SocialLinksProps = Classes & {
   buttonStyle?: string;
 };
 
-export function SocialLinks({ className, buttonStyle = 'text' }: SocialLinksProps) {
+export function SocialLinks({ buttonStyle = 'text', ...classes }: SocialLinksProps) {
+  const className = useClasses(classes);
   const links = useSite().settings?.socialLinks ?? {};
   const buttons = Object.entries(networks).flatMap(([network, label]) => {
     const url = links[network];

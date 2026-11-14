@@ -17,7 +17,7 @@ export function ButtonView({ name, className, style }: Props & { name: string; s
         </span>
       </span>
     );
-  return scope.value?.text ? <SiteButton button={scope.value} fallback={style} /> : null;
+  return scope.value?.text ? <SiteButton button={scope.value} fallback={style} className={className} /> : null;
 }
 
 export const Button = kit<Props & { style?: string }>(

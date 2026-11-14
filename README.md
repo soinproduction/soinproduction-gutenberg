@@ -1,5 +1,8 @@
 # soinproduction-gutenberg
 
+[Справочник компонентов](https://soinproduction.github.io/soinproduction-gutenberg/) · [Паттерн компонентов](docs/PATTERN.md)
+
+
 Portable React / WordPress components with their field engine, editors, PHP rendering, administration UI and module assets.
 
 ```sh

@@ -3,13 +3,10 @@ import { useFieldScope } from '../core/fields/render.js';
 import type { FieldDefinition } from '../core/fields/schema.js';
 import type { ReactNode } from 'react';
 
-export type Classes = {
-  className?: string;
-  /** Applied only in the editor. */
-  adminClassName?: string;
-  /** Applied only on the site. */
-  frontClassName?: string;
-  /** Inside Drag: `false` keeps the element out of a new section, the inserter still offers it. */
+import { viewClasses, type ViewClasses } from '../core/fields/view-classes.js';
+
+export type Classes = ViewClasses & {
+  /** Inside Drag: false keeps the element in the inserter and out of the initial layout. */
   initial?: boolean;
 };
 
@@ -39,7 +36,6 @@ export function kit<P extends Props>(
   return Object.assign(Component, { kind, field });
 }
 
-export function useClasses({ className, adminClassName, frontClassName }: Classes) {
-  const { edit } = useFieldScope();
-  return [className, edit ? adminClassName : frontClassName].filter(Boolean).join(' ') || undefined;
+export function useClasses(classes: ViewClasses) {
+  return viewClasses(classes, Boolean(useFieldScope().edit));
 }

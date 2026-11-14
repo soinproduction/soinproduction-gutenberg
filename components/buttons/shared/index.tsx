@@ -9,10 +9,11 @@ export const buttonStyle = (button: any, fallback?: string) => {
   return style ? `is-style-studio-${style}` : undefined;
 };
 
-export function SiteButton({ button, fallback }: { button: any; fallback?: string }) {
+export function SiteButton({ button, fallback, className }: { button: any; fallback?: string; className?: string }) {
   return (
     <ContentButton
       fixedLayout
+      className={className}
       attributes={{
         text: button.text,
         url: button.url,

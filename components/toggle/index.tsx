@@ -1,9 +1,11 @@
 'use client';
+import { useClasses, type Classes } from '../../shared/index.js';
 import { useValues } from '../../core/fields/render.js';
 import type { ReactNode } from 'react';
 
-export function ToggleView({ name, children }: { name: string; label: string; default?: boolean; children?: ReactNode }) {
-  return <>{useValues()[name] ? children : null}</>;
+export function ToggleView({ name, children, ...classes }: Classes & { name: string; label: string; default?: boolean; children?: ReactNode }) {
+  const className = useClasses(classes);
+  return useValues()[name] ? (className ? <div className={className}>{children}</div> : <>{children}</>) : null;
 }
 
 /** Sidebar switch. Wrapped markup shows only while it is on; its fields stay part of the section. */

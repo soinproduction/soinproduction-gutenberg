@@ -26,6 +26,7 @@ import { collectFields } from '../../schema/index.js';
 import { AddButton } from '../../shared/index.js';
 import { addClasses } from '../../shared/index.js';
 import { Classes } from '../../shared/index.js';
+import { viewClasses } from '../../core/fields/view-classes.js';
 import { useClasses } from '../../shared/index.js';
 declare const wp: any;
 
@@ -58,10 +59,10 @@ export function dragDefinition(children: ReactNode) {
     if (child.type === Cols) {
       const id = props.name;
       if (!/^[a-z][a-z0-9-]*$/.test(id ?? '') || palettes.some(item => item.name === id)) throw new Error('Cols needs a unique lowercase name');
-      const palette:any={name:id,label:props.label ?? id,className:props.className,buttonPosition:props.buttonPosition??'bottom right',initial,span:props.span,start:props.start};
+      const palette:any={name:id,label:props.label ?? id,className:props.className,adminClassName:props.adminClassName,frontClassName:props.frontClassName,buttonPosition:props.buttonPosition??'bottom right',initial,span:props.span,start:props.start};
       palettes.push(palette);
       const items=walk(props.children,id);palette.template=items;
-      return [['core/column',{className:['site-drag-column',props.className].filter(Boolean).join(' '),lock:{move:true,remove:true},metadata:{name:props.label ?? id,siteDragPalette:id}},items]];
+      return [['core/column',{className:['site-drag-column',viewClasses(props,false)].filter(Boolean).join(' '),lock:{move:true,remove:true},metadata:{name:props.label ?? id,siteDragPalette:id}},items]];
     }
     const markup = createElement(child.type, props);
     const fields = collectFields(markup);
@@ -118,7 +119,7 @@ export function DragView({ name, maxCol: _maxCol, grid: _grid, mobileGrid: _mobi
       // The first palette is the block default, so saved content may omit it.
       const palette=palettes.find(item=>item.name===(block.attrs.palette??palettes[0]?.name));
       const layout=flowColumnLayout(grid,block.attrs as any,palette,maxCol,COLUMN_BREAKPOINT,[...LAYOUT_BREAKPOINTS],Number(scope.field.controlOptions?.mobileGrid)||grid);
-      return <div key={index} data-vertical-align={block.attrs.verticalAlign??'top'} data-horizontal-align={block.attrs.horizontalAlign??'stretch'} style={layout.style as CSSProperties} className={['site-flow-column',block.attrs.fullRow?'is-full-row':'',...layout.classes,palette?.className].filter(Boolean).join(' ')}>{renderBlocks(block.innerBlocks??[])}</div>;
+      return <div key={index} data-vertical-align={block.attrs.verticalAlign??'top'} data-horizontal-align={block.attrs.horizontalAlign??'stretch'} style={layout.style as CSSProperties} className={['site-flow-column',block.attrs.fullRow?'is-full-row':'',...layout.classes,viewClasses(palette ?? {}, false)].filter(Boolean).join(' ')}>{renderBlocks(block.innerBlocks??[])}</div>;
     })}
   </div>;
   const content=renderBlocks(innerBlocks);

@@ -15,16 +15,18 @@ export { buttonClasses } from '../../../core/ui/button-appearance.js';
 export function ContentButton({
   attributes,
   fixedLayout = false,
+  className,
 }: {
   attributes: any;
   fixedLayout?: boolean;
+  className?: string;
 }) {
   const context = useContext(ContentContext);
   const openModal = useContext(ModalContext);
   const cardPlan = useContext(BookingPlanContext);
   const linkedUrl = recordUrl(context.site, attributes.metadata?.siteLinkId);
   const a = linkedUrl ? {...attributes, url: linkedUrl} : attributes;
-  const classes = buttonClasses(a.className);
+  const classes = [buttonClasses(a.className), className].filter(Boolean).join(' ');
   const isBooking = String(a.url ?? '').startsWith('/booking');
   const plan = isBooking
     ? new URL(a.url, 'http://local').searchParams.get('plan') ?? 'hour'

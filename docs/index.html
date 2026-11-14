@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Компоненты темы · Справочник</title>
+<style>
+:root{color-scheme:light dark;--bg:#f9f8f5;--paper:#fff;--ink:#272621;--muted:#5f5b52;--line:#ddd8ce;--accent:#8b370f}
+@media(prefers-color-scheme:dark){:root{--bg:#1d1b17;--paper:#26231e;--ink:#f4eee3;--muted:#c5baaa;--line:#50483c;--accent:#ffae81}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.55 system-ui,sans-serif}
+main{max-width:76rem;margin:auto;padding:clamp(1rem,4vw,4rem)}
+h1{font-size:clamp(2rem,6vw,4rem);letter-spacing:-.045em;margin:0}
+h2{margin-top:2.5rem} p{max-width:70ch}
+a{color:var(--accent)} code{overflow-wrap:anywhere}
+input,select{font:inherit;color:inherit;background:var(--paper);border:1px solid var(--line);padding:.65rem;border-radius:.4rem;width:100%}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1rem;margin-top:2rem}.filters label{display:grid;gap:.35rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:.85rem}
+article{border:1px solid var(--line);background:var(--paper);border-radius:.65rem;padding:1rem;scroll-margin-top:1rem}
+article h3{margin:0;font-size:1.12rem} article p{margin:.45rem 0} small,#status{color:var(--muted)}
+pre{white-space:pre-wrap;background:var(--paper);border:1px solid var(--line);padding:1rem;border-radius:.65rem}
+#toc{display:flex;flex-wrap:wrap;gap:.4rem .8rem;margin:1rem 0 2rem}
+#toc a{font-size:.9rem} article pre{font-size:.86rem;margin:.7rem 0;overflow:auto}
+article button{font:inherit;color:var(--accent);border:1px solid var(--line);border-radius:.35rem;padding:.3rem .65rem;background:var(--paper);cursor:pointer}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,27rem),1fr))}
+</style>
+</head>
+<body>
+<main>
+<h1>Компоненты темы</h1>
+<p>Какие поля создаёт компонент, где их редактировать и что хранится в данных секции.</p>
+<p><a href="pattern.html">Единый паттерн компонентов</a> · <a href="https://github.com/soinproduction/soinproduction-gutenberg#readme">Репозиторий Kit</a></p>
+<pre><code>&lt;ContactSocialLinks manual name="contactSocialLinks" className="flex gap-preset-20"&gt;
+  &lt;RecordLink&gt;
+    &lt;RecordImage className="size-5" /&gt;
+    &lt;RecordText field="title" as="span" /&gt;
+  &lt;/RecordLink&gt;
+&lt;/ContactSocialLinks&gt;</code></pre>
+<div class="filters">
+<label>Поиск <input id="search" type="search" placeholder="Компонент, поле или поведение"></label>
+<label>Группа <select id="group"><option value="">Все</option></select></label>
+</div>
+<p id="status" aria-live="polite"></p>
+<nav id="toc" aria-label="Оглавление"></nav>
+<div id="catalog"></div>
+<noscript>Для поиска и показа карточек включите JavaScript. Все данные входят в этот HTML-файл.</noscript>
+</main>
+<script>
+const entries = [
+['Разметка','Section','Якорь sectionId добавляет схема секции','Корневой section. when скрывает секцию на сайте, если поле пустое.'],
+['Разметка','Drag','custom · kit-drag','Нативные вложенные блоки Gutenberg. allow расширяет меню вставки. grid, mobileGrid и gap задают раскладку.'],
+['Разметка','Cols','Собственного поля нет','Объявляет колонку внутри Drag. name идентифицирует колонку, span задаёт ширину.'],
+['Разметка','Area','custom · kit-area, массив','Свободная область с разрешёнными дочерними компонентами. type различает варианты одного компонента.'],
+['Разметка','Accordion','Собственного поля нет','Настройки открытия, режима, иконки и адаптива задаются пропсами. Внутренний Records или List отвечает за данные.'],
+['Разметка','AccordionItem','Собственного поля нет','Один пункт раскрывающегося списка или вкладка.'],
+['Разметка','AccordionTrigger','Собственного поля нет','Заголовок и переключатель пункта.'],
+['Разметка','AccordionContent','Собственного поля нет','Содержимое пункта.'],
+['Разметка','Show','Собственного поля нет','Выводит детей, если значение when соответствует is.'],
+['Контент','Heading','richText','Один заголовок. level выбирает h1–h4, по умолчанию h2.'],
+['Контент','Text','richText','Один текстовый блок. settings переносит редактирование в настройки, placeholder задаёт подсказку.'],
+['Контент','Paragraphs','wysiwyg, массив','Список абзацев. paragraphClassName применяется к отдельному абзацу.'],
+['Контент','Toggle','toggle, boolean','Переключатель в инспекторе. Может оборачивать условную разметку.'],
+['Контент','Choice','select','Выбор из choices в инспекторе. По умолчанию используется первый ключ.'],
+['Медиа','Background','custom · background','Фоновое изображение или видео, выбирается в инспекторе. CSS секции задаёт размещение.'],
+['Медиа','Image','image','Изображение из медиатеки с альтернативным текстом. width и height задают размеры.'],
+['Медиа','Media','media','Изображение или видео и параметры показа.'],
+['Медиа','Icon','icon','Идентификатор из каталога иконок. default задаёт начальное значение.'],
+['Медиа','Gallery','gallery, массив','Галерея изображений. max ограничивает число элементов.'],
+['Медиа','Slider','gallery без детей','Без детей редактирует изображения. С детьми оборачивает List или Records и использует их поля.'],
+['Медиа','SliderButton','Собственного поля нет','Кнопка навигации слайдера.'],
+['Медиа','SliderPagination','Собственного поля нет','Индикаторы страниц слайдера.'],
+['Ссылки и формы','Button','link','Текст, действие и иконка. style задаёт оформление.'],
+['Ссылки и формы','Buttons','buttons, массив','Список действий. max задаёт лимит, styles — стартовые стили по позициям.'],
+['Ссылки и формы','SocialLinks','Собственного поля нет','Старый рендер текстовых ссылок из словаря settings.socialLinks. Для текущих записей соцсетей используется ContactSocialLinks.'],
+['Ссылки и формы','ContactSocialLinks','custom, null или массив ID и ручных объектов','При null берёт опубликованные social-global. В редакторе manual включает добавление локальных карточек. Список редактируется через общий Relationship.'],
+['Ссылки и формы','Form','custom · form-selection','Выбор сохранённой формы из инспектора. Поле необязательное.'],
+['Коллекции','List','repeater, массив объектов','Список ручных строк. Поля строки собираются из дочерних компонентов.'],
+['Коллекции','Records','relationship, массив ID и ручных объектов','Выбор и порядок записей по type. manual включает добавление локальных карточек, max задаёт лимит.'],
+['Коллекции','RecordLink','Собственного поля нет','Ссылка из URL текущей записи.'],
+['Коллекции','RecordImage','Собственного поля нет','Изображение записи. Для ручной карточки в Gutenberg доступны настройки изображения и ссылки.'],
+['Коллекции','RecordText','Собственного поля нет','Вывод свойства field текущей записи. У ручной карточки текст редактируется на холсте.'],
+['Коллекции','RecordTitle','Собственного поля нет','Заголовок записи. Проп as меняет тег.'],
+['Коллекции','RecordExcerpt','Собственного поля нет','Краткое описание записи.'],
+['Коллекции','RecordContent','Собственного поля нет','Вложенные блоки записи из свойства field.'],
+['Коллекции','RecordDate','Собственного поля нет','Дата записи из publishedAt или date.'],
+['Коллекции','RecordIndex','Собственного поля нет','Номер записи в текущем списке.'],
+['Коллекции','RecordEdit','Собственного поля нет','Ссылка на редактирование связанной записи в Gutenberg.'],
+['Коллекции','PricingPlans','custom · tariff-selection','Выбор тарифов и их порядок. Редактирование тарифов находится в админке.'],
+['Коллекции','ReviewsCarousel','custom · review-selection','Выбор отзывов для карусели.'],
+['Проект','ContactMap','custom · contact-map','Настройки источника адреса и карты в инспекторе. Начальный режим auto.'],
+['Проект','BookingLocation','Собственного поля нет','Адрес и часы из настроек сайта и настроек ContactMap.'],
+['Проект','StudioMap','Собственного поля нет','Рендер карты по настройкам локации.'],
+['Проект','OpeningHours','Собственного поля нет','Публичное расписание из общих данных сайта.'],
+['Проект','ContentHero','Собственного поля нет','Разметка верхнего блока страницы из переданных пропсов.'],
+['Проект','ServiceGrid','Использует схему вызывающего блока','Вывод карточек услуг.'],
+['Проект','PricingCard','Использует отдельную schema.ts','Разметка отдельной карточки тарифа.'],
+['Проект','CookieNotice','Использует схему вызывающего блока','Разметка уведомления о cookies.'],
+['Проект','CookieConsentProvider','Собственного поля нет','Контекст настроек согласия на cookies.'],
+['Проект','CookieSettingsButton','Собственного поля нет','Открывает настройки согласия на cookies.'],
+];
+const examples = {
+  "Heading": "<Heading name=\"heading\" className=\"mt-preset-30\" />",
+  "Text": "<Text name=\"text\" className=\"mt-preset-30\" />",
+  "Paragraphs": "<Paragraphs name=\"paragraphs\" className=\"mt-preset-30\" />",
+  "Background": "<Background name=\"background\" className=\"mt-preset-30\" />",
+  "Image": "<Image name=\"image\" className=\"mt-preset-30\" />",
+  "Media": "<Media name=\"media\" className=\"mt-preset-30\" />",
+  "Gallery": "<Gallery name=\"gallery\" className=\"mt-preset-30\" />",
+  "Icon": "<Icon name=\"icon\" className=\"mt-preset-30\" />",
+  "Form": "<Form name=\"form\" className=\"mt-preset-30\" />",
+  "PricingPlans": "<PricingPlans name=\"pricingPlans\" className=\"mt-preset-30\" />",
+  "ReviewsCarousel": "<ReviewsCarousel name=\"reviewsCarousel\" className=\"mt-preset-30\" />",
+  "Section": "<Section className=\"py-section\" adminClassName=\"outline\" frontClassName=\"motion-stagger\">\n  <Heading name=\"title\" />\n</Section>",
+  "Drag": "<Drag name=\"content\" allow={['core/paragraph']}>\n  <Heading name=\"title\" />\n  <Buttons name=\"actions\" initial={false} />\n</Drag>",
+  "Cols": "<Drag name=\"content\" grid={12}>\n  <Cols name=\"main\" span={8} adminClassName=\"outline\">\n    <Heading name=\"title\" />\n  </Cols>\n</Drag>",
+  "Area": "<Area name=\"content\" max={5}>\n  <Text />\n  <Image />\n</Area>",
+  "Accordion": "<Accordion firstOpen>\n  <Records name=\"questions\" type=\"faq\" manual>\n    <AccordionItem>\n      <AccordionTrigger><RecordText field=\"question\" /></AccordionTrigger>\n      <AccordionContent><RecordText field=\"answer\" /></AccordionContent>\n    </AccordionItem>\n  </Records>\n</Accordion>",
+  "AccordionItem": "<AccordionItem className=\"border-b\">\n  <AccordionTrigger>Вопрос</AccordionTrigger>\n  <AccordionContent>Ответ</AccordionContent>\n</AccordionItem>",
+  "AccordionTrigger": "<AccordionTrigger className=\"cursor-pointer\">Вопрос</AccordionTrigger>",
+  "AccordionContent": "<AccordionContent className=\"pb-6\">Ответ</AccordionContent>",
+  "Show": "<Show when=\"layout\" is=\"grid\" className=\"grid gap-4\">\n  <Text name=\"description\" />\n</Show>",
+  "Toggle": "<Toggle name=\"showIntro\" label=\"Показать вступление\" default>\n  <Text name=\"intro\" />\n</Toggle>",
+  "Choice": "<Choice name=\"layout\" label=\"Вид\" choices={{ grid: \"Сетка\", list: \"Список\" }} />",
+  "Slider": "<Slider name=\"slides\" label=\"Фотографии\" max={8} />",
+  "SliderButton": "<SliderButton slider=\"slides\" direction=\"previous\" className=\"border\" />",
+  "SliderPagination": "<SliderPagination slider=\"slides\" className=\"flex gap-2\" />",
+  "Button": "<Button name=\"cta\" label=\"Кнопка\" style=\"accent\" frontClassName=\"w-full\" />",
+  "Buttons": "<Buttons\n  name=\"actions\"\n  label=\"Действия\"\n  max={2}\n  styles={['accent', 'outline']}\n  className=\"flex flex-wrap gap-preset-20\"\n  adminClassName=\"outline\"\n/>",
+  "Records": "<Records manual name=\"questions\" type=\"faq\" label=\"Вопросы\" className=\"grid gap-4\">\n  <article>\n    <RecordIndex />\n    <RecordText field=\"question\" as=\"span\" />\n    <RecordText field=\"answer\" />\n    <RecordEdit label=\"Редактировать\" />\n  </article>\n</Records>",
+  "ContactSocialLinks": "<ContactSocialLinks manual name=\"contactSocialLinks\" className=\"flex gap-preset-20\">\n  <RecordLink className=\"inline-flex items-center gap-2\">\n    <RecordImage className=\"size-5\" />\n    <RecordText field=\"title\" as=\"span\" />\n  </RecordLink>\n</ContactSocialLinks>",
+  "SocialLinks": "<SocialLinks className=\"flex gap-3\" buttonStyle=\"text\" />",
+  "List": "<List name=\"features\" max={6} className=\"grid gap-4\">\n  <article><Heading name=\"title\" /><Text name=\"description\" /></article>\n</List>",
+  "RecordLink": "<RecordLink className=\"underline\"><RecordTitle /></RecordLink>",
+  "RecordText": "<RecordText field=\"question\" as=\"span\" adminClassName=\"outline\" />",
+  "RecordContent": "<RecordContent field=\"extraBlocks\" className=\"space-y-4\" />",
+  "RecordEdit": "<RecordEdit label=\"Редактировать запись\" adminClassName=\"mt-3\" />",
+  "ContactMap": "<ContactMap name=\"contactMap\" />",
+  "ContentHero": "<ContentHero title=\"О студии\" />",
+  "RecordImage": "<RecordImage className=\"text-sm\" />",
+  "RecordTitle": "<RecordTitle className=\"text-sm\" />",
+  "RecordExcerpt": "<RecordExcerpt className=\"text-sm\" />",
+  "RecordDate": "<RecordDate className=\"text-sm\" />",
+  "RecordIndex": "<RecordIndex className=\"text-sm\" />"
+};
+const group = document.getElementById('group');
+const search = document.getElementById('search');
+const catalog = document.getElementById('catalog');
+const toc = document.getElementById('toc');
+const status = document.getElementById('status');
+const groups = [...new Set(entries.map(entry => entry[0]))];
+for (const label of groups) group.add(new Option(label, label));
+function element(tag, text) {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  return node;
+}
+function render() {
+  const term = search.value.trim().toLocaleLowerCase('ru');
+  const visible = entries.filter(entry => (!group.value || entry[0] === group.value)
+    && entry.join(' ').toLocaleLowerCase('ru').includes(term));
+  status.textContent = visible.length ? 'Компонентов: ' + visible.length : 'Компоненты не найдены.';
+  catalog.replaceChildren();
+  toc.replaceChildren();
+  for (const [, name] of visible) {
+    const link = element('a', name);
+    link.href = '#' + name;
+    toc.append(link);
+  }
+  for (const label of groups) {
+    const matching = visible.filter(entry => entry[0] === label);
+    if (!matching.length) continue;
+    const grid = element('div', '');
+    grid.className = 'grid';
+    for (const [, name, field, description] of matching) {
+      const card = element('article', '');
+      card.id = name;
+      const title = element('h3', '');
+      const link = element('a', name);
+      link.href = '#' + name;
+      title.append(link);
+      card.append(title, element('small', field), element('p', description));
+      const snippet = examples[name] ?? '<' + name + ' />';
+      const pre = element('pre', '');
+      pre.append(element('code', snippet));
+      const copy = element('button', 'Копировать JSX');
+      copy.type = 'button';
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(snippet);
+          copy.textContent = 'Скопировано';
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(pre);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          copy.textContent = 'Код выделен';
+        }
+      });
+      card.append(pre, copy);
+      grid.append(card);
+    }
+    catalog.append(element('h2', label), grid);
+  }
+}
+search.addEventListener('input', render);
+group.addEventListener('change', render);
+render();
+if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+</script>
+</body>
+</html>

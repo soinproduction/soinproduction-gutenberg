@@ -1,4 +1,5 @@
 'use client';
+import { viewClasses, type ViewClasses } from './view-classes.js';
 import type { ButtonAppearance } from '../ui/button-appearance.js';
 import { LoadedCollection, type ListLoading } from '../ui/loaded-collection.js';
 import { reorderListItems } from './list-order.js';
@@ -137,11 +138,12 @@ export function ListActions({ name, index }: { name: FieldProps['name']; index?:
       })
     : null;
 }
-export function EditorRecordLink({ id, label }: { id: number; label: string }) {
+export function EditorRecordLink({ id, label, className }: { id: number; label: string; className?: string }) {
   const scope = useContext(FieldContext);
   return scope.edit
     ? scope.edit({
         name: '',
+        className,
         field: { name: '', type: 'custom', control: 'edit-record' },
         value: id,
         setValue: () => {},
@@ -415,7 +417,8 @@ export function Relationship({ name, children, className, options, perPage, load
   );
   return !scope.edit && loading ? <LoadedCollection pageKey={`list-${root.value.sectionId||id}-${name}`} total={records.length} perPage={perPage} loading={loading} loadMoreButton={loadMoreButton}>{window=>render(window.offset,window.limit)}</LoadedCollection> : render();
 }
-export function RecordImage({ className }: { className?: string }) {
+export function RecordImage(classes: ViewClasses) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
   const { edit, site } = useContext(FieldContext);
   const image = record.image ? (
@@ -450,20 +453,23 @@ function ManualText({ name, label, as, className }: { name: string; label: strin
     site: scope.site,
   });
 }
-export function RecordTitle({ as = 'h3', className }: { as?: ElementType; className?: string }) {
+export function RecordTitle({ as = 'h3', ...classes }: ViewClasses & { as?: ElementType }) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
   const { edit } = useContext(FieldContext);
   if (record.manual && edit) return <ManualText name="title" label="Title" as={as} className={className} />;
   return createElement(as, { className }, richNodes(record.title));
 }
-export function RecordExcerpt({ className }: { className?: string }) {
+export function RecordExcerpt(classes: ViewClasses) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
   const { edit } = useContext(FieldContext);
   if (record.manual && edit) return <ManualText name="excerpt" label="Description" as="p" className={className} />;
   return <p className={className}>{richNodes(record.excerpt)}</p>;
 }
 /** Text from the current linked/manual record without a project-specific card renderer. */
-export function RecordText({field,as='p',className}:{field:string;as?:'p'|'span'|'div'|'blockquote';className?:string}) {
+export function RecordText({field,as='p',...classes}:ViewClasses & {field:string;as?:'p'|'span'|'div'|'blockquote'}) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
  const record=useContext(RecordContext);
  const {edit}=useContext(FieldContext);
  const Wrapper=as==='span'?'span':'div';
@@ -472,16 +478,21 @@ export function RecordText({field,as='p',className}:{field:string;as?:'p'|'span'
  return value?createElement(as,{className},richNodes(value)):null;
 }
 /** Additional native content stored on the current record. */
-export function RecordDate({className}:{className?:string}){
+export function RecordDate(classes: ViewClasses) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
  const record=useContext(RecordContext),date=recordDate(record.publishedAt??record.date);
  return date?<time className={className} dateTime={date.dateTime}>{date.text}</time>:null;
 }
-export function RecordContent({field}:{field:string}) {
+export function RecordContent({ field, ...classes }: ViewClasses & { field: string }) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
  const record=useContext(RecordContext);
  const Content=useFieldScope().Content??NativeAreaContent;
- return Array.isArray(record[field])&&record[field].length?<Content blocks={record[field]} />:null;
+ if (!Array.isArray(record[field]) || !record[field].length) return null;
+ const content = <Content blocks={record[field]} />;
+ return className ? <div className={className}>{content}</div> : content;
 }
-export function RecordLink({ children, className }: { children: ReactNode; className?: string }) {
+export function RecordLink({ children, ...classes }: ViewClasses & { children: ReactNode }) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
   const url = safeUrl(record.url);
   return url ? (
@@ -493,13 +504,15 @@ export function RecordLink({ children, className }: { children: ReactNode; class
   );
 }
 /** Position in the list, 01, 02… */
-export function RecordIndex({ className }: { className?: string }) {
+export function RecordIndex(classes: ViewClasses) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
   return <span className={className}>{String(record.index + 1).padStart(2, '0')}</span>;
 }
-export function RecordEdit({ label }: { label: string }) {
+export function RecordEdit({ label, ...classes }: ViewClasses & { label: string }) {
+  const className = viewClasses(classes, Boolean(useFieldScope().edit));
   const record = useContext(RecordContext);
-  return record.manual || !record.id ? null : <EditorRecordLink id={record.id} label={label} />;
+  return record.manual || !record.id ? null : <EditorRecordLink id={record.id} label={label} className={className} />;
 }
 
 export function renderFields(
