@@ -18,11 +18,10 @@ const usage = {
     <li>Оборудование</li>
   </ul>
 </Show>`,
-    preview: { label: 'Вид', choices: { grid: 'Сетка', list: 'Список' }, cards: ['Студия', 'Оборудование'] },
   },
   Show: {
     title: 'Показать блок по условию',
-    description: 'Choice сохраняет ключ, а Show сравнивает его с is. Посмотрите полный пример и переключите раскладку в карточке Choice.',
+    description: 'Choice сохраняет ключ, а Show сравнивает его с is. Полный пример раскладки находится в карточке Choice.',
     link: 'Choice',
   },
   Toggle: {

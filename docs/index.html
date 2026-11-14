@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Компоненты Gutenberg Kit · Справочник</title>
-<link rel="stylesheet" href="admin.css?v=5">
+<link rel="stylesheet" href="admin.css?v=6">
 </head>
-<body>
+<body class="docs-reference">
 <header><a class="brand" href="./"><span aria-hidden="true">&lt;/&gt;</span> Gutenberg Kit</a><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
 <main>
 <div class="workspace">
 <aside id="sidebar">
 <h2>Компоненты</h2>
 <div class="filters">
-<label for="search">Поиск <input id="search" type="search" placeholder="Имя или параметр"></label>
+<label for="search">Поиск <input id="search" type="search" placeholder="Компонент или проп" aria-keyshortcuts="/"><kbd aria-hidden="true">/</kbd></label>
 <label for="group">Группа <select id="group"><option value="">Все группы</option></select></label>
 </div>
 <nav id="toc" aria-label="Компоненты"></nav>
@@ -28,7 +28,6 @@
 <script src="settings.js"></script>
 <script src="usage.js"></script>
 <script src="props.js"></script>
-<script src="playgrounds.js"></script>
 <script>
 const entries = [
 ['Разметка','Section','Якорь sectionId добавляет схема секции','Корневой section. when скрывает секцию на сайте, если поле пустое.'],
@@ -179,99 +178,98 @@ function example(snippet) {
   panel.append(toolbar, pre);
   return panel;
 }
-function settingsTable(name) {
-  const rows = settings[name];
-  if (!rows) return null;
-  const panel = element('div', '');
-  panel.className = 'settings';
+const commonPropNotes = {
+  className: 'Классы в редакторе и на сайте.',
+  adminClassName: 'Дополнительные классы в редакторе.',
+  frontClassName: 'Дополнительные классы на сайте.',
+  initial: 'Внутри Drag: false оставляет элемент в меню вставки и исключает его из начальной раскладки.',
+  name: 'Имя поля или идентификатор компонента.',
+  label: 'Подпись поля или доступное название контрола.',
+  children: 'Вложенная JSX-разметка.',
+  buttonPosition: 'Положение кнопки добавления.',
+  buttonText: 'Подпись кнопки добавления.',
+};
+const splitDefaults = {
+  Drag: { grid: '0', mobileGrid: '6, но не больше grid', buttonPosition: 'bottom left' },
+  Accordion: { icon: 'стрелка', iconPosition: 'after', multiple: 'false', firstOpen: 'false' },
+  List: { buttonPosition: 'bottom right', loop: 'false', gallery: 'false' },
+  Records: { buttonText: 'Add card' },
+  Slider: { loop: 'false' },
+  SliderButton: { direction: 'next', label: 'по направлению' },
+  SliderPagination: { label: 'Slider pages', pageLabel: 'Slide' },
+};
+function referenceTable(rows, title, id, isProps) {
+  const panel = element('section', '');
+  panel.className = 'reference-section';
+  panel.id = id;
+  const heading = element('h2', title);
+  heading.id = id + '-title';
+  const frame = element('div', '');
+  frame.className = 'settings';
+  frame.tabIndex = 0;
+  frame.setAttribute('role', 'region');
+  frame.setAttribute('aria-labelledby', heading.id);
   const table = element('table', '');
-  const heading = element('caption', 'Как работают настройки');
+  table.setAttribute('aria-labelledby', heading.id);
+  const labels = ['Параметр', 'Тип', 'По умолчанию', 'Что меняет'];
   const head = element('thead', '');
   const header = element('tr', '');
-  for (const label of ['Параметр', 'Тип', 'По умолчанию', 'Что меняет']) {
+  for (const label of labels) {
     const cell = element('th', label);
     cell.scope = 'col';
     header.append(cell);
   }
   head.append(header);
   const body = element('tbody', '');
-  for (const [prop, type, initial, description] of rows) {
+  for (const [prop, type, initial, description, required] of rows) {
     const row = element('tr', '');
     const key = element('th', '');
     key.scope = 'row';
-    key.append(element('code', prop));
-    row.append(key, element('td', type), element('td', initial), element('td', description));
+    key.append(element(isProps ? 'code' : 'span', prop));
+    if (required) {
+      const badge = element('small', 'Обязательный');
+      badge.className = 'required';
+      key.append(badge);
+    }
+    row.append(key);
+    for (const [i, value] of [type, initial, description].entries()) {
+      const cell = element('td', '');
+      cell.dataset.label = labels[i + 1];
+      cell.append(element(i === 0 && isProps ? 'code' : 'span', value));
+      row.append(cell);
+    }
     body.append(row);
   }
-  table.append(heading, head, body);
-  panel.append(table);
+  table.append(head, body);
+  frame.append(table);
+  panel.append(heading, frame);
   return panel;
 }
-const commonPropNotes = {
-  className: 'Общие классы компонента.',
-  adminClassName: 'Классы только в редакторе.',
-  frontClassName: 'Классы только на сайте.',
-  initial: 'Внутри Drag: false оставляет элемент в меню вставки и исключает его из начальной раскладки.',
-  name: 'Имя поля или идентификатор компонента.',
-  label: 'Подпись поля или доступное название контрола.',
-  children: 'Вложенная JSX-разметка.',
-};
-function propsPanel(name) {
-  const signatures = jsxProps[name];
-  if (!signatures?.length) return null;
-  const panel = element('details', '');
-  panel.className = 'settings prop-reference';
-  const count = new Set(signatures.flat().map(([prop]) => prop)).size;
-  panel.append(element('summary', 'Все JSX-пропсы · ' + count));
-  panel.append(element('p', 'Типы из публичного API Kit. Значения по умолчанию и поведение в редакторе описаны в настройках выше.'));
-  for (const entries of signatures) {
-    const list = element('dl', '');
-    for (const [prop, type, optional] of entries) {
-      const term = element('dt', '');
-      term.append(element('code', prop), ' · ' + (optional ? 'необязательный' : 'обязательный'));
-      const description = element('dd', '');
-      description.append(element('code', type));
-      if (commonPropNotes[prop]) description.append(element('p', commonPropNotes[prop]));
-      list.append(term, description);
-    }
-    panel.append(list);
+function propsTable(name) {
+  const signatures = jsxProps[name] ?? [];
+  const docs = settings[name] ?? [];
+  const props = new Map();
+  for (const [prop, type, optional] of signatures.flat()) {
+    const prior = props.get(prop);
+    props.set(prop, prior ? [[...new Set([...prior[0], type])], prior[1] || optional] : [[type], optional]);
   }
-  return panel;
+  const rows = [...props].sort(([a, [, ao]], [b, [, bo]]) => Number(ao) - Number(bo)
+    || Number(a in commonPropNotes) - Number(b in commonPropNotes)).map(([prop, [types, optional]]) => {
+    const match = docs.find(([label, type]) => type !== 'Gutenberg' && label.split(' / ').includes(prop));
+    const fallback = match && (!match[0].includes(' / ') || match[2] === 'false') ? match[2] : '—';
+    return [prop, types.join(' | '), splitDefaults[name]?.[prop] ?? fallback, match?.[3] ?? commonPropNotes[prop] ?? '—', !optional];
+  });
+  return rows.length ? referenceTable(rows, 'JSX-пропсы · ' + rows.length, name + '-props', true) : null;
 }
 function usagePanel(name) {
   const scenario = usage[name];
   if (!scenario) return null;
   const panel = element('section', '');
-  panel.className = 'usage';
+  panel.className = 'usage reference-section';
+  panel.id = name + '-usage';
   panel.append(element('h2', 'Пример использования'), element('h3', scenario.title), element('p', scenario.description));
   if (scenario.link) panel.append(linkTo(scenario.link));
   if (scenario.code) panel.append(example(scenario.code));
-  const demo = createPlayground(name);
-  if (demo) panel.append(demo);
-  if (scenario.preview) {
-    const preview = element('div', '');
-    preview.className = 'preview';
-    const label = element('label', scenario.preview.label);
-    const select = element('select', '');
-    for (const [key, value] of Object.entries(scenario.preview.choices)) select.add(new Option(value, key));
-    label.append(select);
-    const cards = element('div', '');
-    cards.className = 'preview-cards';
-    for (const text of scenario.preview.cards) cards.append(element('div', text));
-    const value = element('code', '');
-    value.setAttribute('aria-live', 'polite');
-    const update = () => {
-      cards.dataset.layout = select.value;
-      value.textContent = 'layout = ' + JSON.stringify(select.value);
-    };
-    select.addEventListener('change', update);
-    update();
-    const controls = element('div', '');
-    controls.className = 'preview-controls';
-    controls.append(label, value);
-    preview.append(controls, cards);
-    panel.append(preview);
-  }
   return panel;
 }
 function card(name, parent) {
@@ -280,19 +278,35 @@ function card(name, parent) {
   const title = element(parent ? 'summary' : 'h1', '');
   title.append(parent ? document.createTextNode(name) : linkTo(name));
   node.id = name;
-  if (!parent) {
-    const category = element('p', byName.get(name)[0]);
-    category.className = 'breadcrumb';
-    node.append(category);
-  }
   const badge = element('small', field);
   badge.className = 'field-label';
-  node.append(title, badge, element('p', description), example(examples[name] ?? '<' + name + ' />'));
-  const options = settingsTable(name);
-  if (options) node.append(options);
-  const props = propsPanel(name);
-  if (props) node.append(props);
+  const intro = element('p', description);
+  intro.className = 'component-intro';
+  node.append(title, badge, intro);
+  const props = propsTable(name);
+  const controls = (settings[name] ?? []).filter(([key, type]) => type === 'Gutenberg' ||
+    !key.split(' / ').some(prop => (jsxProps[name] ?? []).flat().some(([known]) => known === prop)));
+  const editor = controls.length ? referenceTable(controls, 'В редакторе Gutenberg', name + '-editor', false) : null;
   const scenario = usagePanel(name);
+  const sections = [[name + '-syntax', 'Синтаксис'], ...(props ? [[props.id, 'JSX-пропсы']] : []),
+    ...(editor ? [[editor.id, 'В редакторе']] : []), ...(scenario ? [[scenario.id, 'Пример']] : []),
+    ...(children[name] ? [[name + '-children', 'Дочерние']] : [])];
+  if (!parent) {
+    const nav = element('nav', '');
+    nav.className = 'page-links';
+    nav.setAttribute('aria-label', 'На этой странице');
+    for (const [id, label] of sections) {
+      const link = element('a', label);
+      link.href = '#' + id;
+      nav.append(link);
+    }
+    node.append(nav);
+  }
+  const syntax = example(examples[name] ?? '<' + name + ' />');
+  syntax.id = name + '-syntax';
+  node.append(syntax);
+  if (props) node.append(props);
+  if (editor) node.append(editor);
   if (scenario) node.append(scenario);
   if (related[name]) {
     const note = element('p', 'Примеры полей внутри: ');
@@ -301,7 +315,8 @@ function card(name, parent) {
   }
   if (children[name]) {
     const section = element('div', '');
-    section.className = 'children';
+    section.className = 'children reference-section';
+    section.id = name + '-children';
     section.append(element('h4', 'Дочерние компоненты'));
     for (const child of children[name]) section.append(card(child, name));
     node.append(section);
@@ -329,7 +344,8 @@ function render({ followHash = false } = {}) {
     || (children[name] ?? []).some(matches);
   const visible = entries.filter(([category, name]) => !nested.has(name)
     && (!group.value || category === group.value) && matches(name));
-  const requested = location.hash.slice(1);
+  const anchor = location.hash.slice(1);
+  const requested = anchor.split('-')[0];
   const selected = visible.some(entry => entry[1] === topLevel(requested)) ? requested : visible[0]?.[1];
   status.textContent = selected ? '' : 'Компоненты не найдены. Попробуйте изменить запрос или группу.';
   catalog.replaceChildren();
@@ -351,22 +367,38 @@ function render({ followHash = false } = {}) {
   for (let node = target; node && node !== catalog; node = node.parentElement) {
     if (node.tagName === 'DETAILS') node.open = true;
   }
-  if (followHash && selected !== root) target?.scrollIntoView();
+  const destination = document.getElementById(anchor);
+  if (followHash && (selected !== root || destination && destination !== target || matchMedia('(max-width: 45rem)').matches)) (destination ?? target)?.scrollIntoView();
   else if (followHash) window.scrollTo(0, 0);
   if (followHash) toc.querySelector('[aria-current]')?.scrollIntoView({ block: 'nearest', container: 'nearest' });
 }
 window.addEventListener('hashchange', () => {
-  search.value = '';
-  group.value = '';
+  const name = location.hash.slice(1).split('-')[0];
+  if (name && ![...toc.querySelectorAll('a')].some(link => link.hash === '#' + name || link.hash === '#' + topLevel(name))) {
+    search.value = '';
+    group.value = '';
+  }
   render({ followHash: true });
 });
 document.addEventListener('click', event => {
   const link = event.target.closest('a[href^="#"]');
-  if (!link || link.hash !== location.hash) return;
+  const target = link?.closest('.page-links') && document.getElementById(link.hash.slice(1));
+  if (!target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
-  search.value = '';
-  group.value = '';
-  render({ followHash: true });
+  if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+  target.tabIndex = -1;
+  target.focus({ preventScroll: true });
+  target.scrollIntoView();
+});
+document.addEventListener('keydown', event => {
+  if (event.key !== '/' || event.metaKey || event.ctrlKey || event.altKey ||
+    event.target.closest('input, select, textarea, [contenteditable]')) return;
+  event.preventDefault();
+  search.focus();
+});
+search.addEventListener('keydown', event => {
+  if (event.key === 'Escape') { search.value = ''; render(); }
+  if (event.key === 'Enter') toc.querySelector('a')?.click();
 });
 search.addEventListener('input', () => render());
 group.addEventListener('change', () => render());
