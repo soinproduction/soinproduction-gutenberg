@@ -1,0 +1,8 @@
+{
+  "name": "gutenberg-kit-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {"build": "vite build"},
+  "dependencies": {"react":"19.2.0","react-dom":"19.2.0","react-aria-components":"^1.14.0","tailwind-merge":"^3.4.0","lucide-react":"^0.575.0"},
+  "devDependencies": {"vite":"^7.2.0","tailwindcss":"^4.2.1","@tailwindcss/vite":"^4.2.1"}
+}

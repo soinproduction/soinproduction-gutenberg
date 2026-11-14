@@ -71,3 +71,5 @@ const usage = {
 </Drag>`,
   },
 };
+
+export { usage };

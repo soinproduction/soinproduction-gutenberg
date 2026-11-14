@@ -40,3 +40,5 @@ const jsxProps = {
   "ReviewsCarousel": [[["className","string",true],["adminClassName","string",true],["frontClassName","string",true],["initial","boolean",true],["name","string",true],["label","string",true],["labels","ReviewsCarouselLabels",true]]],
   "Form": [[["className","string",true],["adminClassName","string",true],["frontClassName","string",true],["initial","boolean",true],["name","string",true],["label","string",true]]]
 };
+
+export { jsxProps };

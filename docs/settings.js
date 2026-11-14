@@ -32,3 +32,5 @@ const settings = {
   PricingPlans: [['Тарифы', 'Gutenberg', '—', 'Выбор и порядок опубликованных тарифов в инспекторе.']],
   ReviewsCarousel: [['labels', 'объект', '—', 'Доступные подписи previous, next, carousel и pages.'], ['Отзывы', 'Gutenberg', '—', 'Выбор отзывов в инспекторе.']],
 };
+
+export { settings };
