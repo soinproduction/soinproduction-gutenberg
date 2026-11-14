@@ -32,9 +32,10 @@
 Используем `kit(kind, describeField, render)` для обычного поля. `Object.assign(View, { kind, field })` подходит составным компонентам, которым нужно подготовить свой контекст. Декоративные компоненты и части шаблона строки не объявляют `field`. Настройку в инспекторе объявляем через `settings: true`. Существующий редактор поля лучше переиспользовать через `Field` или общий контрол; новый тип адаптируем в editor entry point.
 
 ```tsx
-<ContactSocialLinks
+<Records
   manual
-  name="contactSocialLinks"
+  name="services"
+  type="service"
   className="flex flex-wrap gap-preset-20"
   adminClassName="[&>.site-record-add]:size-13"
 >
@@ -42,9 +43,9 @@
     <RecordImage className="size-5" />
     <RecordText field="title" as="span" />
   </RecordLink>
-</ContactSocialLinks>
+</Records>
 ```
 
-Здесь секция хранит порядок и выбор соцссылок. `ContactSocialLinks` передаёт данные общему `Relationship`. `RecordLink`, `RecordImage` и `RecordText` читают текущую запись и сами полей не создают.
+Здесь секция хранит порядок и выбор услуг. `Records` передаёт данные общему `Relationship`. `RecordLink`, `RecordImage` и `RecordText` читают текущую запись и сами полей не создают.
 
 При изменении проверь типы, сборку редактора и сценарий сохранения. Для секций с PHP-рендером проверь также вывод WordPress. У компонентов без DOM-узла, например Choice, классам некуда применяться. Show, Toggle и RecordContent добавляют обёртку только при наличии классов. Cols передаёт классы колонке Drag.
