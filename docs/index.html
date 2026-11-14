@@ -7,21 +7,21 @@
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<header><strong>Gutenberg Kit</strong><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
+<header><a class="brand" href="./"><span aria-hidden="true">&lt;/&gt;</span> Gutenberg Kit</a><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
 <main>
-<section class="intro">
-<h1>Компоненты Kit</h1>
-<p>Пропсы JSX, поля Gutenberg и шаблоны дочерних компонентов.</p>
-<div class="quick-links"><a href="#Records">Records</a><a href="#Buttons">Buttons</a><a href="#Drag">Drag</a><a href="pattern.html">Общие пропсы →</a></div>
-</section>
-<div class="filters">
-<label>Поиск <input id="search" type="search" placeholder="Компонент, поле или поведение"></label>
-<label>Группа <select id="group"><option value="">Все</option></select></label>
-</div>
-<p id="status" aria-live="polite"></p>
 <div class="workspace">
-<aside id="sidebar"><h2>Оглавление</h2><nav id="toc" aria-label="Оглавление"></nav></aside>
+<aside id="sidebar">
+<h2>Компоненты</h2>
+<div class="filters">
+<label for="search">Поиск <input id="search" type="search" placeholder="Имя или параметр"></label>
+<label for="group">Группа <select id="group"><option value="">Все группы</option></select></label>
+</div>
+<nav id="toc" aria-label="Компоненты"></nav>
+</aside>
+<section class="reference" aria-label="Справочник">
+<p id="status" aria-live="polite"></p>
 <div id="catalog"></div>
+</section>
 </div>
 <noscript>Для поиска и показа карточек включите JavaScript. Откройте страницу в браузере с поддержкой JavaScript.</noscript>
 </main>
@@ -142,7 +142,18 @@ function linkTo(name) {
 function example(name) {
   const snippet = examples[name] ?? '<' + name + ' />';
   const pre = element('pre', '');
-  pre.append(element('code', snippet));
+  const code = element('code', '');
+  const tokens = /(<\/?)([A-Z][\w.]*)|("[^"]*"|'[^']*')|([\w]+)(?==)|([{}])/g;
+  let offset = 0;
+  for (const match of snippet.matchAll(tokens)) {
+    code.append(snippet.slice(offset, match.index));
+    const token = element('span', match[0]);
+    token.className = match[2] ? 'syntax-tag' : match[3] ? 'syntax-string' : match[4] ? 'syntax-prop' : 'syntax-brace';
+    code.append(token);
+    offset = match.index + match[0].length;
+  }
+  code.append(snippet.slice(offset));
+  pre.append(code);
   const copy = element('button', 'Копировать JSX');
   copy.type = 'button';
   copy.addEventListener('click', async () => {
@@ -194,15 +205,12 @@ function settingsTable(name) {
   panel.append(table);
   return panel;
 }
-function card(name, parent, nav) {
+function card(name, parent) {
   const [, , field, description] = byName.get(name);
   const node = element(parent ? 'details' : 'article', '');
-  const title = element(parent ? 'summary' : 'h3', '');
+  const title = element(parent ? 'summary' : 'h1', '');
   title.append(parent ? document.createTextNode(name) : linkTo(name));
   node.id = name;
-  const item = linkTo(name);
-  if (parent) item.className = 'nested';
-  nav.append(item);
   const badge = element('small', field);
   badge.className = 'field-label';
   node.append(title, badge, element('p', description), example(name));
@@ -217,56 +225,76 @@ function card(name, parent, nav) {
     const section = element('div', '');
     section.className = 'children';
     section.append(element('h4', 'Дочерние компоненты'));
-    for (const child of children[name]) section.append(card(child, name, nav));
+    for (const child of children[name]) section.append(card(child, name));
     node.append(section);
   }
   return node;
 }
-function showAnchor() {
-  const target = document.getElementById(location.hash.slice(1));
-  if (!target) return;
-  for (let node = target; node && node !== catalog; node = node.parentElement) {
-    if (node.tagName === 'DETAILS') node.open = true;
-  }
-  for (const link of toc.querySelectorAll('a')) {
-    if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
-    else link.removeAttribute('aria-current');
-  }
-  target.scrollIntoView();
+const parents = new Map(Object.entries(children).flatMap(([parent, parts]) =>
+  parts.map(part => [part, parent])));
+function topLevel(name) {
+  while (parents.has(name)) name = parents.get(name);
+  return name;
 }
-function render() {
+function appendNavigation(nav, name, selected, depth = 0) {
+  const item = linkTo(name);
+  item.style.setProperty('--depth', depth);
+  if (name === selected) item.setAttribute('aria-current', 'location');
+  nav.append(item);
+  if (topLevel(selected) === topLevel(name)) {
+    for (const child of children[name] ?? []) appendNavigation(nav, child, selected, depth + 1);
+  }
+}
+function render({ followHash = false } = {}) {
   const term = search.value.trim().toLocaleLowerCase('ru');
   const matches = name => [...byName.get(name), ...(settings[name] ?? []).flat()].join(' ').toLocaleLowerCase('ru').includes(term)
     || (children[name] ?? []).some(matches);
   const visible = entries.filter(([category, name]) => !nested.has(name)
     && (!group.value || category === group.value) && matches(name));
-  status.textContent = visible.length ? '' : 'Компоненты не найдены.';
+  const requested = location.hash.slice(1);
+  const selected = visible.some(entry => entry[1] === topLevel(requested)) ? requested : visible[0]?.[1];
+  status.textContent = selected ? '' : 'Компоненты не найдены. Попробуйте изменить запрос или группу.';
   catalog.replaceChildren();
   toc.replaceChildren();
+
   for (const label of groups) {
     const matching = visible.filter(entry => entry[0] === label);
     if (!matching.length) continue;
-    const heading = element('strong', label);
+    const heading = element('h3', label);
     heading.className = 'nav-group';
     toc.append(heading);
-    const grid = element('div', '');
-    grid.className = 'grid';
-    for (const [, name] of matching) grid.append(card(name, null, toc));
-    catalog.append(element('h2', label), grid);
+    for (const [, name] of matching) appendNavigation(toc, name, selected);
   }
+  if (!selected) return;
+  const root = topLevel(selected);
+  const breadcrumb = element('p', byName.get(root)[0]);
+  breadcrumb.className = 'breadcrumb';
+  catalog.append(breadcrumb, card(root, null));
+
+  const target = document.getElementById(selected);
+  for (let node = target; node && node !== catalog; node = node.parentElement) {
+    if (node.tagName === 'DETAILS') node.open = true;
+  }
+  if (followHash && selected !== root) target?.scrollIntoView();
+  else if (followHash) window.scrollTo(0, 0);
+  if (followHash) toc.querySelector('[aria-current]')?.scrollIntoView({ block: 'nearest', container: 'nearest' });
 }
-document.addEventListener('click', event => {
-  const link = event.target.closest('a[href^="#"]');
-  if (!link || document.getElementById(link.hash.slice(1))) return;
+window.addEventListener('hashchange', () => {
   search.value = '';
   group.value = '';
-  render();
+  render({ followHash: true });
 });
-window.addEventListener('hashchange', showAnchor);
-search.addEventListener('input', render);
-group.addEventListener('change', render);
-render();
-if (location.hash) showAnchor();
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link || link.hash !== location.hash) return;
+  event.preventDefault();
+  search.value = '';
+  group.value = '';
+  render({ followHash: true });
+});
+search.addEventListener('input', () => render());
+group.addEventListener('change', () => render());
+render({ followHash: Boolean(location.hash) });
 </script>
 </body>
 </html>
