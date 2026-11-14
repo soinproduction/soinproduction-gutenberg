@@ -157,3 +157,31 @@ article > h1 { font-size: clamp(1.7rem, 3vw, 2.25rem); }
 @media (prefers-reduced-motion: reduce) {
   .code-toolbar button { transition: none; }
 }
+
+.playground h3, .playground p { margin: 0 0 .75rem; }
+.playground > p { color: var(--sp-ui-text-muted, #52627a); }
+.demo-controls { display: flex; flex-wrap: wrap; align-items: end; gap: .6rem 1rem; }
+.demo-controls label { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; font-weight: 600; }
+.demo-controls select { display: block; width: 100%; }
+.demo-controls label:has(.demo-checkbox) { flex-direction: row-reverse; justify-content: start; }
+.demo-controls :disabled { opacity: .65; }
+.demo-result { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .65rem; }
+.demo-records { width: 100%; margin: 0; padding-inline-start: 1.6rem; }
+.demo-records li { padding: .45rem; border-bottom: 1px solid #d4dce8; }
+.demo-button { padding: .55rem .85rem; border: 1px solid transparent; border-radius: .4rem; font-weight: 650; }
+.demo-button[data-style="accent"] { background: #3448d8; color: #fff; }
+.demo-button[data-style="outline"] { border-color: #3448d8; color: #293bbb; }
+.demo-button[data-style="text"] { color: #293bbb; text-decoration: underline; }
+.demo-grid { display: grid; width: 100%; }
+.demo-grid[data-view="narrow"] { max-width: 24rem; }
+.demo-grid > div { min-width: 0; overflow-wrap: anywhere; padding: .6rem; border-radius: .35rem; border: 1px solid #ced7f4; background: #ecf0ff; }
+.playground > code { overflow-wrap: anywhere; }
+.prop-reference { margin-block: 1rem; border: 1px solid #d4dce8; padding: .75rem 1rem; border-radius: .5rem; }
+.prop-reference > summary { cursor: pointer; font-weight: 650; }
+.prop-reference dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: .6rem 1rem; }
+.prop-reference dt, .prop-reference dd { margin: 0; padding-block: .4rem; border-bottom: 1px solid #e1e7ef; overflow-wrap: anywhere; }
+.prop-reference dd p { margin: .25rem 0 0; }
+@media (max-width: 42rem) {
+  .prop-reference dl { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .prop-reference dt { border: 0; }
+}

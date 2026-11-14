@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Компоненты Gutenberg Kit · Справочник</title>
-<link rel="stylesheet" href="admin.css?v=4">
+<link rel="stylesheet" href="admin.css?v=5">
 </head>
 <body>
 <header><a class="brand" href="./"><span aria-hidden="true">&lt;/&gt;</span> Gutenberg Kit</a><a href="pattern.html">Паттерн компонентов</a><a href="https://github.com/soinproduction/soinproduction-gutenberg">GitHub</a></header>
@@ -27,6 +27,8 @@
 </main>
 <script src="settings.js"></script>
 <script src="usage.js"></script>
+<script src="props.js"></script>
+<script src="playgrounds.js"></script>
 <script>
 const entries = [
 ['Разметка','Section','Якорь sectionId добавляет схема секции','Корневой section. when скрывает секцию на сайте, если поле пустое.'],
@@ -183,7 +185,7 @@ function settingsTable(name) {
   const panel = element('div', '');
   panel.className = 'settings';
   const table = element('table', '');
-  const heading = element('caption', 'Настройки');
+  const heading = element('caption', 'Как работают настройки');
   const head = element('thead', '');
   const header = element('tr', '');
   for (const label of ['Параметр', 'Тип', 'По умолчанию', 'Что меняет']) {
@@ -205,6 +207,37 @@ function settingsTable(name) {
   panel.append(table);
   return panel;
 }
+const commonPropNotes = {
+  className: 'Общие классы компонента.',
+  adminClassName: 'Классы только в редакторе.',
+  frontClassName: 'Классы только на сайте.',
+  initial: 'Внутри Drag: false оставляет элемент в меню вставки и исключает его из начальной раскладки.',
+  name: 'Имя поля или идентификатор компонента.',
+  label: 'Подпись поля или доступное название контрола.',
+  children: 'Вложенная JSX-разметка.',
+};
+function propsPanel(name) {
+  const signatures = jsxProps[name];
+  if (!signatures?.length) return null;
+  const panel = element('details', '');
+  panel.className = 'settings prop-reference';
+  const count = new Set(signatures.flat().map(([prop]) => prop)).size;
+  panel.append(element('summary', 'Все JSX-пропсы · ' + count));
+  panel.append(element('p', 'Типы из публичного API Kit. Значения по умолчанию и поведение в редакторе описаны в настройках выше.'));
+  for (const entries of signatures) {
+    const list = element('dl', '');
+    for (const [prop, type, optional] of entries) {
+      const term = element('dt', '');
+      term.append(element('code', prop), ' · ' + (optional ? 'необязательный' : 'обязательный'));
+      const description = element('dd', '');
+      description.append(element('code', type));
+      if (commonPropNotes[prop]) description.append(element('p', commonPropNotes[prop]));
+      list.append(term, description);
+    }
+    panel.append(list);
+  }
+  return panel;
+}
 function usagePanel(name) {
   const scenario = usage[name];
   if (!scenario) return null;
@@ -213,6 +246,8 @@ function usagePanel(name) {
   panel.append(element('h2', 'Пример использования'), element('h3', scenario.title), element('p', scenario.description));
   if (scenario.link) panel.append(linkTo(scenario.link));
   if (scenario.code) panel.append(example(scenario.code));
+  const demo = createPlayground(name);
+  if (demo) panel.append(demo);
   if (scenario.preview) {
     const preview = element('div', '');
     preview.className = 'preview';
@@ -255,6 +290,8 @@ function card(name, parent) {
   node.append(title, badge, element('p', description), example(examples[name] ?? '<' + name + ' />'));
   const options = settingsTable(name);
   if (options) node.append(options);
+  const props = propsPanel(name);
+  if (props) node.append(props);
   const scenario = usagePanel(name);
   if (scenario) node.append(scenario);
   if (related[name]) {
@@ -288,7 +325,7 @@ function appendNavigation(nav, name, selected, depth = 0) {
 }
 function render({ followHash = false } = {}) {
   const term = search.value.trim().toLocaleLowerCase('ru');
-  const matches = name => [...byName.get(name), ...(settings[name] ?? []).flat()].join(' ').toLocaleLowerCase('ru').includes(term)
+  const matches = name => [...byName.get(name), ...(settings[name] ?? []).flat(), ...(jsxProps[name] ?? []).flat(2)].join(' ').toLocaleLowerCase('ru').includes(term)
     || (children[name] ?? []).some(matches);
   const visible = entries.filter(([category, name]) => !nested.has(name)
     && (!group.value || category === group.value) && matches(name));
