@@ -8,7 +8,10 @@ export function mountSlider(root: HTMLElement) {
  const viewport=root.querySelector<HTMLElement>('[data-slider-viewport]');
  const slot=root.querySelector<HTMLElement>('[data-slider-track]');
  if(!viewport||!slot)return ()=>{};
- const track=slot.children.length===1&&slot.firstElementChild?.classList.contains('site-slider-items')?slot.firstElementChild as HTMLElement:slot;
+ const child=slot.children.length===1?slot.firstElementChild:null;
+ // List and Records may wrap their item track in LoadedCollection.
+ const collection=child?.classList.contains('site-loaded-list')?child.firstElementChild:child;
+ const track=collection?.classList.contains('site-slider-items')?collection as HTMLElement:slot;
  const scope=root.closest('section')??root.parentElement??root;
  const controls=Array.from(scope.querySelectorAll<HTMLButtonElement>('[data-slider-button]')).filter(button=>button.dataset.sliderFor===root.dataset.slider);
  const paginations=Array.from(scope.querySelectorAll<HTMLElement>('[data-slider-pagination]')).filter(element=>element.dataset.sliderFor===root.dataset.slider);

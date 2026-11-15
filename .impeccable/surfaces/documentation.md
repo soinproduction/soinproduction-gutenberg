@@ -2,6 +2,8 @@
 
 Mode: Read. Extend the approved SoinLAB system into the existing Russian reference. The user requested direct implementation in this repository. Preserve every entry, prop, editor setting, example, hash URL and the separate pattern guide. Source truth: docs/catalog.js, docs/props.js, docs/settings.js, docs/usage.js and README.md.
 
+Live-preview extension: every reference entry pairs its actual Kit renderer with copyable JSX and local fixture data. Isolate the renderer and its host CSS in a same-origin preview page. Preserve the approved documentation shell. Configurable examples demonstrate state changes without executing user-authored code. Forms and booking are optional modules, with explicit on/off demo states; form submission uses an iframe-local mock transport and never sends a message. Editor-only controls are labelled as inspector demonstrations. The browser remains the verification surface on desktop and mobile.
+
 ## Direction contract
 
 THESIS: A working reference with an understandable section example. Reading and finding API details lead.

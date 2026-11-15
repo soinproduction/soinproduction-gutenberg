@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import {entries, examples, children, related, byName, propRows} from './catalog';
 import {settings} from './settings';
 import {usage} from './usage';
+import {LivePreview} from './live-preview';
 import {Action, ArrowLeft, ArrowRight, ArrowUpRight, Breadcrumbs, Braces, CodeBlock, CodeXml, DocFooter, DocsShell, FileCode2, groupIcons, groups, MobileOutline, PageOutline, parents} from './components';
 import './reference.css';
 
@@ -57,7 +58,7 @@ function Reference({name, hash}) {
   const [group, , field, description] = byName.get(name); const rows = propRows(name);
   const editor = (settings[name] ?? []).filter(([key, type]) => type === 'Gutenberg' || !key.split(' / ').some(prop => rows.some(([known]) => known === prop)));
   const scenario = usage[name];
-  const links = [[name + '-syntax', 'Синтаксис'], ...(rows.length ? [[name + '-props', 'JSX-пропсы']] : []), ...(editor.length ? [[name + '-editor', 'В редакторе Gutenberg']] : []), ...(scenario ? [[name + '-usage', 'Пример использования']] : []), ...(children[name] || related[name] ? [[name + '-children', children[name] ? 'Дочерние компоненты' : 'Компоненты для вложения']] : [])];
+  const links = [[name + '-preview', 'Превью и код'], [name + '-syntax', 'Базовый синтаксис'], ...(rows.length ? [[name + '-props', 'JSX-пропсы']] : []), ...(editor.length ? [[name + '-editor', 'В редакторе Gutenberg']] : []), ...(scenario ? [[name + '-usage', 'Пример использования']] : []), ...(children[name] || related[name] ? [[name + '-children', children[name] ? 'Дочерние компоненты' : 'Компоненты для вложения']] : [])];
   const [active, setActive] = useState(hash);
   useEffect(() => { const update = () => { const passed = links.map(([id]) => document.getElementById(id)).filter(node => node && node.getBoundingClientRect().top < 180); setActive(passed.at(-1)?.id ?? links[0][0]); }; update(); window.addEventListener('scroll', update, {passive: true}); return () => window.removeEventListener('scroll', update); }, [name]);
   const position = entries.findIndex(([, item]) => item === name); const previous = entries[position - 1]; const next = entries[position + 1];
@@ -65,7 +66,8 @@ function Reference({name, hash}) {
     <Breadcrumbs items={[[group], ...(parents.has(name) ? [[parents.get(name), `#${parents.get(name)}`]] : []), [name]]} />
     <div className="reference-intro"><div className="reference-title"><h1>{name}</h1><span className="component-symbol"><CodeXml size={28} /></span></div><p className="summary">{description}</p><div className="field"><span>Поле данных</span><code>{field}</code></div></div>
     <MobileOutline links={links} />
-    <section id={`${name}-syntax`} className="doc-section"><h2>Синтаксис<a className="heading-anchor" href={`#${name}-syntax`} aria-label="Ссылка на синтаксис">#</a></h2><CodeBlock key={name} code={examples[name] ?? `<${name} />`} /></section>
+    <section id={`${name}-preview`} className="doc-section"><h2>Превью и код<a className="heading-anchor" href={`#${name}-preview`} aria-label="Ссылка на превью">#</a></h2><LivePreview key={name} name={name}/></section>
+    <section id={`${name}-syntax`} className="doc-section"><h2>Базовый синтаксис<a className="heading-anchor" href={`#${name}-syntax`} aria-label="Ссылка на синтаксис">#</a></h2><CodeBlock key={name} code={examples[name] ?? `<${name} />`} /></section>
     {rows.length > 0 && <ReferenceTable id={`${name}-props`} title="JSX-пропсы" props rows={rows} />}
     {editor.length > 0 && <ReferenceTable id={`${name}-editor`} title="В редакторе Gutenberg" rows={editor} />}
     {scenario && <section id={`${name}-usage`} className="doc-section usage-section"><h2>Пример использования<a className="heading-anchor" href={`#${name}-usage`} aria-label="Ссылка на пример использования">#</a></h2><h3>{scenario.title}</h3><p>{scenario.description}</p>{scenario.code && <CodeBlock key={`${name}-example`} code={scenario.code} title="example.tsx" />}{scenario.link && <a className="text-link" href={`#${scenario.link}`}>{scenario.link}<ArrowRight size={16} /></a>}</section>}

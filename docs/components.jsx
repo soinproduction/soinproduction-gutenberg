@@ -1,11 +1,11 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
-import {ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Braces, Check, ChevronDown, ChevronRight, CodeXml, Copy, FileCode2, Github, Images, Layers3, LayoutTemplate, Menu, MousePointer2, Search, Type, X} from 'lucide-react';
+import {ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Braces, Check, ChevronDown, ChevronRight, CodeXml, Copy, FileCode2, Github, Images, Layers3, LayoutTemplate, Menu, MousePointer2, PackageOpen, Search, Type, X} from 'lucide-react';
 import {entries, children, nested, propRows} from './catalog';
 
 export const github = 'https://github.com/soinproduction/soinproduction-gutenberg';
-export const groups = [...new Set(entries.map(([group]) => group))];
+export const groups = [...new Set(entries.map(([group]) => group))].filter(group => group !== 'Дополнительные модули').concat('Дополнительные модули');
 export const parents = new Map(Object.entries(children).flatMap(([parent, items]) => items.map(item => [item, parent])));
-export const groupIcons = {Разметка: LayoutTemplate, Контент: Type, Медиа: Images, 'Ссылки и формы': MousePointer2, Коллекции: Layers3};
+export const groupIcons = {Разметка: LayoutTemplate, Контент: Type, Медиа: Images, 'Ссылки': MousePointer2, Коллекции: Layers3, 'Дополнительные модули': PackageOpen};
 export {ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Braces, Check, CodeXml, FileCode2, Github, Layers3, LayoutTemplate};
 
 export function Action({href, children, icon: Icon, variant = 'white', className = '', ...props}) {
