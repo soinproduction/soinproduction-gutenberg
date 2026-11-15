@@ -1,222 +1,83 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {ArrowDownRight, ArrowUpRight, Braces, Check, CodeXml, Copy, Menu, Search, X} from 'lucide-react';
-import {Button} from './ui/button';
-import {entries, examples, children, related, nested, byName, propRows} from './catalog';
+import {entries, examples, children, related, byName, propRows} from './catalog';
 import {settings} from './settings';
 import {usage} from './usage';
+import {Action, ArrowLeft, ArrowRight, ArrowUpRight, Breadcrumbs, Braces, CodeBlock, CodeXml, DocFooter, DocsShell, FileCode2, groupIcons, groups, MobileOutline, PageOutline, parents} from './components';
 import './reference.css';
 
-const groups = [...new Set(entries.map(([group]) => group))];
-const parents = new Map(Object.entries(children).flatMap(([parent, items]) => items.map(item => [item, parent])));
-const github = 'https://github.com/soinproduction/soinproduction-gutenberg';
-const labels = ['Параметр', 'Тип', 'По умолчанию', 'Что меняет'];
 const readHash = () => location.hash.slice(1);
 const identifier = hash => hash.split('-')[0];
+const demoExamples = [
+  {name: 'Section', label: 'Секция', code: '<Section className="py-section">\n  <Heading name="title" level={2} />\n  <Text name="description" />\n  <Buttons name="actions" max={2} />\n</Section>'},
+  {name: 'Cols', label: 'Колонки', code: '<Drag name="content" grid={12}>\n  <Cols name="main" span={8}>\n    <Heading name="title" />\n  </Cols>\n  <Cols name="aside" span={4}>\n    <Text name="description" />\n  </Cols>\n</Drag>'},
+  {name: 'List', label: 'Список', code: '<List name="features" max={4}>\n  <article>\n    <Heading name="title" level={3} />\n    <Text name="description" />\n  </article>\n</List>'},
+];
 
-function Header({onSearch, onMenu, menuOpen}) {
-  return <header className="topbar">
-    <a href="./" className="brand"><span className="brand-mark"><Braces size={19} /></span> Gutenberg Kit</a>
-    <nav aria-label="Главная навигация">
-      <Button size="sm" color="tertiary" href="./pattern.html">Паттерн</Button>
-      <Button size="sm" color="tertiary" href={github} iconTrailing={ArrowUpRight}>GitHub</Button>
-      <Button size="sm" color="secondary" iconLeading={Search} onPress={onSearch} aria-label="Поиск" />
-      <Button size="sm" color="secondary" className="menu-toggle" iconLeading={menuOpen ? X : Menu}
-        onPress={onMenu} aria-label="Компоненты" aria-expanded={menuOpen} aria-controls="catalog-nav" />
-    </nav>
-  </header>;
-}
-
-function Snippet({code}) {
-  const [status, setStatus] = useState('');
-  const source = useRef(null);
-  useEffect(() => {
-    if (!status) return;
-    const timer = setTimeout(() => setStatus(''), 2200);
-    return () => clearTimeout(timer);
-  }, [status]);
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(code);
-      setStatus('Скопировано');
-    } catch {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(source.current);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      setStatus('Код выделен');
-    }
+function SectionDemo() {
+  const [active, setActive] = useState(0); const demo = demoExamples[active];
+  function tabKeys(event, index) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault(); const next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (index + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
+    setActive(next); document.getElementById(`demo-tab-${next}`).focus();
   }
-  const pattern = /(<\/?[A-Z][\w.]*|"(?:[^"]*)"|'(?:[^']*)'|\b[\w]+(?==)|[{}])/g;
-  return <div className="snippet">
-    <div className="snippet-bar"><span><CodeXml size={15} /> JSX</span>
-      <Button size="sm" color="tertiary" iconLeading={status === 'Скопировано' ? Check : Copy} onPress={copy}>{status || 'Копировать'}</Button>
-    </div>
-    <pre tabIndex={0}><code ref={source}>{code.split(pattern).map((part, index) => index % 2
-      ? <span key={index} className={part.startsWith('<') ? 'syntax-tag' : /^['"]/.test(part) ? 'syntax-string' : /^[{}]$/.test(part) ? 'syntax-brace' : 'syntax-prop'}>{part}</span>
-      : part)}</code></pre>
-    <span className="sr-only" aria-live="polite">{status}</span>
-  </div>;
-}
-
-function ReferenceTable({id, title, rows, props}) {
-  return <section id={id} className="doc-section">
-    <h2>{title}{props && <span>{rows.length}</span>}</h2>
-    <div role="region" aria-label={title} className="table-wrap" tabIndex={0}>
-      <table aria-label={title}><thead><tr>{labels.map(label => <th scope="col" key={label}>{label}</th>)}</tr></thead>
-        <tbody>{rows.map(([key, type, value, description, required]) => <tr key={key}>
-          <th scope="row">{props ? <code>{key}</code> : key}{required && <small>Обязательный</small>}</th>
-          <td>{props ? <code>{type}</code> : type}</td><td>{value}</td><td>{description}</td>
-        </tr>)}</tbody>
-      </table>
+  return <section className="workbench" aria-label="Как устроены компоненты">
+    <div className="workbench-toolbar"><div role="tablist" aria-label="Примеры структуры">{demoExamples.map(({label}, index) => <button key={label} id={`demo-tab-${index}`} type="button" role="tab" aria-selected={active === index} aria-controls="demo-panel" tabIndex={active === index ? 0 : -1} onClick={() => setActive(index)} onKeyDown={event => tabKeys(event, index)}>{label}</button>)}</div><span className="workbench-note"><Braces size={16} />JSX → структура</span></div>
+    <div className="workbench-content" id="demo-panel" role="tabpanel" aria-labelledby={`demo-tab-${active}`}>
+      <CodeBlock key={demo.name} code={demo.code} title="section.tsx" tone="dark" />
+      <div className="structure-preview"><div className="preview-top"><span className="preview-dots" aria-hidden="true"><i /><i /><i /></span><span>Предпросмотр структуры</span></div>
+        <div className={`preview-canvas preview-canvas--${demo.name.toLowerCase()}`}>
+          {active === 0 && <div className="preview-section"><span className="component-tag">Section</span><div className="preview-heading"><span>Ваш следующий<br />большой проект.</span><code>Heading</code></div><div className="preview-description">Содержание редактируется в WordPress.<br /> Разметка остаётся в вашем компоненте.<code>Text</code></div><div className="preview-buttons"><span>Обсудить проект<ArrowUpRight size={14} /></span><code>Buttons</code></div></div>}
+          {active === 1 && <div className="preview-columns"><span className="component-tag">Drag · grid=12</span><div className="preview-col"><code>Cols · span=8</code><strong>Место для<br />главного.</strong><span>Heading</span></div><div className="preview-col"><code>Cols · span=4</code><p>Контекст,<br />детали<br />и полезные<br />ссылки.</p><span>Text</span></div></div>}
+          {active === 2 && <div className="preview-list"><span className="component-tag">List · max=4</span>{['Продумать структуру', 'Добавить содержание', 'Настроить оформление'].map((title, index) => <div className="preview-list-row" key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{title}</strong><small>Heading + Text</small></div><ArrowUpRight size={16} /></div>)}</div>}
+        </div><a className="preview-reference" href={`#${demo.name}`}>Открыть {demo.name}<ArrowRight size={16} /></a>
+      </div>
     </div>
   </section>;
 }
 
 function Overview() {
-  return <article className="overview">
-    <div className="intro" data-enter>
-      <p className="path">Документация / Обзор</p>
-      <h1>Gutenberg<br />Kit<span>.</span></h1>
-      <p className="summary">Справочник по компонентам WordPress и Next. Синтаксис, пропсы и готовые примеры для секций.</p>
-      <Button size="lg" href="#Section" iconTrailing={ArrowDownRight}>Открыть справочник</Button>
-    </div>
-    <div className="blueprint">
-      <div className="blueprint-label">СТРУКТУРА СЕКЦИИ</div>
-      <a href="#Section"><Braces size={22} /> Section <ArrowUpRight size={17} /></a>
-      <a href="#Heading"><CodeXml size={19} /> Heading <ArrowUpRight size={16} /></a>
-      <a href="#Buttons"><CodeXml size={19} /> Buttons <ArrowUpRight size={16} /></a>
-    </div>
-    <div className="overview-links">
-      {groups.map(group => {
-        const first = entries.find(([category, name]) => category === group && !nested.has(name));
-        return <a key={group} href={'#' + first[1]}>{group}<ArrowUpRight size={17} /></a>;
-      })}
-    </div>
+  return <article className="overview"><Breadcrumbs items={[["Обзор"]]} />
+    <div className="overview-heading"><div><h1>Gutenberg Kit<span className="heading-dot">.</span></h1><p className="summary">От JSX до редактора WordPress.<br />Компоненты, пропсы и примеры — в одном справочнике.</p></div><Action href="#Section" variant="orange" icon={ArrowRight}>Начать с Section</Action></div>
+    <SectionDemo />
+    <div className="overview-section-heading"><div><h2>Найдите нужный компонент</h2><p>От простой строки текста до вложенных коллекций.</p></div><span>{entries.length} компонентов</span></div>
+    <div className="category-directory">{groups.map(group => { const Icon = groupIcons[group]; const items = entries.filter(([category]) => category === group); return <section className="category" key={group}><div className="category-heading"><span className="category-icon"><Icon size={22} /></span><h3>{group}</h3><span>{items.length}</span></div><div className="category-links">{items.map(([, name]) => <a key={name} href={`#${name}`}>{name}<ArrowUpRight size={12} /></a>)}</div></section>; })}</div>
+    <a className="pattern-callout" href="./pattern.html"><span className="pattern-icon"><FileCode2 size={28} /></span><div><h2>Создаёте свой компонент?</h2><p>Разберите общий паттерн: поле, данные и разметка.</p></div><span className="callout-action">Читать инструкцию<ArrowUpRight size={20} /></span></a><DocFooter />
   </article>;
 }
 
-function Reference({name, hash}) {
-  const [group, , field, description] = byName.get(name);
-  const rows = propRows(name);
-  const editor = (settings[name] ?? []).filter(([key, type]) => type === 'Gutenberg' ||
-    !key.split(' / ').some(prop => rows.some(([known]) => known === prop)));
-  const scenario = usage[name];
-  const links = [['syntax', 'Синтаксис'], ...(rows.length ? [['props', 'JSX-пропсы']] : []),
-    ...(editor.length ? [['editor', 'В редакторе']] : []), ...(scenario ? [['usage', 'Пример']] : []),
-    ...(children[name] || related[name] ? [['children', children[name] ? 'Дочерние' : 'Для вложения']] : [])];
+function ReferenceTable({id, title, rows, props}) {
+  const labels = ['Параметр', 'Тип', 'По умолчанию', 'Что меняет'];
+  return <section id={id} className="doc-section"><h2>{title}<span className="count-badge">{rows.length}</span><a className="heading-anchor" href={`#${id}`} aria-label={`Ссылка на раздел ${title}`}>#</a></h2>
+    <div className="table-wrap" role="region" aria-label={title} tabIndex={0}><table><thead><tr>{labels.map(label => <th scope="col" key={label}>{label}</th>)}</tr></thead><tbody>{rows.map(([key, type, value, description, required]) => <tr key={key}><th scope="row">{props ? <code>{key}</code> : key}{required && <span className="required">Обязательный</span>}</th><td data-label="Тип">{props ? <code>{type}</code> : type}</td><td data-label="По умолчанию">{value}</td><td data-label="Что меняет">{description}</td></tr>)}</tbody></table></div>
+  </section>;
+}
 
-  return <>
-    <article className="reference" id={name}>
-      <p className="path"><a href="./">Документация</a> / {group}{parents.has(name) && <> / <a href={'#' + parents.get(name)}>{parents.get(name)}</a></>}</p>
-      <h1>{name}</h1>
-      <p className="summary">{description}</p>
-      <div className="field"><span>Поле</span> <code>{field}</code></div>
-      <section id={name + '-syntax'} className="doc-section"><h2>Синтаксис</h2>
-        <Snippet key={name} code={examples[name] ?? '<' + name + ' />'} />
-      </section>
-      {rows.length > 0 && <ReferenceTable id={name + '-props'} title="JSX-пропсы" props rows={rows} />}
-      {editor.length > 0 && <ReferenceTable id={name + '-editor'} title="В редакторе Gutenberg" rows={editor} />}
-      {scenario && <section id={name + '-usage'} className="doc-section">
-        <h2>Пример использования</h2><h3>{scenario.title}</h3><p>{scenario.description}</p>
-        {scenario.code && <Snippet key={name + '-example'} code={scenario.code} />}
-        {scenario.link && <a href={'#' + scenario.link}>{scenario.link}</a>}
-      </section>}
-      {(children[name] || related[name]) && <section id={name + '-children'} className="doc-section">
-        <h2>{children[name] ? 'Дочерние компоненты' : 'Компоненты для вложения'}</h2>
-        <div className="child-list">{(children[name] ?? related[name]).map(child =>
-          <a href={'#' + child} key={child}><code>{child}</code><ArrowUpRight size={17} /></a>)}</div>
-      </section>}
-    </article>
-    <aside className="on-page"><nav aria-label="На этой странице">
-      <strong>На этой странице</strong>
-      {links.map(([id, label]) => <a key={id} aria-current={hash === name + '-' + id ? 'location' : undefined}
-        href={'#' + name + '-' + id}>{label}</a>)}
-    </nav></aside>
-  </>;
+function Reference({name, hash}) {
+  const [group, , field, description] = byName.get(name); const rows = propRows(name);
+  const editor = (settings[name] ?? []).filter(([key, type]) => type === 'Gutenberg' || !key.split(' / ').some(prop => rows.some(([known]) => known === prop)));
+  const scenario = usage[name];
+  const links = [[name + '-syntax', 'Синтаксис'], ...(rows.length ? [[name + '-props', 'JSX-пропсы']] : []), ...(editor.length ? [[name + '-editor', 'В редакторе Gutenberg']] : []), ...(scenario ? [[name + '-usage', 'Пример использования']] : []), ...(children[name] || related[name] ? [[name + '-children', children[name] ? 'Дочерние компоненты' : 'Компоненты для вложения']] : [])];
+  const [active, setActive] = useState(hash);
+  useEffect(() => { const update = () => { const passed = links.map(([id]) => document.getElementById(id)).filter(node => node && node.getBoundingClientRect().top < 180); setActive(passed.at(-1)?.id ?? links[0][0]); }; update(); window.addEventListener('scroll', update, {passive: true}); return () => window.removeEventListener('scroll', update); }, [name]);
+  const position = entries.findIndex(([, item]) => item === name); const previous = entries[position - 1]; const next = entries[position + 1];
+  return <><article className="reference" id={name}>
+    <Breadcrumbs items={[[group], ...(parents.has(name) ? [[parents.get(name), `#${parents.get(name)}`]] : []), [name]]} />
+    <div className="reference-intro"><div className="reference-title"><h1>{name}</h1><span className="component-symbol"><CodeXml size={28} /></span></div><p className="summary">{description}</p><div className="field"><span>Поле данных</span><code>{field}</code></div></div>
+    <MobileOutline links={links} />
+    <section id={`${name}-syntax`} className="doc-section"><h2>Синтаксис<a className="heading-anchor" href={`#${name}-syntax`} aria-label="Ссылка на синтаксис">#</a></h2><CodeBlock key={name} code={examples[name] ?? `<${name} />`} /></section>
+    {rows.length > 0 && <ReferenceTable id={`${name}-props`} title="JSX-пропсы" props rows={rows} />}
+    {editor.length > 0 && <ReferenceTable id={`${name}-editor`} title="В редакторе Gutenberg" rows={editor} />}
+    {scenario && <section id={`${name}-usage`} className="doc-section usage-section"><h2>Пример использования<a className="heading-anchor" href={`#${name}-usage`} aria-label="Ссылка на пример использования">#</a></h2><h3>{scenario.title}</h3><p>{scenario.description}</p>{scenario.code && <CodeBlock key={`${name}-example`} code={scenario.code} title="example.tsx" />}{scenario.link && <a className="text-link" href={`#${scenario.link}`}>{scenario.link}<ArrowRight size={16} /></a>}</section>}
+    {(children[name] || related[name]) && <section id={`${name}-children`} className="doc-section"><h2>{children[name] ? 'Дочерние компоненты' : 'Компоненты для вложения'}</h2><div className="child-list">{(children[name] ?? related[name]).map(child => <a key={child} href={`#${child}`}><span className="child-symbol"><CodeXml size={18} /></span><div><strong>{child}</strong><p>{byName.get(child)?.[3]}</p></div><ArrowUpRight size={18} /></a>)}</div></section>}
+    <nav className="page-pagination" aria-label="Соседние компоненты">{previous ? <a href={`#${previous[1]}`}><ArrowLeft size={18} /><span><small>Предыдущий</small>{previous[1]}</span></a> : <a href="./"><ArrowLeft size={18} /><span><small>Документация</small>Обзор</span></a>}{next && <a href={`#${next[1]}`}><span><small>Следующий</small>{next[1]}</span><ArrowRight size={18} /></a>}</nav><DocFooter />
+  </article><PageOutline links={links} active={active} /></>;
 }
 
 function App() {
-  const [hash, setHash] = useState(readHash);
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('');
-  const [menu, setMenu] = useState(false);
-  const search = useRef(null);
-  const name = identifier(hash);
-  const selected = byName.has(name) ? name : null;
-  const term = query.trim().toLocaleLowerCase('ru');
-  const matches = entry => (!filter || filter === entry[0]) &&
-    [entry.join(' '), ...propRows(entry[1]).flat()].join(' ').toLocaleLowerCase('ru').includes(term);
-  const visible = entries.filter(entry => (term || !nested.has(entry[1])) && matches(entry));
-
-  function focusSearch() {
-    setMenu(true);
-    requestAnimationFrame(() => search.current?.focus());
-  }
-
-  useEffect(() => {
-    const navigate = () => { setHash(readHash()); setMenu(false); };
-    const shortcut = event => {
-      if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey &&
-        !event.target.closest('input, select, textarea, [contenteditable]')) {
-        event.preventDefault();
-        focusSearch();
-      }
-    };
-    window.addEventListener('hashchange', navigate);
-    window.addEventListener('keydown', shortcut);
-    return () => {
-      window.removeEventListener('hashchange', navigate);
-      window.removeEventListener('keydown', shortcut);
-    };
-  }, []);
-  useEffect(() => {
-    if (hash.includes('-')) document.getElementById(hash)?.scrollIntoView();
-    else window.scrollTo(0, 0);
-    document.title = (selected ? selected + ' · ' : '') + 'Gutenberg Kit';
-  }, [hash, selected]);
-
-  function selectFirst(event) {
-    if (event.key === 'Escape') setQuery('');
-    if (event.key === 'Enter' && visible.length) {
-      location.hash = visible[0][1];
-      setMenu(false);
-    }
-  }
-  function navLink(item, depth = 0) {
-    return <a className={depth ? 'nested' : ''} href={'#' + item} key={item}
-      aria-current={item === selected ? 'page' : undefined} onClick={() => setMenu(false)}>{item}</a>;
-  }
-
-  return <>
-    <a className="skip" href="#main" onClick={event => { event.preventDefault(); document.getElementById('main').focus(); }}>К содержимому</a>
-    <Header onSearch={focusSearch} onMenu={() => setMenu(value => !value)} menuOpen={menu} />
-    <div className="layout">
-      <aside id="catalog-nav" className={'catalog' + (menu ? ' open' : '')} aria-label="Каталог">
-        <div className="filters">
-          <label className="search"><Search size={17} /><input ref={search} type="search" aria-label="Поиск по компонентам и пропсам" placeholder="Поиск по Kit" value={query}
-            onChange={e => setQuery(e.target.value)} onKeyDown={selectFirst} aria-keyshortcuts="/" /><kbd>/</kbd></label>
-          <select aria-label="Группа компонентов" value={filter} onChange={e => setFilter(e.target.value)}>
-            <option value="">Все группы</option>{groups.map(group => <option key={group}>{group}</option>)}
-          </select>
-        </div>
-        <nav aria-label="Компоненты">
-          {visible.length === 0 && <p className="empty" role="status">Компоненты не найдены.</p>}
-          {groups.map(group => {
-            const items = visible.filter(entry => entry[0] === group);
-            return items.length > 0 && <div className="nav-group" key={group}><h2>{group}</h2>
-              {items.map(([, item]) => <div key={item}>{navLink(item)}
-                {!term && (!filter || filter === group) && (item === selected || parents.get(selected) === item)
-                  && (children[item] ?? []).flatMap(child => [navLink(child, 1),
-                    ...(child === selected || parents.get(selected) === child ? (children[child] ?? []).map(part => navLink(part, 1)) : [])])}</div>)}
-            </div>;
-          })}
-        </nav>
-      </aside>
-      <main id="main" tabIndex={-1}>{selected ? <Reference name={selected} hash={hash} /> : <Overview />}</main>
-    </div>
-  </>;
+  const [hash, setHash] = useState(readHash); const selected = byName.has(identifier(hash)) ? identifier(hash) : null;
+  useEffect(() => { const navigate = () => setHash(readHash()); window.addEventListener('hashchange', navigate); return () => window.removeEventListener('hashchange', navigate); }, []);
+  useEffect(() => { requestAnimationFrame(() => { if (hash.includes('-') && selected) document.getElementById(hash)?.scrollIntoView(); else window.scrollTo(0, 0); }); document.title = (selected ? `${selected} · ` : '') + 'Gutenberg Kit · Документация'; }, [hash, selected]);
+  return <DocsShell selected={selected}>{selected ? <Reference key={selected} name={selected} hash={hash} /> : <Overview />}</DocsShell>;
 }
-
 createRoot(document.getElementById('root')).render(<App />);
